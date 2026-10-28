@@ -362,7 +362,7 @@ class TestMessageSPV(TestMessageSPV):
             {
                 "name": "test_attachment",
                 "type": "binary",
-                "datas": b"dGVzdA==",  # "test" codificat în base64
+                "raw": b"test",
             }
         )
 
