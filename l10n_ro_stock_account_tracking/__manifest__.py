@@ -14,6 +14,9 @@
     ],
     "license": "AGPL-3",
     "data": ["security/ir.access.csv", "views/stock_move_views.xml"],
+    "demo": [
+        "demo/stock_picking_demo.xml",
+    ],
     "installable": True,
     "development_status": "Mature",
     "maintainers": ["dhongu", "feketemihai"],
