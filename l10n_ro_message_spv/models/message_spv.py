@@ -433,11 +433,14 @@ class MessageSPV(models.Model):
         invoices = invoices.filtered(lambda i: i.state != "cancel")
         for message in messages_without_invoice:
             invoice = invoices.filtered(
-                lambda i, m=message: i.l10n_ro_edi_download == m.name
-                or i.l10n_ro_edi_transaction == m.request_id
-                or i.l10n_ro_edi_index == m.request_id
-                or i.ref == m.ref
-                or i.name == m.ref
+                lambda i, m=message: i.partner_id == m.partner_id
+                and (
+                    i.l10n_ro_edi_download == m.name
+                    or i.l10n_ro_edi_transaction == m.request_id
+                    or i.l10n_ro_edi_index == m.request_id
+                    or i.ref == m.ref
+                    or i.name == m.ref
+                )
             )
             if not invoice and message.ref:
                 if message.message_type == "in_invoice":
