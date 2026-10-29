@@ -1,3 +1,36 @@
+**19.0.2.14.0 (2026-09-10)**
+
+- The paginated SPV message listing no longer fails silently. A page that
+  cannot be read — transport error, unparsable body (an ANAF maintenance
+  page), an HTTP 200 carrying a business error, or a `401` — now stops the
+  walk and is logged as an error, stating how many messages the partial
+  result holds. Until now any of those left the total page count at zero
+  and returned an empty or partial list without a single log line, so an
+  import stopped by an ANAF error looked exactly like "no messages" and
+  the cron reported success. ANAF's "no messages in the selected
+  interval" note, which arrives in the same `eroare` key, is recognised
+  and logged as information rather than as a failure. The import also
+  logs a per-company summary of how many messages were received and how
+  many records were created.
+- Pages are now walked in a loop instead of recursively, with a guard at
+  200 pages (100 000 messages), so an absurd `numar_total_pagini` can no
+  longer drive the walk into the recursion limit.
+- The requested time window is pulled inside ANAF's limits. ANAF rejects
+  the whole interval when `startTime` is older than 60 days relative to
+  its own clock, and the window was computed by subtracting the requested
+  days from a moment already pushed 60 seconds into the past — so the
+  default 60-day window sat just outside the limit.
+- `l10n_ro_download_message_spv` accepts `no_days`. Without it, a cron
+  that wants a window other than the one configured on the company had to
+  call the private `_l10n_ro_download_message_spv` on the bare model;
+  that method iterates `self`, so on an empty recordset it did nothing at
+  all — no error, no log, and the cron still reported success.
+- Messages whose download failed are no longer retried once they fall
+  outside ANAF's 60-day retention. Their archive no longer exists, so the
+  daily `error` to `draft` reset kept them in the queue forever, burning
+  API calls and filling the log. A message with no date is still treated
+  as recoverable.
+
 **19.0.2.11.0 (2026-08-19)**
 
 - The partner lookup by tax ID now accepts both spellings of the Romanian

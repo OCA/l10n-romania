@@ -9,6 +9,8 @@ import pytz
 
 from odoo import fields, models
 
+from .ciusro_document import SPV_MESSAGES_RETENTION_DAYS
+
 _logger = logging.getLogger(__name__)
 
 
@@ -31,17 +33,42 @@ class ResCompany(models.Model):
         for company in ro_companies:
             # Resetăm la draft mesajele căzute în eroare în zilele trecute, ca să
             # fie reîncercate (cota ANAF de 10 descărcări/zi/mesaj se reînnoiește).
-            error_messages_from_past = company.env["l10n.ro.message.spv"].search(
-                [
-                    ("company_id", "=", company.id),
-                    ("attachment_id", "=", False),
-                    ("state", "=", "error"),
-                    ("last_download_date", "<", fields.Date.today()),
-                ]
+            # Excepție: ANAF servește arhivele doar 60 de zile, deci un mesaj mai
+            # vechi de atât nu mai poate fi descărcat niciodată. Resetat, ar intra
+            # într-o reîncercare zilnică perpetuă — consumă apeluri, umple
+            # jurnalul și ține coada plină cu mesaje fără nicio șansă de reușită.
+            oldest_downloadable = fields.Datetime.subtract(
+                fields.Datetime.now(), days=SPV_MESSAGES_RETENTION_DAYS
             )
+            spv_messages = company.env["l10n.ro.message.spv"]
+            error_domain = [
+                ("company_id", "=", company.id),
+                ("attachment_id", "=", False),
+                ("state", "=", "error"),
+                ("last_download_date", "<", fields.Date.today()),
+            ]
+            # `date` necompletat (mesaj creat manual sau import vechi) nu e o
+            # dovada ca arhiva a expirat, deci ramane reincercabil.
+            recoverable = [
+                "|",
+                ("date", "=", False),
+                ("date", ">=", oldest_downloadable),
+            ]
+            error_messages_from_past = spv_messages.search(error_domain + recoverable)
             if error_messages_from_past:
                 error_messages_from_past.write(
                     {"state": "draft", "download_attempts": 0}
+                )
+            expired = spv_messages.search_count(
+                error_domain
+                + [("date", "!=", False), ("date", "<", oldest_downloadable)]
+            )
+            if expired:
+                _logger.info(
+                    "SPV: %s mesaj(e) in eroare mai vechi de %s zile nu se mai "
+                    "reincearca — arhiva nu mai exista la ANAF.",
+                    expired,
+                    SPV_MESSAGES_RETENTION_DAYS,
                 )
 
             # Procesăm mesajele în starea draft (state="error" rămâne exclus,
@@ -86,11 +113,18 @@ class ResCompany(models.Model):
                 "l10n_ro_message_spv.ir_cron_download_zip_message_spv"
             )._trigger()
 
-    def l10n_ro_download_message_spv(self):
-        # method to be used in cron job to auto download e-invoices from ANAF
+    def l10n_ro_download_message_spv(self, no_days=0):
+        """Punctul de intrare public pentru importul mesajelor din SPV.
+
+        `no_days` e expus aici, nu doar pe metoda privata, fiindca altfel un cron
+        care vrea alta fereastra decat cea de pe companie e nevoit sa cheme metoda
+        privata. Aceea itereaza `self`, deci apelata pe modelul gol din codul unui
+        cron (`model._l10n_ro_download_message_spv(...)`) nu face nimic, fara
+        eroare si fara log — un import oprit tacit, cu cronul raportand succes.
+        """
         domain = [("l10n_ro_edi_access_token", "!=", False)]
         ro_companies = self or self.env["res.company"].sudo().search(domain)
-        return ro_companies._l10n_ro_download_message_spv()
+        return ro_companies._l10n_ro_download_message_spv(no_days=no_days)
 
     def _l10n_ro_get_partner_from_cif(self, cif):
         self.ensure_one()
@@ -156,9 +190,11 @@ class ResCompany(models.Model):
             )
             message_spv_obj = obj_message_spv.with_company(company).sudo()
 
+            created = 0
             for message in company_messages:
                 domain = [("name", "=", message["id"])]
                 if not message_spv_obj.search(domain, limit=1):
+                    created += 1
                     date = datetime.strptime(message.get("data_creare"), "%Y%m%d%H%M")
                     localized_date = romania_tz.localize(date)
                     # Convertim data și ora la GMT
@@ -200,5 +236,16 @@ class ResCompany(models.Model):
                             "state": "draft",
                         }
                     )
+
+            # Sumar per companie: fara el, un import care n-a adus nimic nu se
+            # deosebeste in jurnal de unul care n-a rulat deloc.
+            _logger.info(
+                "SPV: %s: %s mesaj(e) primite pe fereastra de %s zile, "
+                "%s inregistrare(i) noua(e).",
+                company.name,
+                len(company_messages),
+                days,
+                created,
+            )
 
         return True

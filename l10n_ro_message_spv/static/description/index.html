@@ -599,6 +599,40 @@ XML-ul a fost validat de sistemul ANAF.</li>
 </div>
 <div class="section" id="changelog">
 <h4><a class="toc-backref" href="#toc-entry-2">Changelog</a></h4>
+<p><strong>19.0.2.14.0 (2026-09-10)</strong></p>
+<ul class="simple">
+<li>The paginated SPV message listing no longer fails silently. A page
+that cannot be read — transport error, unparsable body (an ANAF
+maintenance page), an HTTP 200 carrying a business error, or a <tt class="docutils literal">401</tt>
+— now stops the walk and is logged as an error, stating how many
+messages the partial result holds. Until now any of those left the
+total page count at zero and returned an empty or partial list without
+a single log line, so an import stopped by an ANAF error looked
+exactly like “no messages” and the cron reported success. ANAF’s “no
+messages in the selected interval” note, which arrives in the same
+<tt class="docutils literal">eroare</tt> key, is recognised and logged as information rather than as
+a failure. The import also logs a per-company summary of how many
+messages were received and how many records were created.</li>
+<li>Pages are now walked in a loop instead of recursively, with a guard at
+200 pages (100 000 messages), so an absurd <tt class="docutils literal">numar_total_pagini</tt> can
+no longer drive the walk into the recursion limit.</li>
+<li>The requested time window is pulled inside ANAF’s limits. ANAF rejects
+the whole interval when <tt class="docutils literal">startTime</tt> is older than 60 days relative
+to its own clock, and the window was computed by subtracting the
+requested days from a moment already pushed 60 seconds into the past —
+so the default 60-day window sat just outside the limit.</li>
+<li><tt class="docutils literal">l10n_ro_download_message_spv</tt> accepts <tt class="docutils literal">no_days</tt>. Without it, a
+cron that wants a window other than the one configured on the company
+had to call the private <tt class="docutils literal">_l10n_ro_download_message_spv</tt> on the bare
+model; that method iterates <tt class="docutils literal">self</tt>, so on an empty recordset it did
+nothing at all — no error, no log, and the cron still reported
+success.</li>
+<li>Messages whose download failed are no longer retried once they fall
+outside ANAF’s 60-day retention. Their archive no longer exists, so
+the daily <tt class="docutils literal">error</tt> to <tt class="docutils literal">draft</tt> reset kept them in the queue forever,
+burning API calls and filling the log. A message with no date is still
+treated as recoverable.</li>
+</ul>
 <p><strong>19.0.2.11.0 (2026-08-19)</strong></p>
 <ul class="simple">
 <li>The partner lookup by tax ID now accepts both spellings of the
