@@ -1,3 +1,22 @@
+## 19.0.2.12.0
+
+- Read the moves line by line: each line keeps its own locations and its
+  quantity in the product unit, and takes the share of the move value matching
+  that quantity. A move recorded on a parent location whose lines stored the
+  goods in sublocations left one location negative and another positive on the
+  detailed sheet. Moves without quantity on their lines (value-only moves) keep
+  their locations and value with a zero quantity, since stock only changes
+  through move lines. This replaces the unit conversion on the move quantity
+  of 19.0.2.10.0: the line quantity is already in the product unit.
+- Include archived internal locations when no location is selected, and read
+  the report locations with ``active_test=False``: goods received in a location
+  archived later dropped out of the opening balance.
+- Group the values on the valuation account the product has today (location,
+  product, then category account), not on the account stored on the move:
+  after a category change the stock entered on the old account and left from
+  the new one, leaving the old account positive and the new one negative, while
+  the balance sheet carries it all on the new account.
+
 ## 19.0.2.9.0
 
 - Fix the "Toate locațiile" (all-locations) storage sheet report: the printed
