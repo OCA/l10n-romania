@@ -14,9 +14,9 @@ Romania - Stock Accounting MRP
    !! source digest: sha256:6848a86ea6c70abb541910d422c806977043b1d47f13292ab1e9b41e9dbd0040
    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-.. |badge1| image:: https://img.shields.io/badge/maturity-Beta-yellow.png
+.. |badge1| image:: https://img.shields.io/badge/maturity-Mature-brightgreen.png
     :target: https://odoo-community.org/page/development-status
-    :alt: Beta
+    :alt: Mature
 .. |badge2| image:: https://img.shields.io/badge/license-AGPL--3-blue.png
     :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
     :alt: License: AGPL-3
@@ -32,7 +32,8 @@ Romania - Stock Accounting MRP
 
 |badge1| |badge2| |badge3| |badge4| |badge5|
 
-Glue module between ``l10n_ro_stock_account`` and ``sale_mrp``.
+Glue module between ``l10n_ro_stock_account`` and ``sale_mrp`` /
+``mrp_account``.
 
 When a FIFO stock gets empty, Odoo sets the cost of the product to the
 price unit of the last incoming move. For a component move linked to the

@@ -7,6 +7,7 @@
     "summary": "Romania - Stock Accounting with kits",
     "depends": [
         "l10n_ro_stock_account",
+        "mrp_account",
         "sale_mrp",
     ],
     "license": "AGPL-3",

@@ -1,4 +1,4 @@
-Glue module between `l10n_ro_stock_account` and `sale_mrp`.
+Glue module between `l10n_ro_stock_account` and `sale_mrp` / `mrp_account`.
 
 When a FIFO stock gets empty, Odoo sets the cost of the product to the price
 unit of the last incoming move. For a component move linked to the sale line
