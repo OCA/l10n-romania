@@ -1,5 +1,7 @@
+import {PartnerList} from "@point_of_sale/app/screens/partner_list/partner_list";
 import {ReceiptScreen} from "@point_of_sale/app/screens/receipt_screen/receipt_screen";
 import {_t} from "@web/core/l10n/translation";
+import {makeAwaitable} from "@point_of_sale/app/utils/make_awaitable_dialog";
 import {patch} from "@web/core/utils/patch";
 
 patch(ReceiptScreen.prototype, {
@@ -7,12 +9,17 @@ patch(ReceiptScreen.prototype, {
      * A fiscal receipt settles the sale on its own, so the POS does not
      * invoice by default. The customer who needs an invoice asks for one at
      * the counter, usually after paying -- which is the only moment this
-     * button has to cover.
+     * button has to cover. The customer is often picked only then, so the
+     * button does not wait for one: it asks.
      */
     get canGenerateInvoice() {
         const order = this.currentOrder;
         return Boolean(
-            order && order.getPartner() && !order.is_invoiced && order.isSynced
+            order &&
+                !order.is_invoiced &&
+                !order.raw.account_move &&
+                order.isSynced &&
+                !order.isRefund
         );
     },
 
@@ -23,6 +30,18 @@ patch(ReceiptScreen.prototype, {
         }
 
         try {
+            // The order is paid and synced: the customer is written on the
+            // server, where the invoice is made, and only then on the till.
+            let partner = order.getPartner();
+            if (!partner) {
+                partner = await makeAwaitable(this.dialog, PartnerList);
+                if (!partner) {
+                    return;
+                }
+                await this.pos.data.ormWrite("pos.order", [order.id], {
+                    partner_id: partner.id,
+                });
+            }
             await this.pos.data.call("pos.order", "action_pos_order_invoice", [
                 [order.id],
             ]);

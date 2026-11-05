@@ -23,6 +23,8 @@ drawer, and a method shared between two registers would mix them.
 The fiscal receipt settles the sale on its own, so nothing is invoiced by
 default. A customer who needs an invoice asks for one at the counter, and the
 receipt screen has a **Generate Invoice** button for exactly that moment: it
-invoices the order that was just paid and hands the PDF over. The button only
-shows once the order has reached the server, has a customer, and is not
-invoiced already.
+invoices the order that was just paid and hands the PDF over. When the order
+has no customer yet, the button opens the customer list first -- the customer
+who wants the invoice is usually picked only then. The button shows once the
+order has reached the server, as long as it is not invoiced already and is
+not a refund.
