@@ -7,6 +7,7 @@ from .common import TestROStockCommon
 from .test_ro_stock_avg import StockAvgCases
 from .test_ro_stock_fifo import StockFifoCases
 from .test_ro_stock_fifo_correction import FifoCorrectionCases
+from .test_ro_stock_fifo_multi_origin import FifoMultiOriginCases
 from .test_ro_stock_fifo_partial_delivery import FifoPartialDeliveryCases
 from .test_ro_stock_fifo_zero_qty import FifoZeroQtyCases
 from .test_stock_fifo_internal_transfer import FifoInternalTransferCases
@@ -18,6 +19,7 @@ class TestROStockAccount(
     StockAvgCases,
     StockFifoCases,
     FifoCorrectionCases,
+    FifoMultiOriginCases,
     FifoPartialDeliveryCases,
     FifoZeroQtyCases,
     FifoInternalTransferCases,
