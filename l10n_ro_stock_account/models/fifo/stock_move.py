@@ -267,22 +267,28 @@ class StockMove(models.Model):
         forced_std_price=False,
         ignore_manual_update=False,
     ):
-        if self.move_orig_ids:
-            move_origin = self.move_orig_ids[0]
-            origin_data = move_origin._get_value_data(
-                forced_std_price=forced_std_price,
-                ignore_manual_update=ignore_manual_update,
-            )
-            proportion = (
-                quantity / origin_data["quantity"] if origin_data["quantity"] else 0
-            )
-            value = proportion * origin_data["value"]
+        origins = self.move_orig_ids
+        if origins:
+            # A move can have several origins: the FIFO split cuts the outgoing
+            # leg of a two-step transfer into one move per stock layer, and all
+            # of them feed the receipt at the destination. The value is the
+            # share of all of them, not of the first one only.
+            origin_qty = origin_value = 0.0
+            for move_origin in origins:
+                origin_data = move_origin._get_value_data(
+                    forced_std_price=forced_std_price,
+                    ignore_manual_update=ignore_manual_update,
+                )
+                origin_qty += origin_data["quantity"]
+                origin_value += origin_data["value"]
+            proportion = quantity / origin_qty if origin_qty else 0
+            value = proportion * origin_value
             return {
                 "value": value,
                 "quantity": quantity,
                 "description": self.env._(
                     "Value based on origin move %(reference)s",
-                    reference=self.move_orig_ids.reference,
+                    reference=", ".join(origins.mapped("reference")),
                 ),
             }
         return {}
