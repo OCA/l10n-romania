@@ -8,6 +8,7 @@ from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import SQL
 
 from odoo.addons.l10n_ro_stock_account.models.stock_move import MOVE_TYPE
 
@@ -30,18 +31,6 @@ VALUED_TYPE = MOVE_TYPE + BALANCE_TYPE + [("indefinite", "Indefinite")]
 # Movement rows take the valued type from the move; it is not an aggregate, so
 # it has to appear in the GROUP BY of the in/out queries as well.
 VALUED_TYPE_SQL = "COALESCE(sm.l10n_ro_move_type, 'indefinite')"
-
-# ``stock_move.quantity`` is stored in the move's own UoM, while the sheet
-# reports (and values) everything in the product's reference UoM. Summing the
-# raw column adds 1000 mm to 5 m as if they were the same unit, and the
-# derived unit price then comes out per move UoM. Convert with the stored
-# ``uom_uom.factor`` (absolute quantity per unit) before aggregating.
-QTY_IN_PRODUCT_UOM_SQL = (
-    "sm.quantity * COALESCE(smu.factor, 1) / COALESCE(NULLIF(pu.factor, 0), 1)"
-)
-UOM_JOIN_SQL = """
-                    left join uom_uom smu on smu.id = sm.product_uom
-                    left join uom_uom pu on pu.id = pt.uom_id"""
 
 _logger = logging.getLogger(__name__)
 
@@ -86,9 +75,14 @@ class StorageSheet(models.TransientModel):
 
     @api.depends("sublocation", "location_id", "show_locations")
     def _compute_location_ids(self):
+        # Archived locations keep the moves made while they were in use, so the
+        # sheet has to include them; read the field with active_test=False too,
+        # an x2many otherwise drops its archived records.
         if not self.location_id:
-            self.location_ids = self.env["stock.location"].search(
-                [("usage", "=", "internal")]
+            self.location_ids = (
+                self.env["stock.location"]
+                .with_context(active_test=False)
+                .search([("usage", "=", "internal")])
             )
         else:
             if self.sublocation:
@@ -120,12 +114,13 @@ class StorageSheet(models.TransientModel):
         return res
 
     def get_products_with_move_sql(self, product_list=False):
-        locations = self.location_ids
+        locations = self.with_context(active_test=False).location_ids
+        moves = self._get_sql_moves()
 
         if product_list:
-            query = """
+            query = f"""
                 SELECT product_id
-                FROM stock_move as sm
+                FROM {moves} as sm
                 WHERE
                         sm.product_id in %(product_list)s and
                         sm.state = 'done' AND
@@ -137,9 +132,9 @@ class StorageSheet(models.TransientModel):
                 GROUP BY  product_id
                         """
         else:
-            query = """
+            query = f"""
                 SELECT product_id
-                FROM stock_move as sm
+                FROM {moves} as sm
                 WHERE
                         sm.state = 'done' AND
                         sm.company_id = %(company)s AND
@@ -156,7 +151,9 @@ class StorageSheet(models.TransientModel):
             "product_list": tuple(product_list or []),
             "company": self.company_id.id,
         }
-        self.env.cr.execute(query, params=params)
+        # the only formatted part is the move rows from _get_sql_moves, SQL built
+        # from column names and rendered by the ORM; every value is a parameter
+        self.env.cr.execute(query, params=params)  # pylint: disable=sql-injection
         product_list = [r["product_id"] for r in self.env.cr.dictfetchall()]
         return product_list
 
@@ -164,6 +161,7 @@ class StorageSheet(models.TransientModel):
         if not product_list:
             product_list = []
         if product_list:
+            locations = self.with_context(active_test=False).location_ids
             products_with_moves = (
                 self.env["stock.move"]
                 .with_context(active_test=False)
@@ -176,8 +174,8 @@ class StorageSheet(models.TransientModel):
                         ("company_id", "=", self.company_id.id),
                         ("company_id", "=", False),
                         "|",
-                        ("location_id", "in", self.location_ids.ids),
-                        ("location_dest_id", "in", self.location_ids.ids),
+                        ("location_id", "in", locations.ids),
+                        ("location_dest_id", "in", locations.ids),
                     ]
                 )
                 .mapped("product_id")
@@ -221,11 +219,12 @@ class StorageSheet(models.TransientModel):
         datetime_to = datetime_to.replace(hour=23, minute=59, second=59)
         datetime_to = datetime_to.astimezone(pytz.utc)
 
+        report_locations = self.with_context(active_test=False).location_ids
         if self.detailed_locations:
-            all_locations = self.with_context(active_test=False).location_ids
+            all_locations = report_locations
         else:
-            all_locations = self.location_id or self.location_ids[0]
-            locations = self.location_ids
+            all_locations = self.location_id or report_locations[0]
+            locations = report_locations
 
         for location in all_locations:
             if self.detailed_locations:
@@ -270,6 +269,95 @@ class StorageSheet(models.TransientModel):
             # self.line_product_ids.create(res)
         _logger.debug("end select ")
 
+    def _get_sql_moves(self):
+        """Done-move rows the sheet adds up, one per move line.
+
+        The locations and the quantity of a move can differ from those of its
+        lines: a move recorded on a parent location whose lines put the goods in
+        a sublocation, or a move in a unit (mm) other than the product's (m).
+        Summing the move fields then leaves one location negative and another
+        positive, and mixes units. Each line keeps its own locations, its
+        quantity in the product unit and the share of the move value matching
+        that quantity. Stock only changes through move lines, so a move without
+        quantity on its lines (a value-only move) keeps its locations and value
+        with a zero quantity.
+
+        Each row carries the valuation account of the product today on the
+        destination (account_in) and on the source (account_out) location, see
+        _get_sql_valuation_account.
+
+        Returned as a derived table exposing the stock.move columns the queries
+        read, to be used in place of ``stock_move``.
+        """
+        account_in = self._get_sql_valuation_account("dest")
+        account_out = self._get_sql_valuation_account("src")
+        return f"""(
+            SELECT sm.id, sm.product_id, sm.state, sm.company_id, sm.date,
+                   sm.reference, sm.picking_id, sm.l10n_ro_move_type,
+                   ml.location_id, ml.location_dest_id,
+                   ml.quantity_product_uom AS quantity,
+                   sm.value * ml.quantity_product_uom / (
+                       SELECT SUM(line.quantity_product_uom)
+                       FROM stock_move_line line
+                       WHERE line.move_id = sm.id
+                           AND line.quantity_product_uom != 0) AS value,
+                   {account_in} AS account_in,
+                   {account_out} AS account_out
+            FROM stock_move sm
+                JOIN stock_move_line ml ON ml.move_id = sm.id
+                JOIN product_product prod ON prod.id = sm.product_id
+                JOIN product_template tmpl ON tmpl.id = prod.product_tmpl_id
+                JOIN product_category categ ON categ.id = tmpl.categ_id
+                JOIN stock_location src ON src.id = ml.location_id
+                JOIN stock_location dest ON dest.id = ml.location_dest_id
+            WHERE ml.quantity_product_uom != 0
+            UNION ALL
+            SELECT sm.id, sm.product_id, sm.state, sm.company_id, sm.date,
+                   sm.reference, sm.picking_id, sm.l10n_ro_move_type,
+                   sm.location_id, sm.location_dest_id,
+                   0 AS quantity,
+                   sm.value,
+                   {account_in} AS account_in,
+                   {account_out} AS account_out
+            FROM stock_move sm
+                JOIN product_product prod ON prod.id = sm.product_id
+                JOIN product_template tmpl ON tmpl.id = prod.product_tmpl_id
+                JOIN product_category categ ON categ.id = tmpl.categ_id
+                JOIN stock_location src ON src.id = sm.location_id
+                JOIN stock_location dest ON dest.id = sm.location_dest_id
+            WHERE NOT EXISTS (
+                SELECT 1 FROM stock_move_line line
+                WHERE line.move_id = sm.id AND line.quantity_product_uom != 0)
+        )"""
+
+    def _get_sql_valuation_account(self, location_alias):
+        """Valuation account the product has today on a location, as SQL text.
+
+        Same order as the move account in l10n_ro_stock_account: the location
+        account when the category allows it, then the product account, then
+        the category account, read with the current settings. The account
+        stored on a move keeps the category the product had when it was done,
+        so after a category change the stock entered on the old account and
+        left from the new one: the old account stayed positive and the new one
+        negative, while the balance sheet carries it all on the new account.
+        """
+        env = self.sudo().with_company(self.company_id).env
+        sql = SQL(
+            "COALESCE(CASE WHEN categ.l10n_ro_stock_account_change"
+            " THEN %s END, %s, %s)",
+            env["stock.location"]._field_to_sql(
+                location_alias, "l10n_ro_property_stock_valuation_account_id"
+            ),
+            env["product.template"]._field_to_sql(
+                "tmpl", "l10n_ro_property_stock_valuation_account_id"
+            ),
+            env["product.category"]._field_to_sql(
+                "categ", "property_stock_valuation_account_id"
+            ),
+        )
+        # inlined into queries that take named parameters: keep any % literal
+        return self.env.cr.mogrify(sql.code, sql.params).decode().replace("%", "%%")
+
     def _get_lot_fields(self):
         # In v19 we aggregate by move only; lot breakdown is disabled to avoid
         # dependencies on move lines or SVL. Keep empty to simplify queries.
@@ -281,6 +369,7 @@ class StorageSheet(models.TransientModel):
 
     def _get_sql_select_sold_init(self):
         field, select, join, group = self._get_lot_fields()
+        moves = self._get_sql_moves()
         sql = f"""
          insert into l10n_ro_stock_storage_sheet_line
           (report_id, product_id, amount_initial, quantity_initial,
@@ -303,13 +392,11 @@ class StorageSheet(models.TransientModel):
             from (
                 SELECT sm.product_id, pt.categ_id,
                        sm.value as amount,
-                       {QTY_IN_PRODUCT_UOM_SQL} as quantity,
-                       COALESCE(sm.l10n_ro_transfer_account_id,
-                                sm.l10n_ro_account_id) as account_id
-                from stock_move as sm
+                       sm.quantity as quantity,
+                       sm.account_in as account_id
+                from {moves} as sm
                     left join product_product prod on prod.id = sm.product_id
-                    left join product_template pt
-                        on pt.id = prod.product_tmpl_id{UOM_JOIN_SQL}
+                    left join product_template pt on pt.id = prod.product_tmpl_id
                     {join}
                 where
                     sm.state = 'done' AND
@@ -320,12 +407,11 @@ class StorageSheet(models.TransientModel):
                 UNION ALL
                 SELECT sm.product_id, pt.categ_id,
                        -sm.value as amount,
-                       -({QTY_IN_PRODUCT_UOM_SQL}) as quantity,
-                       sm.l10n_ro_account_id as account_id
-                from stock_move as sm
+                       -sm.quantity as quantity,
+                       sm.account_out as account_id
+                from {moves} as sm
                     left join product_product prod on prod.id = sm.product_id
-                    left join product_template pt
-                        on pt.id = prod.product_tmpl_id{UOM_JOIN_SQL}
+                    left join product_template pt on pt.id = prod.product_tmpl_id
                     {join}
                 where
                     sm.state = 'done' AND
@@ -341,6 +427,7 @@ class StorageSheet(models.TransientModel):
 
     def _get_sql_select_sold_final(self):
         field, select, join, group = self._get_lot_fields()
+        moves = self._get_sql_moves()
 
         sql = f"""
         insert into l10n_ro_stock_storage_sheet_line
@@ -364,13 +451,11 @@ class StorageSheet(models.TransientModel):
             from (
                 SELECT sm.product_id, pt.categ_id,
                        sm.value as amount,
-                       {QTY_IN_PRODUCT_UOM_SQL} as quantity,
-                       COALESCE(sm.l10n_ro_transfer_account_id,
-                                sm.l10n_ro_account_id) as account_id
-                from stock_move as sm
+                       sm.quantity as quantity,
+                       sm.account_in as account_id
+                from {moves} as sm
                     left join product_product prod on prod.id = sm.product_id
-                    left join product_template pt
-                        on pt.id = prod.product_tmpl_id{UOM_JOIN_SQL}
+                    left join product_template pt on pt.id = prod.product_tmpl_id
                     {join}
                 where
                     sm.state = 'done' AND
@@ -381,12 +466,11 @@ class StorageSheet(models.TransientModel):
                 UNION ALL
                 SELECT sm.product_id, pt.categ_id,
                        -sm.value as amount,
-                       -({QTY_IN_PRODUCT_UOM_SQL}) as quantity,
-                       sm.l10n_ro_account_id as account_id
-                from stock_move as sm
+                       -sm.quantity as quantity,
+                       sm.account_out as account_id
+                from {moves} as sm
                     left join product_product prod on prod.id = sm.product_id
-                    left join product_template pt
-                        on pt.id = prod.product_tmpl_id{UOM_JOIN_SQL}
+                    left join product_template pt on pt.id = prod.product_tmpl_id
                     {join}
                 where
                     sm.state = 'done' AND
@@ -402,6 +486,7 @@ class StorageSheet(models.TransientModel):
 
     def _get_sql_select_in(self):
         field, select, join, group = self._get_lot_fields()
+        moves = self._get_sql_moves()
 
         sql = f"""
         insert into l10n_ro_stock_storage_sheet_line
@@ -413,15 +498,13 @@ class StorageSheet(models.TransientModel):
             %(report)s as report_id,
             sm.product_id as product_id,
             COALESCE(sum(sm.value),0) as amount_in,
-            COALESCE(ROUND(sum({QTY_IN_PRODUCT_UOM_SQL}), 5), 0) as quantity_in,
+            COALESCE(ROUND(sum(sm.quantity), 5), 0) as quantity_in,
             CASE
-                WHEN ROUND(COALESCE(sum({QTY_IN_PRODUCT_UOM_SQL}), 0), 5) != 0
-                    THEN COALESCE(sum(sm.value),0)
-                         / NULLIF(sum({QTY_IN_PRODUCT_UOM_SQL}),0)
+                WHEN ROUND(COALESCE(sum(sm.quantity), 0), 5) != 0
+                    THEN COALESCE(sum(sm.value),0) / NULLIF(sum(sm.quantity),0)
                 ELSE 0
             END as unit_price_in,
-            COALESCE(sm.l10n_ro_transfer_account_id,
-                     sm.l10n_ro_account_id) as account_id,
+            sm.account_in as account_id,
             NULL::int as invoice_id,
             sm.date as date_time,
             date_trunc('day', sm.date at time zone 'utc' at time zone %(tz)s) as date,
@@ -433,11 +516,9 @@ class StorageSheet(models.TransientModel):
             pt.categ_id as categ_id
             {select}
 
-        FROM stock_move sm
+        FROM {moves} sm
             LEFT JOIN product_product prod ON prod.id = sm.product_id
             LEFT JOIN product_template pt ON pt.id = prod.product_tmpl_id
-            LEFT JOIN uom_uom smu ON smu.id = sm.product_uom
-            LEFT JOIN uom_uom pu ON pu.id = pt.uom_id
             LEFT JOIN stock_picking sp ON sm.picking_id = sp.id
             {join}
 
@@ -447,12 +528,10 @@ class StorageSheet(models.TransientModel):
             ( %(all_products)s OR sm.product_id in %(product)s ) AND
             sm.date >= %(datetime_from)s AND sm.date <= %(datetime_to)s AND
             sm.location_dest_id in %(locations)s AND
-           (sm.l10n_ro_transfer_account_id IS NOT NULL
-            OR sm.l10n_ro_account_id IS NOT NULL)
+            sm.account_in IS NOT NULL
 
         GROUP BY sm.product_id, sm.date, sm.reference,
-                sp.partner_id, sm.l10n_ro_account_id,
-                sm.l10n_ro_transfer_account_id,
+                sp.partner_id, sm.account_in,
                 {VALUED_TYPE_SQL},
                 pt.categ_id {group}
         """
@@ -460,6 +539,7 @@ class StorageSheet(models.TransientModel):
 
     def _get_sql_select_out(self):
         field, select, join, group = self._get_lot_fields()
+        moves = self._get_sql_moves()
 
         sql = f"""
         insert into l10n_ro_stock_storage_sheet_line
@@ -471,15 +551,13 @@ class StorageSheet(models.TransientModel):
             %(report)s as report_id,
             sm.product_id as product_id,
             COALESCE(sum(sm.value),0) as amount_out,
-            COALESCE(ROUND(sum({QTY_IN_PRODUCT_UOM_SQL}), 5), 0) as quantity_out,
+            COALESCE(ROUND(sum(sm.quantity), 5), 0) as quantity_out,
             CASE
-                WHEN ROUND(COALESCE(sum({QTY_IN_PRODUCT_UOM_SQL}), 0), 5) != 0
-                    THEN COALESCE(sum(sm.value),0)
-                         / NULLIF(sum({QTY_IN_PRODUCT_UOM_SQL}),0)
+                WHEN ROUND(COALESCE(sum(sm.quantity), 0), 5) != 0
+                    THEN COALESCE(sum(sm.value),0) / NULLIF(sum(sm.quantity),0)
                 ELSE 0
             END as unit_price_out,
-            COALESCE(sm.l10n_ro_account_id,
-                     sm.l10n_ro_transfer_account_id) as account_id,
+            sm.account_out as account_id,
             NULL::int as invoice_id,
             sm.date as date_time,
             date_trunc('day', sm.date at time zone 'utc' at time zone %(tz)s) as date,
@@ -491,11 +569,9 @@ class StorageSheet(models.TransientModel):
             pt.categ_id as categ_id
             {select}
 
-        FROM stock_move sm
+        FROM {moves} sm
             LEFT JOIN product_product prod ON prod.id = sm.product_id
             LEFT JOIN product_template pt ON pt.id = prod.product_tmpl_id
-            LEFT JOIN uom_uom smu ON smu.id = sm.product_uom
-            LEFT JOIN uom_uom pu ON pu.id = pt.uom_id
             LEFT JOIN stock_picking sp ON sm.picking_id = sp.id
             {join}
 
@@ -505,11 +581,10 @@ class StorageSheet(models.TransientModel):
             ( %(all_products)s OR sm.product_id in %(product)s ) AND
             sm.date >= %(datetime_from)s AND sm.date <= %(datetime_to)s AND
             sm.location_id in %(locations)s AND
-            (sm.l10n_ro_account_id IS NOT NULL
-             OR sm.l10n_ro_transfer_account_id IS NOT NULL)
+            sm.account_out IS NOT NULL
 
         GROUP BY sm.product_id, sm.date, sm.reference,
-                sp.partner_id, sm.l10n_ro_account_id,  sm.l10n_ro_transfer_account_id,
+                sp.partner_id, sm.account_out,
                 {VALUED_TYPE_SQL},
                 pt.categ_id {group}
         """

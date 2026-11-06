@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
-<title>Romania - Stock Accounting</title>
+<title>README.rst</title>
 <style type="text/css">
 
 /*
@@ -564,6 +564,19 @@ Inventory Valuation reports drop from O(N) queries to O(distinct
 </div>
 </div>
 <div class="section" id="section-1">
+<h2>19.0.1.19.0</h2>
+<ul class="simple">
+<li>Choose the valuation account of a move on a location with its own
+account by the location usage, not by the sign of the move value: in
+19.0 the value is always positive, so the outputs from such a location
+kept the category account. The account is matched on the absolute
+value of the journal line, and only a transfer between stock locations
+keeps a transfer account. A post-migration recomputes the stored
+accounts of the done moves of the categories using location accounts
+and of the moves carrying a transfer account.</li>
+</ul>
+</div>
+<div class="section" id="section-2">
 <h2>19.0.1.11.0</h2>
 <ul class="simple">
 <li>Fix an internal transfer expensing the goods instead of handing them
@@ -618,7 +631,7 @@ extra one the button opened nothing at all. Both sets are listed now,
 covered by a test on a usage giving.</li>
 </ul>
 </div>
-<div class="section" id="section-2">
+<div class="section" id="section-3">
 <h2>19.0.1.8.0</h2>
 <ul class="simple">
 <li>Fix dropship moves retroactively repricing unrelated real stock of the
@@ -644,7 +657,7 @@ stock strictly from its own <tt class="docutils literal">total_value</tt>/<tt cl
 of which a dropship move ever touches.</li>
 </ul>
 </div>
-<div class="section" id="section-3">
+<div class="section" id="section-4">
 <h2>19.0.1.7.0</h2>
 <ul class="simple">
 <li>Fix missing stock valuation entries for dropshipped stock moves. A
@@ -675,7 +688,7 @@ deliberate regularisation entry if the accumulated balance is to be
 cleared.</li>
 </ul>
 </div>
-<div class="section" id="section-4">
+<div class="section" id="section-5">
 <h2>19.0.1.5.0</h2>
 <ul class="simple">
 <li>Keep the standard valuation for an internal transfer whose source
@@ -688,7 +701,7 @@ of credited, so the transfer deepened its negative balance instead of
 relieving it.</li>
 </ul>
 </div>
-<div class="section" id="section-5">
+<div class="section" id="section-6">
 <h2>19.0.1.3.0</h2>
 <ul class="simple">
 <li>Value an internal transfer at the cost the source warehouse actually
@@ -718,7 +731,7 @@ different mechanism: on this series the valuation layer is gone and
 the value lives on the move.</li>
 </ul>
 </div>
-<div class="section" id="section-6">
+<div class="section" id="section-7">
 <h2>19.0.1.1.1</h2>
 <ul class="simple">
 <li>Fix silent over-delivery in <tt class="docutils literal">stock_move._split_for_fifo_assignment</tt>:
@@ -743,7 +756,7 @@ instead of silently completing the transfer if the amount accounted
 for by the split still doesn’t match.</li>
 </ul>
 </div>
-<div class="section" id="section-7">
+<div class="section" id="section-8">
 <h2>19.0.1.0.0</h2>
 <ul class="simple">
 <li>Recognise the exchange rate difference on the 408 pivot (<em>Furnizori -
@@ -776,7 +789,7 @@ difference, whose liability arises at the invoice date - is taken at
 the invoice rate.</li>
 </ul>
 </div>
-<div class="section" id="section-8">
+<div class="section" id="section-9">
 <h2>19.0.0.26.1</h2>
 <ul class="simple">
 <li>Expose the <tt class="docutils literal">stock.move.l10n_ro_move_type</tt> selection as the module
@@ -785,7 +798,7 @@ duplicating the list. Up to 18.0 the same list was available as
 <tt class="docutils literal">VALUED_TYPE</tt> on <tt class="docutils literal">stock.valuation.layer</tt>. No functional change.</li>
 </ul>
 </div>
-<div class="section" id="section-9">
+<div class="section" id="section-10">
 <h2>19.0.0.25.1</h2>
 <ul class="simple">
 <li>Fix <tt class="docutils literal">IndexError: list index out of range</tt> in
@@ -800,7 +813,7 @@ the quantities are compared with the UoM rounding instead of raw
 floats.</li>
 </ul>
 </div>
-<div class="section" id="section-10">
+<div class="section" id="section-11">
 <h2>19.0.0.19.1</h2>
 <ul class="simple">
 <li>Fix

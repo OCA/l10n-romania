@@ -594,3 +594,393 @@ class TestStockReport(TransactionCase):
         self.assertEqual(sum(lines.mapped("quantity_in")), 3)
         self.assertEqual(sum(lines.mapped("quantity_out")), 1)
         self.assertEqual(sum(lines.mapped("quantity_final")), 2)
+
+    def _make_done_move(
+        self,
+        product,
+        qty,
+        date_dt,
+        location,
+        location_dest,
+        uom=None,
+        lines=None,
+    ):
+        move = self.env["stock.move"].create(
+            {
+                "product_id": product.id,
+                "product_uom": (uom or product.uom_id).id,
+                "product_uom_qty": qty,
+                "location_id": location.id,
+                "location_dest_id": location_dest.id,
+                "company_id": self.env.company.id,
+            }
+        )
+        move._action_confirm()
+        move._action_assign()
+        move.quantity = qty
+        if lines:
+            # (quantity, destination) per line, to split the move
+            move.move_line_ids.unlink()
+            self.env["stock.move.line"].create(
+                [
+                    {
+                        "move_id": move.id,
+                        "product_id": product.id,
+                        "product_uom_id": move.product_uom.id,
+                        "quantity": line_qty,
+                        "location_id": location.id,
+                        "location_dest_id": line_dest.id,
+                    }
+                    for line_qty, line_dest in lines
+                ]
+            )
+        move.picked = True
+        move._action_done()
+        move.date = date_dt
+        return move
+
+    def _sheet_lines(self, product, date_from, date_to, location=None, detailed=False):
+        wizard = Form(self.env["l10n.ro.stock.storage.sheet"])
+        if location:
+            wizard.location_id = location
+        wizard.detailed_locations = detailed
+        wizard.product_ids = product
+        wizard.date_from = date_from.date()
+        wizard.date_to = date_to.date()
+        wizard = wizard.save()
+        wizard.button_show_sheet_pdf()
+        return self.env["l10n.ro.stock.storage.sheet.line"].search(
+            [("report_id", "=", wizard.id), ("product_id", "=", product.id)]
+        )
+
+    def test_report_quantity_in_product_uom(self):
+        """A move in another unit than the product's counts in the product unit.
+
+        Production consumes cables in millimetres while the product is kept in
+        metres; adding the move quantities as they are subtracts millimetres from
+        metres and leaves the sheet with huge negative quantities.
+        """
+        product = self.env["product.product"].create(
+            {
+                "name": "Cable",
+                "is_storable": True,
+                "categ_id": self.category.id,
+                "uom_id": self.env.ref("uom.product_uom_meter").id,
+                "standard_price": 2.0,
+            }
+        )
+        date_dt = fields.Datetime.now() - timedelta(days=5)
+        self._make_done_move(
+            product,
+            10,
+            date_dt,
+            self.env.ref("stock.stock_location_suppliers"),
+            self.location,
+        )
+        self._make_done_move(
+            product,
+            2500,
+            date_dt,
+            self.location,
+            self.env.ref("stock.stock_location_customers"),
+            uom=self.env.ref("uom.product_uom_millimeter"),
+        )
+        lines = self._sheet_lines(
+            product,
+            fields.Datetime.now() - timedelta(days=10),
+            fields.Datetime.now() - timedelta(days=1),
+            location=self.location,
+        )
+        self.assertAlmostEqual(sum(lines.mapped("quantity_out")), 2.5)
+        self.assertAlmostEqual(sum(lines.mapped("quantity_final")), 7.5)
+
+    def test_report_line_location(self):
+        """Quantities follow the locations of the move lines.
+
+        A receipt recorded on the parent location whose lines store part of the
+        goods in a sublocation used to stay whole on the parent location in the
+        detailed sheet, and the later issue from the sublocation left that one
+        negative.
+        """
+        product = self.product_1
+        date_dt = fields.Datetime.now() - timedelta(days=5)
+        self._make_done_move(
+            product,
+            5,
+            date_dt,
+            self.env.ref("stock.stock_location_suppliers"),
+            self.location,
+            lines=[(3, self.location_2), (2, self.location)],
+        )
+        self._make_done_move(
+            product,
+            1,
+            date_dt,
+            self.location_2,
+            self.env.ref("stock.stock_location_customers"),
+        )
+        lines = self._sheet_lines(
+            product,
+            fields.Datetime.now() - timedelta(days=10),
+            fields.Datetime.now() - timedelta(days=1),
+            location=self.location,
+            detailed=True,
+        )
+        final = {
+            location: sum(
+                lines.filtered(
+                    lambda line, loc=location: line.location_id == loc
+                ).mapped("quantity_final")
+            )
+            for location in (self.location, self.location_2)
+        }
+        self.assertEqual(final[self.location], 2)
+        self.assertEqual(final[self.location_2], 2)
+
+    def test_report_archived_location(self):
+        """Archived locations count when no location is selected.
+
+        The moves made while a location was in use stay in the history: the
+        stock it held at a past date belongs to the balance of that date.
+        """
+        product = self.product_1
+        self._make_done_move(
+            product,
+            5,
+            fields.Datetime.now() - timedelta(days=20),
+            self.env.ref("stock.stock_location_suppliers"),
+            self.location_2,
+        )
+        self._make_done_move(
+            product,
+            5,
+            fields.Datetime.now() - timedelta(days=5),
+            self.location_2,
+            self.location,
+        )
+        self.location_2.active = False
+        lines = self._sheet_lines(
+            product,
+            fields.Datetime.now() - timedelta(days=25),
+            fields.Datetime.now() - timedelta(days=10),
+        )
+        self.assertEqual(sum(lines.mapped("quantity_final")), 5)
+
+    def test_report_current_account(self):
+        """Every move counts on the valuation account the product has today.
+
+        After a category change the stock entered on the old account and left
+        from the new one: the old account stayed positive and the new one
+        negative, while the balance sheet carries the stock on the new account.
+        """
+        account = self.env["account.account"].search(
+            [("code", "=", "345100")], limit=1
+        ) or self.env["account.account"].create(
+            {
+                "code": "345100",
+                "name": "Finished goods",
+                "account_type": "asset_current",
+                "company_ids": [(4, self.env.company.id)],
+            }
+        )
+        category = self.env["product.category"].create(
+            {
+                "name": "TEST Produse finite",
+                "property_cost_method": "fifo",
+                "property_valuation": "real_time",
+                "property_account_income_categ_id": self.account_income.id,
+                "property_account_expense_categ_id": self.account_expense.id,
+                "property_stock_valuation_account_id": account.id,
+                "property_stock_journal": self.stock_journal.id,
+            }
+        )
+        product = self.product_1
+        date_dt = fields.Datetime.now() - timedelta(days=5)
+        receipt = self._make_done_move(
+            product,
+            5,
+            date_dt,
+            self.env.ref("stock.stock_location_suppliers"),
+            self.location,
+        )
+        # store the account as it is when the receipt is done, before the change
+        self.env.flush_all()
+        self.assertEqual(receipt.l10n_ro_account_id, self.account_valuation)
+        product.categ_id = category
+        self._make_done_move(
+            product,
+            2,
+            date_dt,
+            self.location,
+            self.env.ref("stock.stock_location_customers"),
+        )
+        lines = self._sheet_lines(
+            product,
+            fields.Datetime.now() - timedelta(days=10),
+            fields.Datetime.now() - timedelta(days=1),
+            location=self.location,
+        )
+        final = {
+            acc: sum(
+                lines.filtered(lambda line, acc=acc: line.account_id == acc).mapped(
+                    "quantity_final"
+                )
+            )
+            for acc in (self.account_valuation, account)
+        }
+        self.assertEqual(final[self.account_valuation], 0)
+        self.assertEqual(final[account], 3)
+
+    def _run_sheet(self, location, product, date_from, date_to):
+        wizard = Form(self.env["l10n.ro.stock.storage.sheet"])
+        wizard.location_id = location
+        wizard.product_ids = product
+        wizard.date_from = date_from.date()
+        wizard.date_to = date_to.date()
+        wizard = wizard.save()
+        wizard.button_show_sheet_pdf()
+        return self.env["l10n.ro.stock.storage.sheet.line"].search(
+            [
+                ("report_id", "=", wizard.id),
+                ("product_id", "=", product.id),
+                ("location_id", "=", location.id),
+            ]
+        )
+
+    def _done_move(self, product, qty, location, location_dest, date_dt):
+        move = self.env["stock.move"].create(
+            {
+                "product_id": product.id,
+                "product_uom": product.uom_id.id,
+                "product_uom_qty": qty,
+                "location_id": location.id,
+                "location_dest_id": location_dest.id,
+                "company_id": self.env.company.id,
+            }
+        )
+        move._action_confirm()
+        move._action_assign()
+        move._set_quantity_done(qty)
+        move.picked = True
+        move._action_done()
+        move.date = date_dt
+        return move
+
+    def _create_location_marfa(self):
+        """Return a stock location with its own valuation account, with the
+        company transfer account (482) set."""
+        company = self.env.company
+        if not company.l10n_ro_property_stock_transfer_account_id:
+            company.l10n_ro_property_stock_transfer_account_id = (
+                self.account_valuation.copy(
+                    {"code": "482100", "account_type": "asset_current"}
+                )
+            )
+        account_marfa = self.account_valuation.copy({"code": "371100"})
+        location_marfa = self.env["stock.location"].create(
+            {
+                "name": "Marfa",
+                "usage": "internal",
+                "location_id": self.location.location_id.id,
+                "l10n_ro_property_stock_valuation_account_id": account_marfa.id,
+            }
+        )
+        return account_marfa, location_marfa
+
+    def test_report_account_on_location_with_own_account(self):
+        """Stock -> Marfa (own valuation account) -> customer.
+
+        The Marfa sheet must show the Marfa account on both the input from
+        Stock and the delivery, and the Stock sheet the category account on
+        the output to Marfa, as in the journal entries.
+        """
+        product = self.product_1
+        date_dt = fields.Datetime.now() - timedelta(days=5)
+        date_from = fields.Datetime.now() - timedelta(days=10)
+        date_to = fields.Datetime.now() - timedelta(days=1)
+        account_marfa, location_marfa = self._create_location_marfa()
+
+        self._create_receipt(product, 10, date_dt)
+        transfer = self._done_move(product, 4, self.location, location_marfa, date_dt)
+        delivery = self._done_move(
+            product,
+            4,
+            location_marfa,
+            self.env.ref("stock.stock_location_customers"),
+            date_dt,
+        )
+
+        self.assertEqual(transfer.l10n_ro_account_id, account_marfa)
+        self.assertEqual(transfer.l10n_ro_transfer_account_id, self.account_valuation)
+        self.assertEqual(delivery.l10n_ro_account_id, account_marfa)
+        self.assertIn(
+            account_marfa,
+            delivery.account_move_id.line_ids.filtered("credit").account_id,
+        )
+
+        lines = self._run_sheet(location_marfa, product, date_from, date_to)
+        lines_in = lines.filtered("quantity_in")
+        lines_out = lines.filtered("quantity_out")
+        self.assertEqual(sum(lines_in.mapped("quantity_in")), 4)
+        self.assertEqual(sum(lines_out.mapped("quantity_out")), 4)
+        self.assertEqual(lines_in.account_id, account_marfa)
+        self.assertEqual(lines_out.account_id, account_marfa)
+        self.assertEqual(sum(lines.mapped("quantity_final")), 0)
+
+        lines = self._run_sheet(self.location, product, date_from, date_to)
+        self.assertEqual(lines.account_id, self.account_valuation)
+        self.assertEqual(sum(lines.mapped("quantity_in")), 10)
+        self.assertEqual(sum(lines.mapped("quantity_out")), 4)
+        self.assertEqual(sum(lines.mapped("quantity_final")), 6)
+
+    def test_report_account_on_transfer_through_transit(self):
+        """Stock -> Transit -> Marfa (own valuation account).
+
+        The transfer goes through the transit account (482): the output from
+        Stock credits the category account, the input in Marfa debits the
+        Marfa account, and each sheet shows only its own stock account.
+        """
+        product = self.product_1
+        date_dt = fields.Datetime.now() - timedelta(days=5)
+        date_from = fields.Datetime.now() - timedelta(days=10)
+        date_to = fields.Datetime.now() - timedelta(days=1)
+        account_marfa, location_marfa = self._create_location_marfa()
+        account_transit = self.env.company.l10n_ro_property_stock_transfer_account_id
+        location_transit = self.env.company.internal_transit_location_id
+
+        self._create_receipt(product, 10, date_dt)
+        transit_out = self._done_move(
+            product, 4, self.location, location_transit, date_dt
+        )
+        transit_in = self._done_move(
+            product, 4, location_transit, location_marfa, date_dt
+        )
+
+        self.assertEqual(transit_out.l10n_ro_move_type, "internal_transit_out")
+        self.assertEqual(transit_out.l10n_ro_account_id, account_transit)
+        self.assertEqual(
+            transit_out.l10n_ro_transfer_account_id, self.account_valuation
+        )
+        lines_out = transit_out.account_move_id.line_ids
+        self.assertEqual(lines_out.filtered("debit").account_id, account_transit)
+        self.assertEqual(
+            lines_out.filtered("credit").account_id, self.account_valuation
+        )
+
+        self.assertEqual(transit_in.l10n_ro_move_type, "internal_transit_in")
+        self.assertEqual(transit_in.l10n_ro_account_id, account_marfa)
+        self.assertEqual(transit_in.l10n_ro_transfer_account_id, account_transit)
+        lines_in = transit_in.account_move_id.line_ids
+        self.assertEqual(lines_in.filtered("debit").account_id, account_marfa)
+        self.assertEqual(lines_in.filtered("credit").account_id, account_transit)
+
+        lines = self._run_sheet(location_marfa, product, date_from, date_to)
+        self.assertEqual(lines.account_id, account_marfa)
+        self.assertEqual(sum(lines.mapped("quantity_in")), 4)
+        self.assertEqual(sum(lines.mapped("quantity_final")), 4)
+
+        lines = self._run_sheet(self.location, product, date_from, date_to)
+        self.assertEqual(lines.account_id, self.account_valuation)
+        self.assertEqual(sum(lines.mapped("quantity_in")), 10)
+        self.assertEqual(sum(lines.mapped("quantity_out")), 4)
+        self.assertEqual(sum(lines.mapped("quantity_final")), 6)

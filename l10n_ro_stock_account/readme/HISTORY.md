@@ -1,3 +1,14 @@
+## 19.0.1.19.0
+
+- Choose the valuation account of a move on a location with its own account by
+  the location usage, not by the sign of the move value: in 19.0 the value is
+  always positive, so the outputs from such a location kept the category
+  account. The account is matched on the absolute value of the journal line,
+  and only a transfer between stock locations keeps a transfer account. A
+  post-migration recomputes the stored accounts of the done moves of the
+  categories using location accounts and of the moves carrying a transfer
+  account.
+
 ## 19.0.1.11.0
 
 - Fix an internal transfer expensing the goods instead of handing them over to
