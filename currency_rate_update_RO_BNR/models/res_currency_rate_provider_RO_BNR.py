@@ -5,6 +5,14 @@ from urllib.request import urlopen
 
 from odoo import api, fields, models
 
+# Since 2026-08-04 the XML exchange rate feeds moved from www.bnr.ro to
+# curs.bnr.ro. The old URLs no longer serve XML: the daily one returns the
+# BNR homepage as HTML and the yearly one answers with a 302 to the homepage,
+# so parsing raises `SAXParseException: <unknown>:1:0: syntax error`.
+# https://www.bnr.ro/25710-2026-08-04-informare-privind-accesarea-cursurilor-de-schimb-ale-pietei-valutare-in-format-xml
+BNR_DAILY_URL = "https://curs.bnr.ro/nbrfxrates.xml"
+BNR_YEAR_URL = "https://curs.bnr.ro/files/xml/years/nbrfxrates%s.xml"
+
 
 class ResCurrencyRate(models.Model):
     _inherit = "res.currency.rate"
@@ -77,10 +85,9 @@ class ResCurrencyRateProviderROBNR(models.Model):
             )  # pragma: no cover
 
         if date_from == date_to:
-            url = "https://www.bnr.ro/nbrfxrates.xml"
+            url = BNR_DAILY_URL
         else:
-            year = date_from.year
-            url = "https://www.bnr.ro/files/xml/years/nbrfxrates" + str(year) + ".xml"
+            url = BNR_YEAR_URL % date_from.year
 
         handler = ROBNRRatesHandler(currencies, date_from, date_to)
         # with urlopen(url, timeout=10) as response:
@@ -92,8 +99,7 @@ class ResCurrencyRateProviderROBNR(models.Model):
         elif date_from == date_to:
             # date_from can be in past and first url is giving only one date
             # we must try to take the date from whole year list
-            year = date_from.year
-            url = "https://www.bnr.ro/files/xml/years/nbrfxrates" + str(year) + ".xml"
+            url = BNR_YEAR_URL % date_from.year
             handler = ROBNRRatesHandler(currencies, date_from, date_to)
             # with urlopen(url, timeout=10) as response:
             #     xml.sax.parse(response, handler)
