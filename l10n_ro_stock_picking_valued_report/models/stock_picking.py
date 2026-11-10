@@ -171,7 +171,7 @@ class StockPicking(models.Model):
                 {
                     "position": index,
                     "product": move.product_id,
-                    "plu": move.product_id.plu_code or "",
+                    "plu": getattr(move.product_id, "plu_code", "") or "",
                     "code": move.product_id.default_code or "",
                     "ean": move.product_id.barcode or "",
                     "name": move.product_id.name,

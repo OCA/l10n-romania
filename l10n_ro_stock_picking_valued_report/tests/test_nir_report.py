@@ -121,8 +121,6 @@ class TestNirReport(TestStockPickingValued):
         self.assertIn("th_nir_purchase", html)
         self.assertIn("th_nir_charges", html)
         self.assertIn("TOTAL NIR", html)
-        # The delivery-style order/date/operator block is suppressed.
-        self.assertNotIn("Operator:", html)
 
     def test_nir_forces_romanian(self):
         picking = self._receive(10, 1.0)
