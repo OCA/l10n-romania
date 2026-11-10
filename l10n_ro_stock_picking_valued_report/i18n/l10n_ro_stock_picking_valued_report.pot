@@ -163,16 +163,6 @@ msgid "ID"
 msgstr ""
 
 #. module: l10n_ro_stock_picking_valued_report
-#: model:ir.model.fields.selection,name:l10n_ro_stock_picking_valued_report.selection__stock_picking__l10n_ro_supplier_type__import
-msgid "Import supplier"
-msgstr ""
-
-#. module: l10n_ro_stock_picking_valued_report
-#: model:ir.model.fields.selection,name:l10n_ro_stock_picking_valued_report.selection__stock_picking__l10n_ro_supplier_type__intern
-msgid "Internal supplier"
-msgstr ""
-
-#. module: l10n_ro_stock_picking_valued_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking__is_l10n_ro_record
 msgid "Is Romanian Record"

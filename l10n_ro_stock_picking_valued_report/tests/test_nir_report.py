@@ -76,23 +76,6 @@ class TestNirReport(TestStockPickingValued):
         self.assertTrue(picking.l10n_ro_is_nir)
         # The NIR is identified by the picking name; no separate number.
         self.assertTrue(picking.name)
-        # No supplier set on the manual receipt -> treated as internal.
-        self.assertEqual(picking.l10n_ro_supplier_type, "intern")
-
-    def test_nir_supplier_type(self):
-        italy = self.env.ref("base.it")
-        usa = self.env.ref("base.us")
-        ue_supplier = self.env["res.partner"].create(
-            {"name": "Sigaro Toscano", "country_id": italy.id}
-        )
-        import_supplier = self.env["res.partner"].create(
-            {"name": "Ashton", "country_id": usa.id}
-        )
-        picking = self._receive(10, 1.0)
-        picking.partner_id = ue_supplier
-        self.assertEqual(picking.l10n_ro_supplier_type, "ue")
-        picking.partner_id = import_supplier
-        self.assertEqual(picking.l10n_ro_supplier_type, "import")
 
     def test_nir_report_lines_and_packages(self):
         picking = self._receive(100, 2.0, packaging_uom=self.uom_pack5)

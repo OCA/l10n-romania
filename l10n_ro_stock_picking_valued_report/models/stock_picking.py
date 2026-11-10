@@ -40,15 +40,7 @@ class StockPicking(models.Model):
         "incoming transfer registered by a Romanian company. Printed as a NIR "
         "instead of the standard delivery-style reception slip.",
     )
-    l10n_ro_supplier_type = fields.Selection(
-        [
-            ("intern", "Internal supplier"),
-            ("ue", "EU supplier"),
-            ("import", "Import supplier"),
-        ],
-        compute="_compute_l10n_ro_supplier_type",
-        string="Supplier Type",
-    )
+
     @api.depends(
         "picking_type_id.code", "company_id.country_id.code", "is_l10n_ro_record"
     )
@@ -59,19 +51,6 @@ class StockPicking(models.Model):
                 and pick.company_id.country_id.code == "RO"
                 and pick.picking_type_id.code == "incoming"
             )
-
-    @api.depends("partner_id.commercial_partner_id.country_id")
-    def _compute_l10n_ro_supplier_type(self):
-        europe = self.env.ref("base.europe", raise_if_not_found=False)
-        eu_countries = europe.country_ids if europe else self.env["res.country"]
-        for pick in self:
-            country = pick.partner_id.commercial_partner_id.country_id
-            if not country or country.code == "RO":
-                pick.l10n_ro_supplier_type = "intern"
-            elif country in eu_countries:
-                pick.l10n_ro_supplier_type = "ue"
-            else:
-                pick.l10n_ro_supplier_type = "import"
 
     def _l10n_ro_nir_charge_breakdown(self):
         """Split the receipt's additional costs (landed costs) by type, for the
