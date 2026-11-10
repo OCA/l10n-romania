@@ -260,8 +260,14 @@ class TestStockReport(TransactionCase):
         wizard = wizard_form.save()
         self.assertNotIn(archived_location, wizard.location_ids)
 
+        archived_product = self.product_1.copy({"name": "Archived product"})
+        archived_product.action_archive()
+
         wizard.show_inactive = True
-        self.assertIn(archived_location, wizard.location_ids)
+        wizard.product_ids = [(6, 0, archived_product.ids)]
+        self.assertIn(archived_location, wizard._get_report_locations())
+        self.assertEqual(wizard._get_selected_products(), archived_product)
+        self.assertEqual(wizard.get_report_products()[0], archived_product.ids)
 
         view = self.env["l10n.ro.stock.storage.sheet"].get_view(
             view_id=self.env.ref(

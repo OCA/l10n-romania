@@ -88,21 +88,30 @@ class StorageSheet(models.TransientModel):
 
     @api.depends("sublocation", "location_id", "show_locations", "show_inactive")
     def _compute_location_ids(self):
-        if not self.location_id:
-            locations = self.env["stock.location"]
-            if self.show_inactive:
-                locations = locations.with_context(active_test=False)
-            self.location_ids = locations.search([("usage", "=", "internal")])
-        else:
-            if self.sublocation:
-                children_location = (
-                    self.env["stock.location"]
-                    .with_context(active_test=False)
-                    .search([("id", "child_of", self.location_id.ids)])
+        for sheet in self:
+            if sheet.show_inactive:
+                sheet = sheet.with_context(active_test=False)
+            if not sheet.location_id:
+                sheet.location_ids = self.env["stock.location"].search(
+                    [("usage", "=", "internal")]
                 )
-                self.location_ids = self.location_id + children_location
+            elif sheet.sublocation:
+                children_location = self.env["stock.location"].search(
+                    [("id", "child_of", sheet.location_id.ids)]
+                )
+                sheet.location_ids = sheet.location_id + children_location
             else:
-                self.location_ids = self.location_id
+                sheet.location_ids = sheet.location_id
+
+    def _get_report_locations(self):
+        self.ensure_one()
+        sheet = self.with_context(active_test=False) if self.show_inactive else self
+        return sheet.location_ids
+
+    def _get_selected_products(self):
+        self.ensure_one()
+        sheet = self.with_context(active_test=False) if self.show_inactive else self
+        return sheet.product_ids
 
     def _get_report_base_filename(self):
         self.ensure_one()
@@ -123,7 +132,7 @@ class StorageSheet(models.TransientModel):
         return res
 
     def get_products_with_move_sql(self, product_list=False):
-        locations = self.location_ids
+        locations = self._get_report_locations()
 
         if product_list:
             query = """
@@ -179,8 +188,8 @@ class StorageSheet(models.TransientModel):
                         ("company_id", "=", self.company_id.id),
                         ("company_id", "=", False),
                         "|",
-                        ("location_id", "in", self.location_ids.ids),
-                        ("location_dest_id", "in", self.location_ids.ids),
+                        ("location_id", "in", self._get_report_locations().ids),
+                        ("location_dest_id", "in", self._get_report_locations().ids),
                     ]
                 )
                 .mapped("product_id")
@@ -190,8 +199,9 @@ class StorageSheet(models.TransientModel):
         return product_list
 
     def do_compute_product(self):
-        if self.product_ids:
-            product_list = self.product_ids.ids
+        selected_products = self._get_selected_products()
+        if selected_products:
+            product_list = selected_products.ids
             all_products = False
         else:
             if self.products_with_move:
@@ -225,10 +235,15 @@ class StorageSheet(models.TransientModel):
         datetime_to = datetime_to.astimezone(pytz.utc)
 
         if self.detailed_locations:
-            all_locations = self.with_context(active_test=False).location_ids
+            all_locations = self._get_report_locations()
         else:
-            all_locations = self.location_id or self.location_ids[0]
-            locations = self.location_ids
+            locations = self._get_report_locations()
+            selected_location = (
+                self.with_context(active_test=False).location_id
+                if self.show_inactive
+                else self.location_id
+            )
+            all_locations = selected_location or locations[:1]
 
         for location in all_locations:
             if self.detailed_locations:
@@ -520,8 +535,9 @@ class StorageSheet(models.TransientModel):
 
     def get_report_products(self):
         self.ensure_one()
-        if self.product_ids:
-            product_list = self.product_ids.ids
+        selected_products = self._get_selected_products()
+        if selected_products:
+            product_list = selected_products.ids
             all_products = False
         else:
             domain = [
