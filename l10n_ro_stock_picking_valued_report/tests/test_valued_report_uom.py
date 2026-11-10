@@ -173,3 +173,47 @@ class TestStockPickingValuedUom(TestStockPickingValued):
         self.assertAlmostEqual(line.quantity_product_uom, 2.0)
         self.assertAlmostEqual(line.l10n_ro_price_unit, 30.0, places=2)
         self.assertAlmostEqual(line.l10n_ro_price_subtotal, 60.0, places=2)
+
+    def test_slip_with_a_package_aggregates_without_it(self):
+        """The delivery slip asks for the lines outside packages; a packed
+        line must not break the valued columns of the others."""
+        self._receive(30, self.uom_unit, 10.0)
+        delivery = self._make_picking(
+            self.warehouse.out_type_id,
+            self.location,
+            self.customer_location,
+            10,
+            self.uom_unit,
+            validate=False,
+        )
+        line = delivery.move_line_ids
+        line.result_package_id = self.env["stock.package"].create({"name": "PACK1"})
+
+        aggregated = delivery.move_line_ids._get_aggregated_product_quantities(
+            except_package=True
+        )
+        self.assertEqual(aggregated, {})
+        # and with the packages, the line is valued as usual
+        aggregated = delivery.move_line_ids._get_aggregated_product_quantities()
+        self.assertEqual(len(aggregated), 1)
+
+    def test_unit_price_of_a_product_on_two_lines(self):
+        """Two lines of the same product (two shelves, two lots) give one row
+        priced per unit, not the sum of the two lines' unit prices."""
+        self._receive(30, self.uom_unit, 10.0)
+        delivery = self._make_picking(
+            self.warehouse.out_type_id,
+            self.location,
+            self.customer_location,
+            10,
+            self.uom_unit,
+            validate=False,
+        )
+        line = delivery.move_line_ids
+        line.quantity = 6
+        line.copy({"quantity": 4, "move_id": line.move_id.id})
+
+        aggregated = delivery.move_line_ids._get_aggregated_product_quantities()
+        row = next(iter(aggregated.values()))
+        self.assertAlmostEqual(row["l10n_ro_price_unit"], 10.0, places=2)
+        self.assertAlmostEqual(row["l10n_ro_price_subtotal"], 100.0, places=2)

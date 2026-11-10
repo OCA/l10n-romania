@@ -53,16 +53,87 @@ class TestRetailPickingReport(TestRetailCommon):
 
     def test_reception_note_renders(self):
         """Render the note. An xpath that no longer matches its anchor only
-        fails here, never at install."""
+        fails here, never at install.
+
+        Assertions use the language-independent ``name`` anchors of the table
+        and its columns, so the check holds whether the slip renders in English
+        or, on a RO instance, in Romanian (see
+        ``test_delivery_slip_is_forced_to_romanian``)."""
         self._set_initial_stock(self.location, self.product_retail, 10)
         move = self._do_transfer(self.location, self.loc_mag1, self.product_retail, 4)
+        picking = move.picking_id
+        # Goods entering a shop print as a NIR, by internal transfer too.
+        self.assertTrue(picking.l10n_ro_retail_incoming)
+        self.assertTrue(picking.l10n_ro_is_nir)
         html = self.env["ir.actions.report"]._render_qweb_html(
-            "stock.action_report_delivery", move.picking_id.ids
+            "stock.action_report_delivery", picking.ids
         )[0]
         html = html.decode() if isinstance(html, bytes) else html
-        self.assertIn("Goods Receipt and Discrepancy Note", html)
-        self.assertIn("Markup %", html)
-        self.assertIn("Deferred VAT", html)
+        self.assertIn("l10n_ro_nir_table", html)
+        # Retail columns appended on the right of the NIR table.
+        self.assertIn("th_nir_deferred_vat", html)
+        self.assertIn("th_nir_retail_value", html)
+
+    def test_reception_note_shows_base_and_retail_columns(self):
+        """A retail reception prints the base NIR columns AND the retail ones.
+
+        The two sets live in one coherent table now: the common columns the
+        depot note already shows, with the markup, deferred VAT and shelf value
+        appended on the right."""
+        self._set_initial_stock(self.location, self.product_retail, 10)
+        move = self._do_transfer(self.location, self.loc_mag1, self.product_retail, 4)
+        picking = move.picking_id
+        self.assertTrue(picking.l10n_ro_retail_incoming)
+        html = self.env["ir.actions.report"]._render_qweb_html(
+            "stock.action_report_delivery", picking.ids
+        )[0]
+        html = html.decode() if isinstance(html, bytes) else html
+        # Assert on the language-independent column ``name`` anchors.
+        # The base NIR columns are present (additive, not hidden any more)...
+        self.assertIn("th_nir_purchase", html)
+        self.assertIn("th_nir_charges", html)
+        # ...alongside the retail columns.
+        self.assertIn("th_nir_deferred_vat", html)
+        self.assertIn("th_nir_retail_value", html)
+
+    def test_plain_transfer_is_not_a_nir(self):
+        """A transfer that touches no shop keeps the plain valued columns and
+        is not turned into a NIR."""
+        shelf = self.env["stock.location"].create(
+            {
+                "name": "Raft depozit",
+                "usage": "internal",
+                "location_id": self.location.id,
+            }
+        )
+        self._set_initial_stock(self.location, self.product_retail, 10)
+        move = self._do_transfer(self.location, shelf, self.product_retail, 4)
+        picking = move.picking_id
+        self.assertFalse(picking.l10n_ro_retail_incoming)
+        self.assertFalse(picking.l10n_ro_is_nir)
+        self.assertTrue(picking._l10n_ro_show_valued_columns())
+
+    def test_delivery_slip_is_forced_to_romanian(self):
+        """The delivery slip of a RO company prints in Romanian.
+
+        Tested through the report override itself, without forcing the language
+        in the call: the override flags the render and the picking reports
+        Romanian whatever the partner (here none) speaks."""
+        self.assertEqual(self.env.company.country_id.code, "RO")
+        # The forced language must be installed, or rendering with it raises
+        # "Invalid language code" - which is also why the override guards on it.
+        self.env["res.lang"]._activate_lang("ro_RO")
+        move = self._do_transfer(self.location, self.loc_mag1, self.product_retail, 4)
+        picking = move.picking_id
+        Report = self.env["ir.actions.report"]
+        # The delivery slip is flagged...
+        slip_env = Report._l10n_ro_picking_report_env("stock.action_report_delivery")
+        self.assertTrue(slip_env.env.context.get("l10n_ro_force_picking_report_lang"))
+        self.assertEqual(picking.with_env(slip_env.env)._get_report_lang(), "ro_RO")
+        # ...while another report is left on the partner's language.
+        other_env = Report._l10n_ro_picking_report_env("stock.report_return_slip")
+        self.assertFalse(other_env.env.context.get("l10n_ro_force_picking_report_lang"))
+        self.assertNotEqual(picking._get_report_lang(), "ro_RO")
 
     def test_a_row_bought_by_the_dozen_prints_its_whole_cost(self):
         """Goods bought in dozens and stocked in units.

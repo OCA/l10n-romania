@@ -5,8 +5,314 @@
         inherit_id="stock.report_delivery_document"
         priority="100"
     >
+        <!-- Goods receipt note (NIR): a Romanian company's incoming transfer
+             keeps the STANDARD delivery header (vendor/warehouse address blocks
+             from the layout, the title with the picking number, and the
+             order/date informations block) and the before/after-lines comments.
+             Only the standard move tables are swapped for the valued NIR table
+             below, so nothing is duplicated. -->
+        <!-- On a RO outgoing/internal picking the slip is an "aviz de
+             însoțire": rename the title (keeping the picking number) so it does
+             not read "Notă de livrare" / "Mișcare internă". The NIR (incoming)
+             keeps its standard title. -->
+        <xpath expr="//div[hasclass('page')]/h2/span[1]" position="attributes">
+            <attribute
+                name="t-out"
+            >('Aviz de însoțire a mărfii' if (o.is_l10n_ro_record and o.company_id.country_id.code == 'RO' and o.picking_type_id.code in ('outgoing', 'internal')) else o.picking_type_id._get_code_report_name())</attribute>
+        </xpath>
+        <!-- Etichete adresă în română pe avizul RO -->
+        <xpath
+            expr="//div[@name='outgoing_delivery_address']//strong"
+            position="replace"
+        >
+            <strong>
+                <t
+                    t-out="'Adresă de livrare' if (o.is_l10n_ro_record and o.company_id.country_id.code == 'RO') else 'Delivery Address'"
+                />
+            </strong>
+        </xpath>
+        <xpath expr="//div[@name='customer_address']//strong" position="replace">
+            <strong>
+                <t
+                    t-out="'Client' if (o.is_l10n_ro_record and o.company_id.country_id.code == 'RO') else 'Customer'"
+                />
+            </strong>
+        </xpath>
+
+        <xpath expr="//table[@name='stock_move_table']" position="attributes">
+            <attribute
+                name="t-if"
+            >o.state != 'done' and not (o.is_l10n_ro_record and o.company_id.country_id.code == 'RO')</attribute>
+        </xpath>
+        <xpath expr="//table[@name='stock_move_line_table']" position="attributes">
+            <attribute
+                name="t-elif"
+            >o.move_line_ids and o.state == 'done' and not (o.is_l10n_ro_record and o.company_id.country_id.code == 'RO')</attribute>
+        </xpath>
+
+        <!-- NIR valued table: replaces only the standard move tables. The
+             standard header (address blocks, title with number, informations)
+             and the before/after-lines comments stay in place. Anchored before
+             the standard move table (not after informations) so the before-lines
+             comment, inserted by the lower-priority comment view, stays above
+             this table. -->
+        <xpath expr="//table[@name='stock_move_table']" position="before">
+            <t t-if="o.l10n_ro_is_nir">
+                <t t-set="nir_lines" t-value="o._l10n_ro_nir_report_lines()" />
+                <t t-set="nir_num" t-value="lambda x: '{:,.2f}'.format(x or 0.0)" />
+                <!-- Smaller text and fixed Code / Description widths so the NIR
+                     stays legible and consistent whether it has the depot
+                     columns or the extra retail ones. -->
+                <style>
+                    table.l10n_ro_nir_table{font-size:.66rem}
+                    table.l10n_ro_nir_table th[name=th_nir_pos],
+                    table.l10n_ro_nir_table td[name=td_nir_pos]{width:7mm}
+                    table.l10n_ro_nir_table th[name=th_nir_code],
+                    table.l10n_ro_nir_table td[name=td_nir_code]{
+                        min-width:15mm;white-space:nowrap}
+                    table.l10n_ro_nir_table th[name=th_nir_name],
+                    table.l10n_ro_nir_table td[name=td_nir_name]{
+                        min-width:34mm;max-width:46mm}
+                </style>
+                <table
+                    class="table table-sm o_main_table l10n_ro_nir_table"
+                    name="l10n_ro_nir_table"
+                >
+                    <thead>
+                        <tr>
+                            <th class="text-center" name="th_nir_pos">
+                                <strong>Pos.</strong>
+                            </th>
+                            <th name="th_nir_code">
+                                <strong>Code</strong>
+                            </th>
+                            <th name="th_nir_name">
+                                <strong>Description</strong>
+                            </th>
+                            <th class="text-center" name="th_nir_uom">
+                                <strong>UoM</strong>
+                            </th>
+                            <th class="text-end" name="th_nir_qty">
+                                <strong>Quantity</strong>
+                            </th>
+                            <th class="text-end" name="th_nir_price">
+                                <strong>Unit Price</strong>
+                            </th>
+                            <th class="text-end" name="th_nir_purchase">
+                                <strong>Purchase Value</strong>
+                            </th>
+                            <th class="text-end" name="th_nir_charges">
+                                <strong>Additional Charges</strong>
+                            </th>
+                            <th class="text-end" name="th_nir_subtotal">
+                                <strong>Subtotal</strong>
+                            </th>
+                            <th class="text-end" name="th_nir_tax">
+                                <strong>VAT</strong>
+                            </th>
+                            <th class="text-end" name="th_nir_total">
+                                <strong>Total</strong>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="nir_lines" t-as="line" name="nir_row">
+                            <td class="text-center" name="td_nir_pos">
+                                <span t-out="line['position']" />
+                            </td>
+                            <td name="td_nir_code">
+                                <span t-out="line['code']" />
+                            </td>
+                            <td name="td_nir_name">
+                                <span t-out="line['name']" />
+                            </td>
+                            <td class="text-center" name="td_nir_uom">
+                                <span t-out="line['uom'].name" />
+                            </td>
+                            <td class="text-end" name="td_nir_qty">
+                                <span t-out="nir_num(line['quantity'])" />
+                            </td>
+                            <td class="text-end" name="td_nir_price">
+                                <span t-out="'%.4f' % line['price_unit']" />
+                            </td>
+                            <td class="text-end" name="td_nir_purchase">
+                                <span t-out="nir_num(line['purchase_value'])" />
+                            </td>
+                            <td class="text-end" name="td_nir_charges">
+                                <span t-out="nir_num(line['additional_charges'])" />
+                            </td>
+                            <td class="text-end" name="td_nir_subtotal">
+                                <span t-out="nir_num(line['subtotal'])" />
+                            </td>
+                            <td class="text-end" name="td_nir_tax">
+                                <span t-out="nir_num(line['tax'])" />
+                            </td>
+                            <td class="text-end" name="td_nir_total">
+                                <span t-out="nir_num(line['total'])" />
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr class="border-black o_total" name="nir_total_row">
+                            <td colspan="4" class="text-end">
+                                <strong>TOTAL NIR:</strong>
+                            </td>
+                            <td class="text-end" name="tf_nir_qty">
+                                <strong
+                                    t-out="nir_num(sum(line['quantity'] for line in nir_lines))"
+                                />
+                            </td>
+                            <td name="tf_nir_price" />
+                            <td class="text-end" name="tf_nir_purchase">
+                                <strong
+                                    t-out="nir_num(sum(line['purchase_value'] for line in nir_lines))"
+                                />
+                            </td>
+                            <td class="text-end" name="tf_nir_charges">
+                                <strong
+                                    t-out="nir_num(sum(line['additional_charges'] for line in nir_lines))"
+                                />
+                            </td>
+                            <td class="text-end" name="tf_nir_subtotal">
+                                <strong
+                                    t-out="nir_num(sum(line['subtotal'] for line in nir_lines))"
+                                />
+                            </td>
+                            <td class="text-end" name="tf_nir_tax">
+                                <strong
+                                    t-out="nir_num(sum(line['tax'] for line in nir_lines))"
+                                />
+                            </td>
+                            <td class="text-end" name="tf_nir_total">
+                                <strong
+                                    t-out="nir_num(sum(line['total'] for line in nir_lines))"
+                                />
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div name="nir_footer_values">
+                    <t
+                        t-set="nir_net_weight"
+                        t-value="sum(line['weight'] for line in nir_lines)"
+                    />
+                    <div t-if="nir_net_weight">
+                        <strong>Net weight:</strong>
+                        <span t-out="nir_num(nir_net_weight)" /> Kg
+                    </div>
+                    <!-- Additional-costs breakdown: the single "Additional
+                         Charges" column, split by the landed cost's own type
+                         (transport / excise / dvi / price difference...). -->
+                    <t
+                        t-set="nir_charges"
+                        t-value="o._l10n_ro_nir_charge_breakdown()"
+                    />
+                    <div t-foreach="nir_charges" t-as="chg" name="nir_charge_row">
+                        <strong>of which <span t-out="chg[0]" />:</strong>
+                        <span t-out="nir_num(chg[1])" />
+                        <span t-field="o.company_id.currency_id.name" />
+                    </div>
+                </div>
+            </t>
+        </xpath>
+
+        <!-- Aviz de însoțire a mărfii (RO outgoing/internal, not NIR): JPB's
+             own line table, replacing the standard delivery table. Columns:
+             Poz, PLU, Cod, EAN, Denumire, U.M., Cant., Preț, Valoare (no
+             packaging column). The value total is printed by the summary block
+             further down. -->
+        <xpath expr="//table[@name='stock_move_table']" position="before">
+            <t
+                t-if="o.is_l10n_ro_record and o.company_id.country_id.code == 'RO' and not o.l10n_ro_is_nir"
+            >
+                <t t-set="aviz_lines" t-value="o._l10n_ro_aviz_report_lines()" />
+                <t t-set="aviz_num" t-value="lambda x: '{:,.2f}'.format(x or 0.0)" />
+                <style>
+                    table.l10n_ro_aviz_table{font-size:.70rem}
+                    table.l10n_ro_aviz_table th[name=th_aviz_cod],
+                    table.l10n_ro_aviz_table td[name=td_aviz_cod]{
+                        min-width:15mm;white-space:nowrap}
+                    table.l10n_ro_aviz_table th[name=th_aviz_name],
+                    table.l10n_ro_aviz_table td[name=td_aviz_name]{
+                        min-width:40mm;max-width:60mm}
+                </style>
+                <table
+                    class="table table-sm o_main_table l10n_ro_aviz_table"
+                    name="l10n_ro_aviz_table"
+                >
+                    <thead>
+                        <tr>
+                            <th class="text-center" name="th_aviz_pos">
+                                <strong>Poz.</strong>
+                            </th>
+                            <th name="th_aviz_plu">
+                                <strong>PLU</strong>
+                            </th>
+                            <th name="th_aviz_cod">
+                                <strong>Cod</strong>
+                            </th>
+                            <th class="text-center" name="th_aviz_ean">
+                                <strong>EAN</strong>
+                            </th>
+                            <th name="th_aviz_name">
+                                <strong>Denumire</strong>
+                            </th>
+                            <th class="text-center" name="th_aviz_uom">
+                                <strong>U.M.</strong>
+                            </th>
+                            <th class="text-end" name="th_aviz_qty">
+                                <strong>Cant.</strong>
+                            </th>
+                            <th class="text-end" name="th_aviz_price">
+                                <strong>Preț</strong>
+                            </th>
+                            <th class="text-end" name="th_aviz_value">
+                                <strong>Valoare</strong>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="aviz_lines" t-as="line" name="aviz_row">
+                            <td class="text-center" name="td_aviz_pos">
+                                <span t-out="line['position']" />
+                            </td>
+                            <td name="td_aviz_plu">
+                                <span t-out="line['plu']" />
+                            </td>
+                            <td name="td_aviz_cod">
+                                <span t-out="line['code']" />
+                            </td>
+                            <td class="text-center" name="td_aviz_ean">
+                                <span t-out="line['ean']" />
+                            </td>
+                            <td name="td_aviz_name">
+                                <span t-out="line['name']" />
+                            </td>
+                            <td class="text-center" name="td_aviz_uom">
+                                <span t-out="line['uom'].name" />
+                            </td>
+                            <td class="text-end" name="td_aviz_qty">
+                                <span t-out="aviz_num(line['quantity'])" />
+                            </td>
+                            <td class="text-end" name="td_aviz_price">
+                                <span t-out="aviz_num(line['price_unit'])" />
+                            </td>
+                            <td class="text-end" name="td_aviz_value">
+                                <span t-out="aviz_num(line['value'])" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </t>
+        </xpath>
+
+        <!-- Valued money columns on the standard move-line table, kept for the
+             delivery and internal-transfer slips (never on the NIR, which owns
+             its own table above). -->
         <xpath expr="//table[@name='stock_move_line_table']/thead/tr" position="inside">
-            <t t-if="o.is_l10n_ro_record and o.company_id.country_id.code == 'RO'">
+            <t
+                t-if="o.is_l10n_ro_record and o.company_id.country_id.code == 'RO' and not o.l10n_ro_is_nir"
+            >
                 <t t-if="o.move_line_ids">
                     <t t-if="o.l10n_ro_is_internal">
                         <th>
@@ -16,7 +322,7 @@
                             <strong>Subtotal</strong>
                         </th>
                     </t>
-                    <t t-else="">
+                    <t t-elif="o._l10n_ro_show_valued_columns()">
                         <t t-if="o.state != 'done'">
                             <th class="text-end">
                                 <strong>Qty Reserved</strong>
@@ -41,11 +347,10 @@
                 </t>
             </t>
         </xpath>
-        <xpath
-            expr="//table[@t-elif=&quot;o.move_line_ids and o.state==&apos;done&apos;&quot;]"
-            position="after"
-        >
-            <t t-if="o.is_l10n_ro_record and o.company_id.country_id.code == 'RO'">
+        <xpath expr="//table[@name='stock_move_line_table']" position="after">
+            <t
+                t-if="o.is_l10n_ro_record and o.company_id.country_id.code == 'RO' and not o.l10n_ro_is_nir"
+            >
                 <t t-if="o.move_line_ids">
                     <t t-if="o.l10n_ro_is_internal">
                         <div class="clearfix">
@@ -72,7 +377,7 @@
                             </div>
                         </div>
                     </t>
-                    <t t-else="">
+                    <t t-elif="o._l10n_ro_show_valued_columns()">
                         <table class="table table-sm mt32">
                             <thead>
                                 <tr>
@@ -112,7 +417,9 @@
         inherit_id="stock.stock_report_delivery_aggregated_move_lines"
     >
         <xpath expr="//td[@name='move_line_aggregated_quantity']" position="after">
-            <t t-if="o.is_l10n_ro_record and o.company_id.country_id.code == 'RO'">
+            <t
+                t-if="o.is_l10n_ro_record and o.company_id.country_id.code == 'RO' and not o.l10n_ro_is_nir"
+            >
                 <t t-if="o.move_line_ids">
                     <t t-if="o.l10n_ro_is_internal">
                         <td class="text-end">
@@ -126,7 +433,7 @@
                             />
                         </td>
                     </t>
-                    <t t-else="">
+                    <t t-elif="o._l10n_ro_show_valued_columns()">
                         <t t-if="o.state != 'done'">
                             <td class="text-end">
                                 <span
@@ -173,7 +480,9 @@
         inherit_id="stock.stock_report_delivery_has_serial_move_line"
     >
         <xpath expr="//td[@name='move_line_lot_quantity']" position="after">
-            <t t-if="o.is_l10n_ro_record and o.company_id.country_id.code == 'RO'">
+            <t
+                t-if="o.is_l10n_ro_record and o.company_id.country_id.code == 'RO' and not o.l10n_ro_is_nir"
+            >
                 <t t-if="move_line">
                     <t
                         t-if="move_line.picking_id and move_line.picking_id.l10n_ro_is_internal"
@@ -185,7 +494,7 @@
                             <span t-esc="'%.2f' % move_line.l10n_ro_price_subtotal" />
                         </td>
                     </t>
-                    <t t-else="">
+                    <t t-elif="move_line.picking_id._l10n_ro_show_valued_columns()">
                         <td class="text-end">
                             <span t-esc="'%.2f' % move_line.l10n_ro_price_unit" />
                         </td>
