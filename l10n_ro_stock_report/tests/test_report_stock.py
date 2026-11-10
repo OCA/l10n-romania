@@ -270,6 +270,16 @@ class TestStockReport(TransactionCase):
         self.assertEqual(wizard._get_selected_products().ids, [archived_product_id])
         self.assertEqual(wizard.get_report_products()[0], [archived_product_id])
 
+        created_wizard = self.env["l10n.ro.stock.storage.sheet"].create(
+            {
+                "show_inactive": True,
+                "product_ids": [(6, 0, [archived_product_id])],
+            }
+        )
+        self.assertEqual(
+            created_wizard._get_selected_products().ids, [archived_product_id]
+        )
+
         view = self.env["l10n.ro.stock.storage.sheet"].get_view(
             view_id=self.env.ref(
                 "l10n_ro_stock_report.view_stock_sheet_report_form"

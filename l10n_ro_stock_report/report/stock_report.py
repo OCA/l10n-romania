@@ -75,6 +75,21 @@ class StorageSheet(models.TransientModel):
         "res.company", string="Company", default=lambda self: self.env.company
     )
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        if any(vals.get("show_inactive") for vals in vals_list):
+            return super(StorageSheet, self.with_context(active_test=False)).create(
+                vals_list
+            )
+        return super().create(vals_list)
+
+    def write(self, vals):
+        if "product_ids" in vals and vals.get(
+            "show_inactive", any(self.mapped("show_inactive"))
+        ):
+            return super(StorageSheet, self.with_context(active_test=False)).write(vals)
+        return super().write(vals)
+
     one_product = fields.Boolean("One product per page")
     line_product_ids = fields.One2many(
         comodel_name="l10n.ro.stock.storage.sheet.line", inverse_name="report_id"
