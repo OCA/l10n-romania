@@ -57,6 +57,8 @@ class StorageSheet(models.TransientModel):
         domain="[('usage','=','internal')]",
     )
 
+    show_inactive = fields.Boolean("Show inactive locations/products")
+
     product_ids = fields.Many2many(
         "product.product",
         string="Only for products",
@@ -84,12 +86,13 @@ class StorageSheet(models.TransientModel):
         "stock.location", string="Only for locations", compute="_compute_location_ids"
     )
 
-    @api.depends("sublocation", "location_id", "show_locations")
+    @api.depends("sublocation", "location_id", "show_locations", "show_inactive")
     def _compute_location_ids(self):
         if not self.location_id:
-            self.location_ids = self.env["stock.location"].search(
-                [("usage", "=", "internal")]
-            )
+            locations = self.env["stock.location"]
+            if self.show_inactive:
+                locations = locations.with_context(active_test=False)
+            self.location_ids = locations.search([("usage", "=", "internal")])
         else:
             if self.sublocation:
                 children_location = (

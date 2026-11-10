@@ -4,6 +4,8 @@
 import logging
 from datetime import timedelta
 
+from lxml import etree
+
 from odoo import fields
 from odoo.tests import Form
 from odoo.tests.common import TransactionCase
@@ -243,6 +245,37 @@ class TestStockReport(TransactionCase):
         wizard_product.product_ids = [(6, 0, exp_product.ids)]
         # with self.assertRaises(UserError):
         #     wizard_product.get_found_products()
+
+    def test_show_inactive_locations_and_products_option(self):
+        archived_location = self.env["stock.location"].create(
+            {
+                "name": "Archived location",
+                "usage": "internal",
+                "location_id": self.location.id,
+            }
+        )
+        archived_location.action_archive()
+
+        wizard_form = Form(self.env["l10n.ro.stock.storage.sheet"])
+        wizard = wizard_form.save()
+        self.assertNotIn(archived_location, wizard.location_ids)
+
+        wizard.show_inactive = True
+        self.assertIn(archived_location, wizard.location_ids)
+
+        view = self.env["l10n.ro.stock.storage.sheet"].get_view(
+            view_id=self.env.ref(
+                "l10n_ro_stock_report.view_stock_sheet_report_form"
+            ).id,
+            view_type="form",
+        )
+        arch = etree.fromstring(view["arch"].encode())
+        for field_name in ("location_id", "product_ids"):
+            field = arch.xpath(f".//field[@name='{field_name}']")[0]
+            self.assertEqual(
+                field.get("context"),
+                "{'active_test': not show_inactive}",
+            )
 
     def test_report_storage_sheet_sublocation(self):
         self.create_po()
