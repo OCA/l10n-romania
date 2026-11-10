@@ -19,6 +19,20 @@ class FifoCompanyContextCases:
         )
         self.assertTrue(quant, "the receipt should have created a quant")
 
+        # A second, non-FIFO company that the user may act under. Keep the
+        # quant's own (FIFO) company in allowed_company_ids so the quant stays
+        # readable, but make the other company the active one.
+        other_company = self.env["res.company"].create({"name": "Non-FIFO Co"})
+        self.env.user.write({"company_ids": [(4, other_company.id)]})
+        quant = quant.with_context(
+            allowed_company_ids=[other_company.id, quant.company_id.id]
+        )
+        self.assertEqual(
+            quant.env.company,
+            other_company,
+            "the active company should be the non-FIFO one for this test",
+        )
+
         seen = []
         Product = type(self.env["product.product"])
         original = Product._run_fifo_value
@@ -27,9 +41,8 @@ class FifoCompanyContextCases:
             seen.append(product.env.company.id)
             return original(product, *args, **kwargs)
 
-        other_company = self.env["res.company"].create({"name": "Non-FIFO Co"})
         with patch.object(Product, "_run_fifo_value", _spy):
-            quant.with_company(other_company)._compute_value()
+            quant._compute_value()
 
         self.assertTrue(seen, "the per-location FIFO value path was not exercised")
         self.assertTrue(
