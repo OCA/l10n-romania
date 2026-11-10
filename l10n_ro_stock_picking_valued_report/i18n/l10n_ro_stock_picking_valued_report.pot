@@ -15,7 +15,77 @@ msgstr ""
 
 #. module: l10n_ro_stock_picking_valued_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
+msgid "(Goods receipt and inspection note)"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
 msgid "<strong>Additional Charges</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
+msgid "<strong>Code</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
+msgid "<strong>Company</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
+msgid "<strong>Date:</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
+msgid "<strong>Description</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
+msgid "<strong>Excise value:</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
+msgid "<strong>Goods Receipt Note</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
+msgid "<strong>Location:</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
+msgid "<strong>Net weight:</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
+msgid "<strong>No.:</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
+msgid "<strong>Packages</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
+msgid "<strong>Pos.</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
+msgid "<strong>Purchase Value</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
+msgid "<strong>Purchase order value:</strong>"
 msgstr ""
 
 #. module: l10n_ro_stock_picking_valued_report
@@ -25,7 +95,27 @@ msgstr ""
 
 #. module: l10n_ro_stock_picking_valued_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
+msgid "<strong>Quantity</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
+msgid "<strong>Source Document:</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
 msgid "<strong>Subtotal</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
+msgid "<strong>Supplier</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
+msgid "<strong>TOTAL NIR:</strong>"
 msgstr ""
 
 #. module: l10n_ro_stock_picking_valued_report
@@ -44,26 +134,53 @@ msgid "<strong>Unit Price</strong>"
 msgstr ""
 
 #. module: l10n_ro_stock_picking_valued_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
+msgid "<strong>UoM</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
+msgid "<strong>VAT</strong>"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking__l10n_ro_currency_id
 msgid "Currency"
 msgstr ""
 
 #. module: l10n_ro_stock_picking_valued_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_ir_actions_report__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__display_name
 #: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking__display_name
 msgid "Display Name"
 msgstr ""
 
 #. module: l10n_ro_stock_picking_valued_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_ir_actions_report__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__id
 #: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking__id
 msgid "ID"
 msgstr ""
 
 #. module: l10n_ro_stock_picking_valued_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_picking_valued_report.selection__stock_picking__l10n_ro_supplier_type__import
+msgid "Import supplier"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model:ir.model.fields.selection,name:l10n_ro_stock_picking_valued_report.selection__stock_picking__l10n_ro_supplier_type__intern
+msgid "Internal supplier"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_move_line__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking__is_l10n_ro_record
 msgid "Is Romanian Record"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
+msgid "Kg"
 msgstr ""
 
 #. module: l10n_ro_stock_picking_valued_report
@@ -117,6 +234,11 @@ msgid "Related purchase line"
 msgstr ""
 
 #. module: l10n_ro_stock_picking_valued_report
+#: model:ir.model,name:l10n_ro_stock_picking_valued_report.model_ir_actions_report
+msgid "Report Action"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking__l10n_ro_amount_tax
 msgid "Taxes"
 msgstr ""
@@ -134,4 +256,9 @@ msgstr ""
 #. module: l10n_ro_stock_picking_valued_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_picking_valued_report.field_stock_picking__l10n_ro_amount_untaxed
 msgid "Untaxed Amount"
+msgstr ""
+
+#. module: l10n_ro_stock_picking_valued_report
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_picking_valued_report.report_delivery_document
+msgid "x"
 msgstr ""

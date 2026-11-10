@@ -398,6 +398,35 @@ the shelf price moved.</p>
 picking report are present.</p>
 <p><strong>Table of contents</strong></p>
 </div>
+<div class="section" id="changelog">
+<h2>Changelog</h2>
+<div class="section" id="section-1">
+<h3>19.0.1.2.0 (2026-11-07)</h3>
+<ul class="simple">
+<li>Goods entering a shop now print the base goods receipt note (NIR)
+columns and, appended on the right, the retail columns markup (percent
+and value), retail price excluding VAT, deferred VAT and retail sale
+value, in one coherent table. This reverses the earlier behaviour that
+hid the base valued columns on a retail reception. A transfer into a
+shop - a purchase received straight into the store or an internal
+transfer from the warehouse - is treated as a NIR so the retail
+columns have the reception table to attach to.</li>
+</ul>
+</div>
+<div class="section" id="section-2">
+<h3>19.0.1.1.0 (2026-11-07)</h3>
+<ul class="simple">
+<li>On a retail reception the plain valued money columns (unit price,
+additional charges, subtotal, taxes, total) are now hidden, so only
+the retail columns (purchase price and value, markup, shelf price with
+and without VAT, deferred VAT) print. The table no longer grows to a
+dozen-odd columns half of which are zero.</li>
+<li>The retail aggregation now skips packed lines when the slip asks for
+the unpackaged section, so a packed line is no longer charged onto the
+unpackaged row that shares its key.</li>
+</ul>
+</div>
+</div>
 <div class="section" id="bug-tracker">
 <h2>Bug Tracker</h2>
 <p>Bugs are tracked on <a class="reference external" href="https://github.com/OCA/l10n-romania/issues">GitHub Issues</a>.

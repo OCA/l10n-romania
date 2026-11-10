@@ -82,6 +82,17 @@ msgstr "Cost Adițional Stoc"
 msgid "Valuation Adjustment Lines"
 msgstr "Linii de ajustare a evaluării"
 
+
+#. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account_landed_cost.selection__stock_landed_cost__l10n_ro_cost_type__transport
+msgid "Transport"
+msgstr "Transport"
+
+#. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account_landed_cost.selection__stock_landed_cost__l10n_ro_cost_type__excise
+msgid "Excise"
+msgstr "Accize"
+
 #~ msgid "Account"
 #~ msgstr "Cont"
 
