@@ -15,7 +15,11 @@ class StockLandedCost(models.Model):
     _inherit = ["stock.landed.cost", "l10n.ro.mixin"]
 
     l10n_ro_cost_type = fields.Selection(
-        [("normal", "Normal")],
+        [
+            ("normal", "Normal"),
+            ("transport", "Transport"),
+            ("excise", "Excise"),
+        ],
         default="normal",
         string="Landed Cost Type",
     )
@@ -53,6 +57,7 @@ class StockLandedCost(models.Model):
             total_amount = 0
             lc_total = 0
             for line in landed_cost.valuation_adjustment_lines:
+                move = line.move_id
                 # ``line.quantity`` and ``remaining_qty`` are both in the
                 # product UoM (core fills the adjustment line by converting
                 # ``move.quantity``), so the consumed ratio must be built
@@ -62,7 +67,7 @@ class StockLandedCost(models.Model):
                 if not move_qty:
                     continue
                 lc_total += (
-                    (move_qty - line.move_id.remaining_qty)
+                    (move_qty - move.remaining_qty)
                     / move_qty
                     * line.l10n_ro_not_distributed_amount
                 )
@@ -204,29 +209,18 @@ class StockLandedCost(models.Model):
                 move = line.move_id
                 if not move:
                     continue
-                # ``line.quantity`` is the move quantity converted to the
-                # product UoM by core; ``remaining_qty`` and the tracked
-                # destination quantities are in that same unit, while
-                # ``move.quantity`` is in the move's own UoM.
-                move_qty = line.quantity
-                if not move_qty:
-                    continue
-                um_add_cost = line.additional_landed_cost / move_qty
-                consumed_qty = move_qty - move.remaining_qty
-                precision = move.product_id.uom_id.rounding
-                move_dest_vals_list = self._get_l10n_ro_move_destinations(move)
-                if move_dest_vals_list:
-                    # Destination tracking can be imperfect (e.g. historical
-                    # duplicate or partial entries), so the tracked quantity
-                    # does not always add up to what was actually consumed.
-                    # Rescale proportionally to guarantee the distributed
-                    # total always matches (quantity - remaining_qty), which
-                    # is what _check_sum() requires.
-                    total_dest_qty = sum(
-                        dest_vals["quantity"] for dest_vals in move_dest_vals_list
-                    )
-                    if total_dest_qty and not float_is_zero(
-                        total_dest_qty - consumed_qty, precision_rounding=precision
+                dest_vals_list = self._get_l10n_ro_move_destinations(
+                    move, line.additional_landed_cost, currency
+                )
+                if not dest_vals_list:
+                    # ``line.quantity`` is the move quantity converted to the
+                    # product UoM by core; ``remaining_qty`` is in that same
+                    # unit, while ``move.quantity`` is in the move's own UoM.
+                    move_qty = line.quantity
+                    consumed_qty = move_qty - move.remaining_qty
+                    precision = move.product_id.uom_id.rounding
+                    if cost.l10n_ro_only_on_distributed_lines and not float_is_zero(
+                        consumed_qty, precision_rounding=precision
                     ):
                         # No destination is tracked at all, yet some of the
                         # move's quantity was consumed. For price-difference
@@ -235,7 +229,6 @@ class StockLandedCost(models.Model):
                         # with nowhere else to attribute the consumed portion
                         # it would otherwise be silently lost: apply that
                         # portion on the source move itself instead.
-                        move_qty = move.quantity
                         dest_vals_list = [
                             {
                                 "move": move,
