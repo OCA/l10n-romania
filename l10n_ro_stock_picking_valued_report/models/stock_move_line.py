@@ -63,7 +63,11 @@ class StockMoveLine(models.Model):
                 move_line=move_line
             )
             line_key = aggregated_properties["line_key"]
-            agg_line = agg_move_lines[line_key]
+            agg_line = agg_move_lines.get(line_key)
+            if not agg_line:
+                # Core may aggregate some lines (e.g. packages) under a key not
+                # returned here; skip rather than raising KeyError.
+                continue
             agg_line["l10n_ro_currency_id"] = move_line.l10n_ro_currency_id.id
             agg_line["l10n_ro_price_unit"] += move_line.l10n_ro_price_unit
             agg_line["l10n_ro_additional_charges"] += (
