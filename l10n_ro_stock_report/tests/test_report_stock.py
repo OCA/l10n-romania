@@ -260,7 +260,15 @@ class TestStockReport(TransactionCase):
         wizard = wizard_form.save()
         self.assertNotIn(archived_location, wizard.location_ids)
 
-        archived_product = self.product_1.copy({"name": "Archived product"})
+        archived_product = self.env["product.product"].create(
+            {
+                "name": "Archived product",
+                "is_storable": True,
+                "categ_id": self.category.id,
+                "list_price": self.list_price_p1,
+                "standard_price": self.price_p1,
+            }
+        )
         archived_product_id = archived_product.id
         archived_product.action_archive()
 
