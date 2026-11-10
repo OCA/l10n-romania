@@ -98,6 +98,17 @@
             </t>
         </xpath>
 
+        <!-- RO: codul produsului (Cod) înaintea denumirii pe fiecare linie -->
+        <xpath
+            expr="//td[@name='account_invoice_line_name']/span[@t-field='line.name']"
+            position="before"
+        >
+            <strong
+                t-if="o.is_l10n_ro_record and line.product_id.default_code and line.product_id.default_code not in (line.name or '')"
+                class="me-1"
+            >[<span t-field="line.product_id.default_code" />]</strong>
+        </xpath>
+
         <xpath expr="//p[@name='note']" position="after">
             <t t-if="o.is_l10n_ro_record">
                 <p t-if="o.company_id.l10n_ro_no_signature_text" id="sign_info">
