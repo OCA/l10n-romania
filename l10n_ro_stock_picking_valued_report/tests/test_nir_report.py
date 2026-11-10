@@ -122,18 +122,21 @@ class TestNirReport(TestStockPickingValued):
             "stock.report_deliveryslip", picking.ids
         )
         html = report[0].decode() if isinstance(report[0], bytes) else report[0]
-        # Single NIR title (source terms; the test DB renders in English).
-        self.assertIn("Goods Receipt Note", html)
+        # The NIR is forced to Romanian (see test_nir_forces_romanian), so the
+        # standard incoming title renders through its Romanian translation.
+        nir_title = "Notă de recepție mărfuri"
+        self.assertIn(nir_title, html)
         self.assertEqual(
-            html.count("Goods Receipt Note"),
+            html.count(nir_title),
             1,
             "The NIR title must appear exactly once (no double title)",
         )
         self.assertIn(picking.name, html)
-        # The NIR table and its columns.
+        # The NIR table and its columns, asserted on the language-independent
+        # ``name`` anchors so the check does not depend on the translation.
         self.assertIn("l10n_ro_nir_table", html)
-        self.assertIn("Purchase Value", html)
-        self.assertIn("Additional Charges", html)
+        self.assertIn("th_nir_purchase", html)
+        self.assertIn("th_nir_charges", html)
         self.assertIn("TOTAL NIR", html)
         # The delivery-style order/date/operator block is suppressed.
         self.assertNotIn("Operator:", html)
