@@ -55,9 +55,10 @@ class TestRetailPickingReport(TestRetailCommon):
         """Render the note. An xpath that no longer matches its anchor only
         fails here, never at install.
 
-        The source terms are asserted because the Romanian language is not
-        loaded in the test database; on a real RO instance the slip renders in
-        Romanian (see ``test_delivery_slip_is_forced_to_romanian``)."""
+        Assertions use the language-independent ``name`` anchors of the table
+        and its columns, so the check holds whether the slip renders in English
+        or, on a RO instance, in Romanian (see
+        ``test_delivery_slip_is_forced_to_romanian``)."""
         self._set_initial_stock(self.location, self.product_retail, 10)
         move = self._do_transfer(self.location, self.loc_mag1, self.product_retail, 4)
         picking = move.picking_id
@@ -68,10 +69,10 @@ class TestRetailPickingReport(TestRetailCommon):
             "stock.action_report_delivery", picking.ids
         )[0]
         html = html.decode() if isinstance(html, bytes) else html
-        self.assertIn("Goods Receipt Note", html)
+        self.assertIn("l10n_ro_nir_table", html)
         # Retail columns appended on the right of the NIR table.
-        self.assertIn("Deferred VAT", html)
-        self.assertIn("Retail Sale Value", html)
+        self.assertIn("th_nir_deferred_vat", html)
+        self.assertIn("th_nir_retail_value", html)
 
     def test_reception_note_shows_base_and_retail_columns(self):
         """A retail reception prints the base NIR columns AND the retail ones.
@@ -87,12 +88,13 @@ class TestRetailPickingReport(TestRetailCommon):
             "stock.action_report_delivery", picking.ids
         )[0]
         html = html.decode() if isinstance(html, bytes) else html
+        # Assert on the language-independent column ``name`` anchors.
         # The base NIR columns are present (additive, not hidden any more)...
-        self.assertIn("Purchase Value", html)
-        self.assertIn("Additional Charges", html)
+        self.assertIn("th_nir_purchase", html)
+        self.assertIn("th_nir_charges", html)
         # ...alongside the retail columns.
-        self.assertIn("Deferred VAT", html)
-        self.assertIn("Retail Sale Value", html)
+        self.assertIn("th_nir_deferred_vat", html)
+        self.assertIn("th_nir_retail_value", html)
 
     def test_plain_transfer_is_not_a_nir(self):
         """A transfer that touches no shop keeps the plain valued columns and
