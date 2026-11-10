@@ -47,7 +47,7 @@ class StockPicking(models.Model):
     @api.depends(
         "l10n_ro_retail_incoming",
         "picking_type_id.code",
-        "company_id.country_id.code",
+        "company_id",
         "is_l10n_ro_record",
     )
     def _compute_l10n_ro_is_nir(self):

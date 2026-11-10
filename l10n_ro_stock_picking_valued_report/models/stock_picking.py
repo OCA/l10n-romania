@@ -41,9 +41,7 @@ class StockPicking(models.Model):
         "instead of the standard delivery-style reception slip.",
     )
 
-    @api.depends(
-        "picking_type_id.code", "company_id.country_id.code", "is_l10n_ro_record"
-    )
+    @api.depends("picking_type_id.code", "company_id", "is_l10n_ro_record")
     def _compute_l10n_ro_is_nir(self):
         for pick in self:
             pick.l10n_ro_is_nir = bool(
