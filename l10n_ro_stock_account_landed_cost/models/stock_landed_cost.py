@@ -53,12 +53,17 @@ class StockLandedCost(models.Model):
             total_amount = 0
             lc_total = 0
             for line in landed_cost.valuation_adjustment_lines:
-                move = line.move_id
-                if not move.quantity:
+                # ``line.quantity`` and ``remaining_qty`` are both in the
+                # product UoM (core fills the adjustment line by converting
+                # ``move.quantity``), so the consumed ratio must be built
+                # from them and not from ``move.quantity``, which is stored
+                # in the move's own UoM.
+                move_qty = line.quantity
+                if not move_qty:
                     continue
                 lc_total += (
-                    (move.quantity - move.remaining_qty)
-                    / move.quantity
+                    (move_qty - line.move_id.remaining_qty)
+                    / move_qty
                     * line.l10n_ro_not_distributed_amount
                 )
                 # What leaves the move is what the first step after it took;
@@ -98,7 +103,11 @@ class StockLandedCost(models.Model):
                 # every landed cost distributed on the move.
                 dest_move = dist_line.move_id
                 if dest_move._is_out():
-                    lc_values = dest_move._get_value_from_extra(dest_move.quantity)
+                    # ``_get_value_from_extra`` is called by core with
+                    # ``_get_valued_qty()``, i.e. in the product UoM.
+                    lc_values = dest_move._get_value_from_extra(
+                        dest_move._get_valued_qty()
+                    )
                     lc_amount = lc_values.get("value", 0)
                     # `_get_value()` already adds the distributed landed cost
                     # through `_get_value_from_extra`; asking for the value
@@ -195,14 +204,29 @@ class StockLandedCost(models.Model):
                 move = line.move_id
                 if not move:
                     continue
-                dest_vals_list = self._get_l10n_ro_move_destinations(
-                    move, line.additional_landed_cost, currency
-                )
-                if not dest_vals_list:
-                    consumed_qty = move.quantity - move.remaining_qty
-                    precision = move.product_id.uom_id.rounding
-                    if cost.l10n_ro_only_on_distributed_lines and not float_is_zero(
-                        consumed_qty, precision_rounding=precision
+                # ``line.quantity`` is the move quantity converted to the
+                # product UoM by core; ``remaining_qty`` and the tracked
+                # destination quantities are in that same unit, while
+                # ``move.quantity`` is in the move's own UoM.
+                move_qty = line.quantity
+                if not move_qty:
+                    continue
+                um_add_cost = line.additional_landed_cost / move_qty
+                consumed_qty = move_qty - move.remaining_qty
+                precision = move.product_id.uom_id.rounding
+                move_dest_vals_list = self._get_l10n_ro_move_destinations(move)
+                if move_dest_vals_list:
+                    # Destination tracking can be imperfect (e.g. historical
+                    # duplicate or partial entries), so the tracked quantity
+                    # does not always add up to what was actually consumed.
+                    # Rescale proportionally to guarantee the distributed
+                    # total always matches (quantity - remaining_qty), which
+                    # is what _check_sum() requires.
+                    total_dest_qty = sum(
+                        dest_vals["quantity"] for dest_vals in move_dest_vals_list
+                    )
+                    if total_dest_qty and not float_is_zero(
+                        total_dest_qty - consumed_qty, precision_rounding=precision
                     ):
                         # No destination is tracked at all, yet some of the
                         # move's quantity was consumed. For price-difference
@@ -284,8 +308,11 @@ class AdjustmentLines(models.Model):
             res = []
         for line in ro_adj_lines:
             line = line.with_context(l10n_ro_stock_move=line.move_id)
+            # Core computes ``additional_landed_cost * remaining_qty /
+            # self.quantity``; ``self.quantity`` is in the product UoM, so
+            # the full move quantity must be passed in that unit too.
             res += super(AdjustmentLines, line)._create_accounting_entries(
-                line.move_id.quantity
+                line.quantity
             )
             line._l10n_ro_get_extra_accounting_entries()
             for distributed_line in line.l10n_ro_distributed_valuation_lines:

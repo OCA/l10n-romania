@@ -31,6 +31,18 @@ VALUED_TYPE = MOVE_TYPE + BALANCE_TYPE + [("indefinite", "Indefinite")]
 # it has to appear in the GROUP BY of the in/out queries as well.
 VALUED_TYPE_SQL = "COALESCE(sm.l10n_ro_move_type, 'indefinite')"
 
+# ``stock_move.quantity`` is stored in the move's own UoM, while the sheet
+# reports (and values) everything in the product's reference UoM. Summing the
+# raw column adds 1000 mm to 5 m as if they were the same unit, and the
+# derived unit price then comes out per move UoM. Convert with the stored
+# ``uom_uom.factor`` (absolute quantity per unit) before aggregating.
+QTY_IN_PRODUCT_UOM_SQL = (
+    "sm.quantity * COALESCE(smu.factor, 1) / COALESCE(NULLIF(pu.factor, 0), 1)"
+)
+UOM_JOIN_SQL = """
+                    left join uom_uom smu on smu.id = sm.product_uom
+                    left join uom_uom pu on pu.id = pt.uom_id"""
+
 _logger = logging.getLogger(__name__)
 
 
@@ -291,12 +303,13 @@ class StorageSheet(models.TransientModel):
             from (
                 SELECT sm.product_id, pt.categ_id,
                        sm.value as amount,
-                       sm.quantity as quantity,
+                       {QTY_IN_PRODUCT_UOM_SQL} as quantity,
                        COALESCE(sm.l10n_ro_transfer_account_id,
                                 sm.l10n_ro_account_id) as account_id
                 from stock_move as sm
                     left join product_product prod on prod.id = sm.product_id
-                    left join product_template pt on pt.id = prod.product_tmpl_id
+                    left join product_template pt
+                        on pt.id = prod.product_tmpl_id{UOM_JOIN_SQL}
                     {join}
                 where
                     sm.state = 'done' AND
@@ -307,11 +320,12 @@ class StorageSheet(models.TransientModel):
                 UNION ALL
                 SELECT sm.product_id, pt.categ_id,
                        -sm.value as amount,
-                       -sm.quantity as quantity,
+                       -({QTY_IN_PRODUCT_UOM_SQL}) as quantity,
                        sm.l10n_ro_account_id as account_id
                 from stock_move as sm
                     left join product_product prod on prod.id = sm.product_id
-                    left join product_template pt on pt.id = prod.product_tmpl_id
+                    left join product_template pt
+                        on pt.id = prod.product_tmpl_id{UOM_JOIN_SQL}
                     {join}
                 where
                     sm.state = 'done' AND
@@ -350,12 +364,13 @@ class StorageSheet(models.TransientModel):
             from (
                 SELECT sm.product_id, pt.categ_id,
                        sm.value as amount,
-                       sm.quantity as quantity,
+                       {QTY_IN_PRODUCT_UOM_SQL} as quantity,
                        COALESCE(sm.l10n_ro_transfer_account_id,
                                 sm.l10n_ro_account_id) as account_id
                 from stock_move as sm
                     left join product_product prod on prod.id = sm.product_id
-                    left join product_template pt on pt.id = prod.product_tmpl_id
+                    left join product_template pt
+                        on pt.id = prod.product_tmpl_id{UOM_JOIN_SQL}
                     {join}
                 where
                     sm.state = 'done' AND
@@ -366,11 +381,12 @@ class StorageSheet(models.TransientModel):
                 UNION ALL
                 SELECT sm.product_id, pt.categ_id,
                        -sm.value as amount,
-                       -sm.quantity as quantity,
+                       -({QTY_IN_PRODUCT_UOM_SQL}) as quantity,
                        sm.l10n_ro_account_id as account_id
                 from stock_move as sm
                     left join product_product prod on prod.id = sm.product_id
-                    left join product_template pt on pt.id = prod.product_tmpl_id
+                    left join product_template pt
+                        on pt.id = prod.product_tmpl_id{UOM_JOIN_SQL}
                     {join}
                 where
                     sm.state = 'done' AND
@@ -397,10 +413,11 @@ class StorageSheet(models.TransientModel):
             %(report)s as report_id,
             sm.product_id as product_id,
             COALESCE(sum(sm.value),0) as amount_in,
-            COALESCE(ROUND(sum(sm.quantity), 5), 0) as quantity_in,
+            COALESCE(ROUND(sum({QTY_IN_PRODUCT_UOM_SQL}), 5), 0) as quantity_in,
             CASE
-                WHEN ROUND(COALESCE(sum(sm.quantity), 0), 5) != 0
-                    THEN COALESCE(sum(sm.value),0) / NULLIF(sum(sm.quantity),0)
+                WHEN ROUND(COALESCE(sum({QTY_IN_PRODUCT_UOM_SQL}), 0), 5) != 0
+                    THEN COALESCE(sum(sm.value),0)
+                         / NULLIF(sum({QTY_IN_PRODUCT_UOM_SQL}),0)
                 ELSE 0
             END as unit_price_in,
             COALESCE(sm.l10n_ro_transfer_account_id,
@@ -419,6 +436,8 @@ class StorageSheet(models.TransientModel):
         FROM stock_move sm
             LEFT JOIN product_product prod ON prod.id = sm.product_id
             LEFT JOIN product_template pt ON pt.id = prod.product_tmpl_id
+            LEFT JOIN uom_uom smu ON smu.id = sm.product_uom
+            LEFT JOIN uom_uom pu ON pu.id = pt.uom_id
             LEFT JOIN stock_picking sp ON sm.picking_id = sp.id
             {join}
 
@@ -452,10 +471,11 @@ class StorageSheet(models.TransientModel):
             %(report)s as report_id,
             sm.product_id as product_id,
             COALESCE(sum(sm.value),0) as amount_out,
-            COALESCE(ROUND(sum(sm.quantity), 5), 0) as quantity_out,
+            COALESCE(ROUND(sum({QTY_IN_PRODUCT_UOM_SQL}), 5), 0) as quantity_out,
             CASE
-                WHEN ROUND(COALESCE(sum(sm.quantity), 0), 5) != 0
-                    THEN COALESCE(sum(sm.value),0) / NULLIF(sum(sm.quantity),0)
+                WHEN ROUND(COALESCE(sum({QTY_IN_PRODUCT_UOM_SQL}), 0), 5) != 0
+                    THEN COALESCE(sum(sm.value),0)
+                         / NULLIF(sum({QTY_IN_PRODUCT_UOM_SQL}),0)
                 ELSE 0
             END as unit_price_out,
             COALESCE(sm.l10n_ro_account_id,
@@ -474,6 +494,8 @@ class StorageSheet(models.TransientModel):
         FROM stock_move sm
             LEFT JOIN product_product prod ON prod.id = sm.product_id
             LEFT JOIN product_template pt ON pt.id = prod.product_tmpl_id
+            LEFT JOIN uom_uom smu ON smu.id = sm.product_uom
+            LEFT JOIN uom_uom pu ON pu.id = pt.uom_id
             LEFT JOIN stock_picking sp ON sm.picking_id = sp.id
             {join}
 
