@@ -245,8 +245,22 @@ class StockPicking(models.Model):
         total) with its own cost/markup/shelf-price columns and turns this off,
         so the two do not both print and leave the table with two sets of money
         columns. Base behaviour is to show them; the retail picking report
-        overrides this."""
+        overrides this. It also honours the outgoing-aviz price setting, so no
+        value columns print on an aviz issued without prices."""
         self.ensure_one()
+        return self._l10n_ro_show_aviz_prices()
+
+    def _l10n_ro_show_aviz_prices(self):
+        """Whether the price/value columns print on this slip.
+
+        The outgoing delivery note (aviz de însoțire a mărfii) is a transport
+        document that may be issued with or without prices; the company setting
+        ``l10n_ro_print_aviz_with_prices`` decides. Only outgoing pickings are
+        affected: the reception note (NIR) and internal transfers always keep
+        their value columns."""
+        self.ensure_one()
+        if self.picking_type_id.code == "outgoing":
+            return self.company_id.l10n_ro_print_aviz_with_prices
         return True
 
     def _get_report_lang(self):

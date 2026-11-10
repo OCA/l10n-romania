@@ -257,12 +257,14 @@
                             <th class="text-end" name="th_aviz_qty">
                                 <strong>Cant.</strong>
                             </th>
-                            <th class="text-end" name="th_aviz_price">
-                                <strong>Preț</strong>
-                            </th>
-                            <th class="text-end" name="th_aviz_value">
-                                <strong>Valoare</strong>
-                            </th>
+                            <t t-if="o._l10n_ro_show_aviz_prices()">
+                                <th class="text-end" name="th_aviz_price">
+                                    <strong>Preț</strong>
+                                </th>
+                                <th class="text-end" name="th_aviz_value">
+                                    <strong>Valoare</strong>
+                                </th>
+                            </t>
                         </tr>
                     </thead>
                     <tbody>
@@ -288,12 +290,14 @@
                             <td class="text-end" name="td_aviz_qty">
                                 <span t-out="aviz_num(line['quantity'])" />
                             </td>
-                            <td class="text-end" name="td_aviz_price">
-                                <span t-out="aviz_num(line['price_unit'])" />
-                            </td>
-                            <td class="text-end" name="td_aviz_value">
-                                <span t-out="aviz_num(line['value'])" />
-                            </td>
+                            <t t-if="o._l10n_ro_show_aviz_prices()">
+                                <td class="text-end" name="td_aviz_price">
+                                    <span t-out="aviz_num(line['price_unit'])" />
+                                </td>
+                                <td class="text-end" name="td_aviz_value">
+                                    <span t-out="aviz_num(line['value'])" />
+                                </td>
+                            </t>
                         </tr>
                     </tbody>
                 </table>
