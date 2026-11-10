@@ -5,9 +5,11 @@
         inherit_id="stock.report_delivery_document"
     >
         <xpath expr="//table[hasclass('table-borderless')]" position="before">
-            <t t-if="o.is_l10n_ro_record and o.company_id.country_code == 'RO'">
+            <t
+                t-if="o.is_l10n_ro_record and o.company_id.country_code == 'RO'"
+            >
                 <t
-                    t-foreach="o.comment_template_ids.filtered(lambda x: x.position == 'before_lines')"
+                    t-foreach="o._l10n_ro_comment_templates('before_lines')"
                     t-as="comment_template_top"
                 >
                     <div
@@ -19,7 +21,7 @@
         <xpath expr="//div[hasclass('page')]" position="inside">
             <t t-if="o.is_l10n_ro_record and o.company_id.country_code == 'RO'">
                 <t
-                    t-foreach="o.comment_template_ids.filtered(lambda x: x.position == 'after_lines')"
+                    t-foreach="o._l10n_ro_comment_templates('after_lines')"
                     t-as="comment_template_bottom"
                 >
                     <div
