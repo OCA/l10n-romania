@@ -245,12 +245,18 @@
                             <th class="text-center" name="th_aviz_pos">
                                 <strong>Poz.</strong>
                             </th>
-                            <th name="th_aviz_plu"><strong>PLU</strong></th>
-                            <th name="th_aviz_cod"><strong>Cod</strong></th>
+                            <th name="th_aviz_plu">
+                                <strong>PLU</strong>
+                            </th>
+                            <th name="th_aviz_cod">
+                                <strong>Cod</strong>
+                            </th>
                             <th class="text-center" name="th_aviz_ean">
                                 <strong>EAN</strong>
                             </th>
-                            <th name="th_aviz_name"><strong>Denumire</strong></th>
+                            <th name="th_aviz_name">
+                                <strong>Denumire</strong>
+                            </th>
                             <th class="text-center" name="th_aviz_uom">
                                 <strong>U.M.</strong>
                             </th>
