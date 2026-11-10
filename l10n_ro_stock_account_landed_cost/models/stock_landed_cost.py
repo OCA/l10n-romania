@@ -15,7 +15,11 @@ class StockLandedCost(models.Model):
     _inherit = ["stock.landed.cost", "l10n.ro.mixin"]
 
     l10n_ro_cost_type = fields.Selection(
-        [("normal", "Normal")],
+        [
+            ("normal", "Normal"),
+            ("transport", "Transport"),
+            ("excise", "Excise"),
+        ],
         default="normal",
         string="Landed Cost Type",
     )
