@@ -7,8 +7,16 @@
             <form string="Report Options">
                 <group name="filters">
                     <group>
-                        <field name="location_id" />
-                        <field name="product_ids" widget="many2many_tags" />
+                        <field name="show_inactive" />
+                        <field
+                            name="location_id"
+                            context="{'active_test': not show_inactive}"
+                        />
+                        <field
+                            name="product_ids"
+                            widget="many2many_tags"
+                            context="{'active_test': not show_inactive}"
+                        />
                         <field name="products_with_move" />
                         <field name="one_product" />
                         <field name="sublocation" />
@@ -31,7 +39,10 @@
                     </group>
                 </group>
                 <group name="locations" invisible="not show_locations">
-                    <field name="location_ids" />
+                    <field
+                        name="location_ids"
+                        context="{'active_test': not show_inactive}"
+                    />
                 </group>
                 <footer>
                     <button

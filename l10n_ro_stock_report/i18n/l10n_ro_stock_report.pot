@@ -459,6 +459,11 @@ msgid "Show location"
 msgstr ""
 
 #. module: l10n_ro_stock_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__show_inactive
+msgid "Show inactive locations/products"
+msgstr ""
+
+#. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__date_from
 msgid "Start Date"
 msgstr ""

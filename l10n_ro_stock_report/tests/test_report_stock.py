@@ -4,6 +4,8 @@
 import logging
 from datetime import timedelta
 
+from lxml import etree
+
 from odoo import fields
 from odoo.tests import Form
 from odoo.tests.common import TransactionCase
@@ -243,6 +245,62 @@ class TestStockReport(TransactionCase):
         wizard_product.product_ids = [(6, 0, exp_product.ids)]
         # with self.assertRaises(UserError):
         #     wizard_product.get_found_products()
+
+    def test_show_inactive_locations_and_products_option(self):
+        archived_location = self.env["stock.location"].create(
+            {
+                "name": "Archived location",
+                "usage": "internal",
+                "location_id": self.location.id,
+            }
+        )
+        archived_location.action_archive()
+
+        wizard_form = Form(self.env["l10n.ro.stock.storage.sheet"])
+        wizard = wizard_form.save()
+        self.assertNotIn(archived_location, wizard.location_ids)
+
+        archived_product = self.env["product.product"].create(
+            {
+                "name": "Archived product",
+                "is_storable": True,
+                "categ_id": self.category.id,
+                "list_price": self.list_price_p1,
+                "standard_price": self.price_p1,
+            }
+        )
+        archived_product_id = archived_product.id
+        archived_product.action_archive()
+
+        wizard.show_inactive = True
+        wizard.product_ids = [(6, 0, [archived_product_id])]
+        self.assertIn(archived_location, wizard._get_report_locations())
+        self.assertEqual(wizard._get_selected_products().ids, [archived_product_id])
+        self.assertEqual(wizard.get_report_products()[0], [archived_product_id])
+
+        created_wizard = self.env["l10n.ro.stock.storage.sheet"].create(
+            {
+                "show_inactive": True,
+                "product_ids": [(6, 0, [archived_product_id])],
+            }
+        )
+        self.assertEqual(
+            created_wizard._get_selected_products().ids, [archived_product_id]
+        )
+
+        view = self.env["l10n.ro.stock.storage.sheet"].get_view(
+            view_id=self.env.ref(
+                "l10n_ro_stock_report.view_stock_sheet_report_form"
+            ).id,
+            view_type="form",
+        )
+        arch = etree.fromstring(view["arch"].encode())
+        for field_name in ("location_id", "product_ids"):
+            field = arch.xpath(f".//field[@name='{field_name}']")[0]
+            self.assertEqual(
+                field.get("context"),
+                "{'active_test': not show_inactive}",
+            )
 
     def test_report_storage_sheet_sublocation(self):
         self.create_po()
