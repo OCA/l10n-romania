@@ -7,7 +7,7 @@ import pytz
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import AccessError, UserError
 
 from odoo.addons.l10n_ro_stock_account.models.stock_move import MOVE_TYPE
 
@@ -70,8 +70,23 @@ class StorageSheet(models.TransientModel):
     date_from = fields.Date("Start Date", required=True, default=fields.Date.today)
     date_to = fields.Date("End Date", required=True, default=fields.Date.today)
     company_id = fields.Many2one(
-        "res.company", string="Company", default=lambda self: self.env.company
+        "res.company",
+        string="Company",
+        default=lambda self: self.env.company,
+        domain="[('id', 'in', allowed_company_ids)]",
     )
+
+    @api.constrains("company_id")
+    def _check_company_id_allowed(self):
+        for sheet in self:
+            if sheet.company_id and sheet.company_id not in self.env.companies:
+                raise AccessError(
+                    self.env._(
+                        "You are not allowed to access the storage sheet of "
+                        "company %s.",
+                        sheet.company_id.display_name,
+                    )
+                )
 
     one_product = fields.Boolean("One product per page")
     line_product_ids = fields.One2many(

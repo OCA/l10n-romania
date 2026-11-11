@@ -215,7 +215,11 @@ class MT940Parser(models.AbstractModel):
 
     def parse(self, data, header_lines=None):
         """Parse mt940 bank statement file contents."""
-        data = data.decode()
+        if isinstance(data, bytes):
+            try:
+                data = data.decode()
+            except UnicodeDecodeError:
+                data = data.decode("latin-1", errors="ignore")
         data = "".join([str(x) for x in data if str(x) in printable])
 
         matches = self.pre_process_data(data)
