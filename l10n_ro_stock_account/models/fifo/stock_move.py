@@ -75,9 +75,9 @@ class StockMove(models.Model):
             move.remaining_qty = 0
             if move.location_dest_id._should_be_valued():
                 location = move.location_dest_id
-                remaining_by_product = move.product_id._get_remaining_moves_ro(
-                    location=location
-                )
+                remaining_by_product = move.product_id.with_company(
+                    move.company_id
+                )._get_remaining_moves_ro(location=location)
                 move.remaining_qty = remaining_by_product.get(move.product_id, {}).get(
                     move, 0
                 )
@@ -201,7 +201,9 @@ class StockMove(models.Model):
                     continue
                 value = 0
                 for move_line in move.move_line_ids:
-                    value += move.product_id._run_fifo_value(
+                    value += move.product_id.with_company(
+                        move.company_id
+                    )._run_fifo_value(
                         move_line.quantity_product_uom,
                         lot=move_line.lot_id,
                         at_date=move.date,
@@ -330,9 +332,11 @@ class StockMove(models.Model):
             quantity_to_ship = move.product_uom._compute_quantity(
                 move.quantity, uom, round=False
             )
-            fifo_list = move.product_id.with_context(
-                location=move.location_id.ids
-            )._run_fifo_layers(quantity_to_ship, location=move.location_id)
+            fifo_list = (
+                move.product_id.with_company(move.company_id)
+                .with_context(location=move.location_id.ids)
+                ._run_fifo_layers(quantity_to_ship, location=move.location_id)
+            )
             quantity = quantity_to_ship
             vals_before = len(fifo_split_vals_list)
             while uom.compare(quantity, 0) > 0 and fifo_list:
