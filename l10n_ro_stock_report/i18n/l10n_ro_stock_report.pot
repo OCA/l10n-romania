@@ -454,13 +454,13 @@ msgid "Show Sheet Pdf"
 msgstr ""
 
 #. module: l10n_ro_stock_report
-#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__show_locations
-msgid "Show location"
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__show_inactive
+msgid "Show inactive locations/products"
 msgstr ""
 
 #. module: l10n_ro_stock_report
-#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__show_inactive
-msgid "Show inactive locations/products"
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__show_locations
+msgid "Show location"
 msgstr ""
 
 #. module: l10n_ro_stock_report
