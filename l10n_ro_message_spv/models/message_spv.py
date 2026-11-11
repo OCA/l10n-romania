@@ -443,6 +443,7 @@ class MessageSPV(models.Model):
         for message in messages_without_invoice:
             invoice = invoices.filtered(
                 lambda i, m=message: i.company_id == m.company_id
+                and i.partner_id == m.partner_id
                 and (
                     i.l10n_ro_edi_download == m.name
                     or i.l10n_ro_edi_transaction == m.request_id

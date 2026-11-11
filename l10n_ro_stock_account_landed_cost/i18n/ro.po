@@ -20,25 +20,93 @@ msgstr ""
 
 #. module: l10n_ro_stock_account_landed_cost
 #. odoo-python
-#: code:addons/l10n_ro_stock_account_landed_cost/models/stock_landed_cost.py:0
-#, python-format
-msgid " already out"
-msgstr " deja ieșite"
+#: code:addons/l10n_ro_stock_account_landed_cost/models/stock_move.py:0
+msgid "%(value)s for %(quantity)s %(unit)s from %(bills)s"
+msgstr ""
 
 #. module: l10n_ro_stock_account_landed_cost
 #. odoo-python
-#: code:addons/l10n_ro_stock_account_landed_cost/models/stock_landed_cost.py:0
-#, python-format
-msgid ""
-"Cost and adjustments lines do not match. You should maybe recompute the "
-"landed costs."
+#: code:addons/l10n_ro_stock_account_landed_cost/models/stock_move.py:0
+msgid "+ %(value)s (Landed Cost: %(landed_cost)s)"
 msgstr ""
-"Liniile de cost și ajustări nu se potrivesc. Poate ar trebui să recalculați "
-"costurile debarcate."
+
+#. module: l10n_ro_stock_account_landed_cost
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_landed_cost/models/stock_move.py:0
+msgid "+ %(value)s from %(vendor_bill)s (Landed Cost: %(landed_cost)s)"
+msgstr ""
+
+#. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_l10n_ro_stock_valuation_adjustment_lines__additional_landed_cost
+msgid "Additional Landed Cost"
+msgstr ""
+
+#. module: l10n_ro_stock_account_landed_cost
+#. odoo-python
+#: code:addons/l10n_ro_stock_account_landed_cost/models/stock_move.py:0
+msgid ""
+"Additional landed costs:\n"
+"%(landed_cost)s"
+msgstr ""
+
+#. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_l10n_ro_stock_valuation_adjustment_lines__cost_line_id
+msgid "Cost Line"
+msgstr ""
+
+#. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_l10n_ro_stock_valuation_adjustment_lines__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_l10n_ro_stock_valuation_adjustment_lines__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_l10n_ro_stock_valuation_adjustment_lines__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_l10n_ro_stock_valuation_adjustment_lines__name
+msgid "Description"
+msgstr ""
+
+#. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_l10n_ro_stock_valuation_adjustment_lines__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_stock_landed_cost__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_stock_move__display_name
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_stock_valuation_adjustment_lines__display_name
+msgid "Display Name"
+msgstr "Nume afișat"
+
+#. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account_landed_cost.selection__stock_landed_cost__l10n_ro_cost_type__excise
+msgid "Excise"
+msgstr ""
+
+#. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model.fields,help:l10n_ro_stock_account_landed_cost.field_stock_landed_cost__l10n_ro_only_on_distributed_lines
+msgid ""
+"Field used to stop distribution on the actual stock moves, and to distribute "
+"only on new field, distributed valuation lines."
+msgstr ""
+
+#. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_l10n_ro_stock_valuation_adjustment_lines__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_stock_landed_cost__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_stock_move__id
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_stock_valuation_adjustment_lines__id
+msgid "ID"
+msgstr ""
 
 #. module: l10n_ro_stock_account_landed_cost
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_account_move__is_l10n_ro_record
-#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_account_move_line__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_l10n_ro_stock_valuation_adjustment_lines__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_stock_landed_cost__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_stock_valuation_adjustment_lines__is_l10n_ro_record
 msgid "Is Romanian Record"
@@ -50,9 +118,14 @@ msgid "Journal Entry"
 msgstr "Notă contabilă"
 
 #. module: l10n_ro_stock_account_landed_cost
-#: model:ir.model,name:l10n_ro_stock_account_landed_cost.model_account_move_line
-msgid "Journal Item"
-msgstr "Element jurnal"
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_stock_landed_cost__l10n_ro_only_on_distributed_lines
+msgid "L10N Ro Only On Distributed Lines"
+msgstr ""
+
+#. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_l10n_ro_stock_valuation_adjustment_lines__cost_id
+msgid "Landed Cost"
+msgstr ""
 
 #. module: l10n_ro_stock_account_landed_cost
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_stock_landed_cost__l10n_ro_cost_type
@@ -60,17 +133,69 @@ msgid "Landed Cost Type"
 msgstr "Tipuri de Costuri Adiționale"
 
 #. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_l10n_ro_stock_valuation_adjustment_lines__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_l10n_ro_stock_valuation_adjustment_lines__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_l10n_ro_stock_valuation_adjustment_lines__final_cost
+msgid "New Value"
+msgstr ""
+
+#. module: l10n_ro_stock_account_landed_cost
 #: model:ir.model.fields.selection,name:l10n_ro_stock_account_landed_cost.selection__stock_landed_cost__l10n_ro_cost_type__normal
 msgid "Normal"
 msgstr "Normal"
 
 #. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_l10n_ro_stock_valuation_adjustment_lines__l10n_ro_not_distributed_amount
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_stock_valuation_adjustment_lines__l10n_ro_not_distributed_amount
+msgid "Not Distributed Amount"
+msgstr ""
+
+#. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_l10n_ro_stock_valuation_adjustment_lines__origin_line_id
+msgid "Origin Adjustment Line"
+msgstr ""
+
+#. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_l10n_ro_stock_valuation_adjustment_lines__former_cost
+msgid "Original Value"
+msgstr ""
+
+#. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_l10n_ro_stock_valuation_adjustment_lines__product_id
+msgid "Product"
+msgstr ""
+
+#. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_l10n_ro_stock_valuation_adjustment_lines__quantity
+msgid "Quantity"
+msgstr ""
+
+#. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_l10n_ro_stock_valuation_adjustment_lines__l10n_ro_distributed_valuation_lines
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_stock_landed_cost__l10n_ro_distributed_valuation_lines
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_stock_valuation_adjustment_lines__l10n_ro_distributed_valuation_lines
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_landed_cost.view_stock_landed_cost_form
+msgid "Romania - Distributed Valuation Lines"
+msgstr ""
+
+#. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model,name:l10n_ro_stock_account_landed_cost.model_l10n_ro_stock_valuation_adjustment_lines
+msgid "Romania - EXtra Stock Valuation Adjustment Lines"
+msgstr ""
+
+#. module: l10n_ro_stock_account_landed_cost
 #. odoo-python
 #: code:addons/l10n_ro_stock_account_landed_cost/models/stock_landed_cost.py:0
-#, python-format
-msgid "Please configure Stock Expense Account for product: %s."
+msgid "Romanian Stock Move Type not set on stock move %(move)s"
 msgstr ""
-"Vă rugăm să configurați contul de cheltuieli de stoc pentru produsul: %s."
 
 #. module: l10n_ro_stock_account_landed_cost
 #: model:ir.model,name:l10n_ro_stock_account_landed_cost.model_stock_landed_cost
@@ -78,9 +203,55 @@ msgid "Stock Landed Cost"
 msgstr "Cost Adițional Stoc"
 
 #. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model,name:l10n_ro_stock_account_landed_cost.model_stock_move
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_l10n_ro_stock_valuation_adjustment_lines__move_id
+msgid "Stock Move"
+msgstr "Mișcare stoc"
+
+#. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account_landed_cost.selection__stock_landed_cost__l10n_ro_cost_type__transport
+msgid "Transport"
+msgstr ""
+
+#. module: l10n_ro_stock_account_landed_cost
 #: model:ir.model,name:l10n_ro_stock_account_landed_cost.model_stock_valuation_adjustment_lines
 msgid "Valuation Adjustment Lines"
 msgstr "Linii de ajustare a evaluării"
+
+#. module: l10n_ro_stock_account_landed_cost
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_landed_cost.view_stock_landed_cost_form
+msgid "Valuation Adjustments"
+msgstr ""
+
+#. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_l10n_ro_stock_valuation_adjustment_lines__volume
+msgid "Volume"
+msgstr ""
+
+#. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_l10n_ro_stock_valuation_adjustment_lines__weight
+msgid "Weight"
+msgstr ""
+
+#, python-format
+#~ msgid " already out"
+#~ msgstr " deja ieșite"
+
+#, python-format
+#~ msgid ""
+#~ "Cost and adjustments lines do not match. You should maybe recompute the "
+#~ "landed costs."
+#~ msgstr ""
+#~ "Liniile de cost și ajustări nu se potrivesc. Poate ar trebui să "
+#~ "recalculați costurile debarcate."
+
+#~ msgid "Journal Item"
+#~ msgstr "Element jurnal"
+
+#, python-format
+#~ msgid "Please configure Stock Expense Account for product: %s."
+#~ msgstr ""
+#~ "Vă rugăm să configurați contul de cheltuieli de stoc pentru produsul: %s."
 
 #~ msgid "Account"
 #~ msgstr "Cont"
@@ -90,9 +261,6 @@ msgstr "Linii de ajustare a evaluării"
 
 #~ msgid "Companies"
 #~ msgstr "Companii"
-
-#~ msgid "Display Name"
-#~ msgstr "Nume afișat"
 
 #~ msgid "Expense Account"
 #~ msgstr "Cont cheltuială"
@@ -129,9 +297,6 @@ msgstr "Linii de ajustare a evaluării"
 
 #~ msgid "Product Template"
 #~ msgstr "Șablon produs"
-
-#~ msgid "Stock Move"
-#~ msgstr "Mișcare stoc"
 
 #~ msgid "Stock Valuation Layer"
 #~ msgstr "Nivel evaluare stoc"
