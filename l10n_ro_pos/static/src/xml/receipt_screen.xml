@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates id="template" xml:space="preserve">
+
+    <t
+        t-name="l10n_ro_pos.ReceiptScreenInvoiceButton"
+        t-inherit="point_of_sale.ReceiptScreen"
+        t-inherit-mode="extension"
+    >
+        <xpath expr="//div[hasclass('receipt-options')]" position="inside">
+            <button
+                t-if="canGenerateInvoice"
+                class="btn btn-lg btn-secondary w-100 py-3 mt-2"
+                t-on-click="() => this.generateInvoice()"
+            >
+                <i class="fa fa-file-text-o me-2" />Generate Invoice
+            </button>
+        </xpath>
+    </t>
+
+</templates>

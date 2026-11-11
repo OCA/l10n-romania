@@ -79,6 +79,11 @@ msgid "Display Name"
 msgstr ""
 
 #. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account_landed_cost.selection__stock_landed_cost__l10n_ro_cost_type__excise
+msgid "Excise"
+msgstr ""
+
+#. module: l10n_ro_stock_account_landed_cost
 #: model:ir.model.fields,help:l10n_ro_stock_account_landed_cost.field_stock_landed_cost__l10n_ro_only_on_distributed_lines
 msgid ""
 "Field used to stop distribution on the actual stock moves, and to distribute"
@@ -196,6 +201,11 @@ msgstr ""
 #: model:ir.model,name:l10n_ro_stock_account_landed_cost.model_stock_move
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_l10n_ro_stock_valuation_adjustment_lines__move_id
 msgid "Stock Move"
+msgstr ""
+
+#. module: l10n_ro_stock_account_landed_cost
+#: model:ir.model.fields.selection,name:l10n_ro_stock_account_landed_cost.selection__stock_landed_cost__l10n_ro_cost_type__transport
+msgid "Transport"
 msgstr ""
 
 #. module: l10n_ro_stock_account_landed_cost
