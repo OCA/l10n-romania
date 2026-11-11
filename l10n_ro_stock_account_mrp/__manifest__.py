@@ -11,7 +11,7 @@
         "sale_mrp",
     ],
     "license": "AGPL-3",
-    "version": "19.0.1.0.0",
+    "version": "19.0.1.1.0",
     "author": "NextERP Romania,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-romania",
     "installable": True,
