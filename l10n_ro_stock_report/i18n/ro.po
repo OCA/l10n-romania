@@ -533,6 +533,12 @@ msgid "Valued Type"
 msgstr "Tip evaluare"
 
 #. module: l10n_ro_stock_report
+#. odoo-python
+#: code:addons/l10n_ro_stock_report/report/stock_report.py:0
+msgid "You are not allowed to access the storage sheet of company %s."
+msgstr ""
+
+#. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_stock_sheet_report_form
 msgid "or"
 msgstr "sau"

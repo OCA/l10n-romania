@@ -124,3 +124,45 @@ class TestL10nRoHide(TransactionCase):
             self._binding_ids(self.non_ro_company),
             "The Romanian action must be hidden on a non-Romanian company",
         )
+
+    # ------------------------------------------------------------------ #
+    #  Menus
+    # ------------------------------------------------------------------ #
+    def _create_ro_menu(self):
+        action = self.env["ir.actions.act_window"].create(
+            {"name": "RO Test Menu Action", "res_model": "res.partner"}
+        )
+        menu = self.env["ir.ui.menu"].create(
+            {
+                "name": "RO Test Menu",
+                "action": f"ir.actions.act_window,{action.id}",
+            }
+        )
+        # Give it an xml id that belongs to an ``l10n_ro*`` module so the
+        # override recognises it as a Romanian menu.
+        self.env["ir.model.data"].create(
+            {
+                "name": "menu_l10n_ro_test",
+                "module": "l10n_ro_config",
+                "model": "ir.ui.menu",
+                "res_id": menu.id,
+            }
+        )
+        self.env.registry.clear_cache()
+        return menu
+
+    def _visible_menu_ids(self, company):
+        return self.env["ir.ui.menu"].with_company(company)._visible_menu_ids()
+
+    def test_ro_menu_hidden_on_non_ro_company(self):
+        menu = self._create_ro_menu()
+        self.assertIn(
+            menu.id,
+            self._visible_menu_ids(self.ro_company),
+            "The Romanian menu must be visible on a Romanian company",
+        )
+        self.assertNotIn(
+            menu.id,
+            self._visible_menu_ids(self.non_ro_company),
+            "The Romanian menu must be hidden on a non-Romanian company",
+        )

@@ -56,7 +56,7 @@ class StockMove(models.Model):
     def _get_account_move_line_vals(self):
         # For nondeductible operation, add the taxes to the expense debit line
         res = super()._get_account_move_line_vals()
-        if self.l10n_ro_nondeductible_tax_id:
+        if self.is_l10n_ro_record and self.l10n_ro_nondeductible_tax_id:
             for line in res:
                 account = self.env["account.account"].browse(line["account_id"])
                 if account.account_type == "expense":

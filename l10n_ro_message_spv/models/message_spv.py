@@ -383,7 +383,10 @@ class MessageSPV(models.Model):
         if messages_with_error:
             request_ids = messages_with_error.mapped("request_id")
             invoices = self.env["account.move"].search(
-                [("l10n_ro_edi_index", "in", request_ids)]
+                [
+                    ("l10n_ro_edi_index", "in", request_ids),
+                    ("company_id", "in", messages_with_error.company_id.ids),
+                ]
             )
             for message in messages_with_error:
                 invoice = invoices.filtered(
@@ -417,8 +420,11 @@ class MessageSPV(models.Model):
         messages_without_invoice = self.filtered(lambda m: not m.invoice_id)
         message_ids = messages_without_invoice.mapped("name")
         request_ids = messages_without_invoice.mapped("request_id")
+        company_ids = messages_without_invoice.company_id.ids
         invoices = self.env["account.move"].search(
             [
+                "&",
+                ("company_id", "in", company_ids),
                 "|",
                 "|",
                 ("l10n_ro_edi_download", "in", message_ids),
@@ -428,16 +434,23 @@ class MessageSPV(models.Model):
             ]
         )
         messages_with_ref = messages_without_invoice.filtered(lambda m: m.ref)
-        domain = [("name", "in", messages_with_ref.mapped("ref"))]
+        domain = [
+            ("name", "in", messages_with_ref.mapped("ref")),
+            ("company_id", "in", company_ids),
+        ]
         invoices |= self.env["account.move"].search(domain)
         invoices = invoices.filtered(lambda i: i.state != "cancel")
         for message in messages_without_invoice:
             invoice = invoices.filtered(
-                lambda i, m=message: i.l10n_ro_edi_download == m.name
-                or i.l10n_ro_edi_transaction == m.request_id
-                or i.l10n_ro_edi_index == m.request_id
-                or i.ref == m.ref
-                or i.name == m.ref
+                lambda i, m=message: i.company_id == m.company_id
+                and i.partner_id == m.partner_id
+                and (
+                    i.l10n_ro_edi_download == m.name
+                    or i.l10n_ro_edi_transaction == m.request_id
+                    or i.l10n_ro_edi_index == m.request_id
+                    or i.ref == m.ref
+                    or i.name == m.ref
+                )
             )
             if not invoice and message.ref:
                 if message.message_type == "in_invoice":
@@ -449,6 +462,7 @@ class MessageSPV(models.Model):
                     ("commercial_partner_id", "=", message.partner_id.id),
                     ("ref", "=", message.ref),
                     ("move_type", "in", move_type),
+                    ("company_id", "=", message.company_id.id),
                 ]
                 invoice = self.env["account.move"].search(domain, limit=1)
 
@@ -604,6 +618,7 @@ class MessageSPV(models.Model):
                         new_invoice.commercial_partner_id.id,
                     ),
                     ("id", "!=", new_invoice.id),
+                    ("company_id", "=", message.company_id.id),
                 ],
                 limit=1,
             )
