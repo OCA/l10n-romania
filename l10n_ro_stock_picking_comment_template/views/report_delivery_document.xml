@@ -5,9 +5,7 @@
         inherit_id="stock.report_delivery_document"
     >
         <xpath expr="//table[hasclass('table-borderless')]" position="before">
-            <t
-                t-if="o.is_l10n_ro_record and o.company_id.country_code == 'RO'"
-            >
+            <t t-if="o.is_l10n_ro_record and o.company_id.country_code == 'RO'">
                 <t
                     t-foreach="o._l10n_ro_comment_templates('before_lines')"
                     t-as="comment_template_top"
