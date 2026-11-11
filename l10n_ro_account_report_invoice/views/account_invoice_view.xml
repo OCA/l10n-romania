@@ -18,6 +18,35 @@
                     <field name="amount_residual_signed" string="Amount Due" />
                 </group>
             </group>
+
+            <div name="currency_conversion_div" position="after">
+                <div
+                    name="l10n_ro_currency_conversion_div"
+                    class="d-flex gap-1 text-muted"
+                    invisible="currency_id == company_currency_id or not is_l10n_ro_record"
+                >
+                    <field name="is_l10n_ro_record" invisible="1" />
+                    <span>1</span>
+                    <field
+                        name="currency_id"
+                        readonly="True"
+                        options="{'no_open': True}"
+                        class="w-auto"
+                    />
+                    <span>=</span>
+                    <field
+                        name="l10n_ro_currency_rate"
+                        readonly="state != 'draft'"
+                        style="max-width: 21ch;"
+                    />
+                    <field
+                        name="company_currency_id"
+                        readonly="True"
+                        options="{'no_open': True}"
+                        class="w-auto"
+                    />
+                </div>
+            </div>
         </field>
     </record>
 </odoo>
