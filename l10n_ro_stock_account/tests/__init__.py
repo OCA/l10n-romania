@@ -11,4 +11,5 @@ from . import test_dropshiping
 
 from . import test_account_determination
 
+from . import test_revaluation
 from . import test_correction
