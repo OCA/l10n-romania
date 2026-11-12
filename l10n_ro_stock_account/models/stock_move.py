@@ -219,7 +219,7 @@ class StockMove(models.Model):
     def _get_out_move_lines(self):
         "fix _get_out_move_lines return None for move to transit"
         move_lines = super()._get_out_move_lines()
-        if not move_lines:
+        if not move_lines and self.is_l10n_ro_record:
             move_lines = self.move_line_ids.filtered(
                 lambda x: "transit"
                 in (x.location_dest_id | x.location_id).mapped("usage")
