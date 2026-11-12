@@ -64,11 +64,23 @@ class StockValuationLayer(models.Model):
                 layer.stock_move_id = layer.stock_valuation_layer_id.stock_move_id
         return layers
 
-    @api.depends("product_id", "account_move_id")
+    def _l10n_ro_is_valuation_record(self):
+        """Tell whether the Romanian valuation account has to be computed.
+
+        Layers created outside of a stock move - a manual cost change, a
+        costing method change, a revaluation - have no `stock_move_id`, so the
+        Romanian flag has to be read from the company instead.
+        """
+        self.ensure_one()
+        if self.stock_move_id:
+            return self.stock_move_id.is_l10n_ro_record
+        return bool(self.company_id.l10n_ro_accounting)
+
+    @api.depends("product_id", "account_move_id", "stock_move_id", "company_id")
     def _compute_account(self):
-        for svl in self.filtered(lambda sv: sv.stock_move_id.is_l10n_ro_record):
+        for svl in self.filtered(lambda sv: sv._l10n_ro_is_valuation_record()):
             account = self.env["account.account"]
-            svl = svl.with_company(svl.stock_move_id.company_id)
+            svl = svl.with_company(svl.stock_move_id.company_id or svl.company_id)
 
             loc_dest = svl.stock_move_id.location_dest_id
             loc_scr = svl.stock_move_id.location_id
@@ -87,7 +99,9 @@ class StockValuationLayer(models.Model):
                     and loc_scr.l10n_ro_property_stock_valuation_account_id
                 ):
                     account = loc_scr.l10n_ro_property_stock_valuation_account_id
-            if svl.account_move_id and "internal" not in svl.l10n_ro_valued_type:
+            if svl.account_move_id and "internal" not in (
+                svl.l10n_ro_valued_type or ""
+            ):
                 for aml in svl.account_move_id.line_ids.sorted(
                     lambda layer: layer.account_id.code
                 ):
