@@ -10,10 +10,36 @@ from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
+# valued types defined by the standard `stock_account` module
+L10N_RO_BASE_VALUED_TYPES = ("in", "out", "dropshipped", "dropshipped_returned")
+
 
 class StockMove(models.Model):
     _name = "stock.move"
     _inherit = ["stock.move", "l10n.ro.mixin"]
+
+    def _l10n_ro_get_valued_type(self):
+        """Return the Romanian valued type that applies to this move.
+
+        Falls back on the valued type already recorded on the layers of the
+        move, so a correction keeps the type of the original operation even
+        when the move no longer matches its `_is_<valued_type>` predicate.
+        """
+        self.ensure_one()
+        recorded = [
+            svl.l10n_ro_valued_type
+            for svl in self.sudo().stock_valuation_layer_ids
+            if svl.l10n_ro_valued_type
+            and svl.l10n_ro_valued_type not in ("indefinite", "dropshipped")
+        ]
+        if recorded:
+            return recorded[0]
+        for valued_type in self._get_valued_types():
+            if valued_type in L10N_RO_BASE_VALUED_TYPES:
+                continue
+            if getattr(self, "_is_%s" % valued_type)():
+                return valued_type
+        return False
 
     @api.model
     def _get_valued_types(self):
