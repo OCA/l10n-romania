@@ -77,6 +77,8 @@ class Partner(models.Model):
 
     @api.onchange("city_id")
     def _onchange_city_id(self):
+        if not self.is_l10n_ro_record:
+            return super()._onchange_city_id()
         backup_zip = self.zip
         backup_city = self.city
         res = super()._onchange_city_id()
