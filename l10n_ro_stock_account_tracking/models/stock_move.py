@@ -144,6 +144,23 @@ class StockMove(models.Model):
             for move in self:
                 move = move.with_company(move.company_id)
                 valued_move_lines = move._get_out_move_lines()
+                if not valued_move_lines and forced_quantity:
+                    # correction of a past move that has no outgoing move
+                    # line, e.g. the quantity of a done reception is lowered;
+                    # mirrors the same case handled in `_create_in_svl`
+                    svl_vals_list = move.product_id._prepare_out_svl_vals(
+                        forced_quantity, move.company_id
+                    )
+                    for svl_vals in svl_vals_list:
+                        svl_vals.update(move._prepare_common_svl_vals())
+                        svl_vals["description"] = (
+                            "Correction of %s (modification of past move)"
+                            % (move.picking_id.name or move.name)
+                        )
+                        svl_vals["description"] += svl_vals.pop(
+                            "rounding_adjustment", ""
+                        )
+                        svls |= move._l10n_ro_create_track_svl([svl_vals])
                 for valued_move_line in valued_move_lines:
                     valued_move_line = valued_move_line.with_context(
                         stock_move_line_id=valued_move_line
