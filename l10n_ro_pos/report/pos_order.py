@@ -25,6 +25,8 @@ class ReportSaleDetails(models.AbstractModel):
         res = super().get_sale_details(
             date_start, date_stop, config_ids, session_ids, **kwargs
         )
+        if not self.env.company._check_is_l10n_ro_record():
+            return res
 
         # Acelasi domeniu de comenzi ca raportul standard, ca sa calculam costul marfii.
         # Conditii in AND implicit (liste concatenate); evitam osv.expression.AND,
