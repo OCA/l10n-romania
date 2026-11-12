@@ -157,7 +157,8 @@ class StockValuationLayer(models.Model):
 
     def _validate_accounting_entries(self):
         res = super()._validate_accounting_entries()
-        account_moves = self.mapped("account_move_id")
+        l10n_ro_layers = self.filtered("is_l10n_ro_record")
+        account_moves = l10n_ro_layers.mapped("account_move_id")
         account_moves = account_moves.filtered(
             lambda m: m.state == "draft" and m.move_type == "entry"
         )
