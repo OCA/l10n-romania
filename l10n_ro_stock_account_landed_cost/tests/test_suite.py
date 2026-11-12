@@ -5,6 +5,9 @@ from odoo.tests import tagged
 
 from odoo.addons.l10n_ro_stock_account.tests.common import TestROStockCommon
 
+from .test_landed_cost_two_step_reception import (
+    LandedCostTwoStepReceptionCases,
+)
 from .test_ro_stock_avg import LandedCostAvgCases
 from .test_ro_stock_fifo import LandedCostFifoCases
 from .test_stock_fifo_internal_transfer import LandedCostInternalTransferCases
@@ -15,6 +18,7 @@ class TestROStockAccountLandedCost(
     LandedCostAvgCases,
     LandedCostFifoCases,
     LandedCostInternalTransferCases,
+    LandedCostTwoStepReceptionCases,
     TestROStockCommon,
 ):
     """Every scenario that runs on the module's common setup.

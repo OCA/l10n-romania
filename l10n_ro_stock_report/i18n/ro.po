@@ -459,6 +459,11 @@ msgid "Show Sheet Pdf"
 msgstr "Tipărire fișă"
 
 #. module: l10n_ro_stock_report
+#: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__show_inactive
+msgid "Show inactive locations/products"
+msgstr "Afișați locațiile/produsele inactive"
+
+#. module: l10n_ro_stock_report
 #: model:ir.model.fields,field_description:l10n_ro_stock_report.field_l10n_ro_stock_storage_sheet__show_locations
 msgid "Show location"
 msgstr "Afișați locația"
@@ -526,6 +531,12 @@ msgstr "Returnare Dare în Utilizare"
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_sheet_stock_report_line_search
 msgid "Valued Type"
 msgstr "Tip evaluare"
+
+#. module: l10n_ro_stock_report
+#. odoo-python
+#: code:addons/l10n_ro_stock_report/report/stock_report.py:0
+msgid "You are not allowed to access the storage sheet of company %s."
+msgstr ""
 
 #. module: l10n_ro_stock_report
 #: model_terms:ir.ui.view,arch_db:l10n_ro_stock_report.view_stock_sheet_report_form

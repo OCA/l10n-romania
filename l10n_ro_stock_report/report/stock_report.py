@@ -7,7 +7,7 @@ import pytz
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import AccessError, UserError
 
 from odoo.addons.l10n_ro_stock_account.models.stock_move import MOVE_TYPE
 
@@ -31,6 +31,18 @@ VALUED_TYPE = MOVE_TYPE + BALANCE_TYPE + [("indefinite", "Indefinite")]
 # it has to appear in the GROUP BY of the in/out queries as well.
 VALUED_TYPE_SQL = "COALESCE(sm.l10n_ro_move_type, 'indefinite')"
 
+# ``stock_move.quantity`` is stored in the move's own UoM, while the sheet
+# reports (and values) everything in the product's reference UoM. Summing the
+# raw column adds 1000 mm to 5 m as if they were the same unit, and the
+# derived unit price then comes out per move UoM. Convert with the stored
+# ``uom_uom.factor`` (absolute quantity per unit) before aggregating.
+QTY_IN_PRODUCT_UOM_SQL = (
+    "sm.quantity * COALESCE(smu.factor, 1) / COALESCE(NULLIF(pu.factor, 0), 1)"
+)
+UOM_JOIN_SQL = """
+                    left join uom_uom smu on smu.id = sm.product_uom
+                    left join uom_uom pu on pu.id = pt.uom_id"""
+
 _logger = logging.getLogger(__name__)
 
 
@@ -45,6 +57,8 @@ class StorageSheet(models.TransientModel):
         domain="[('usage','=','internal')]",
     )
 
+    show_inactive = fields.Boolean("Show inactive locations/products")
+
     product_ids = fields.Many2many(
         "product.product",
         string="Only for products",
@@ -58,8 +72,38 @@ class StorageSheet(models.TransientModel):
     date_from = fields.Date("Start Date", required=True, default=fields.Date.today)
     date_to = fields.Date("End Date", required=True, default=fields.Date.today)
     company_id = fields.Many2one(
-        "res.company", string="Company", default=lambda self: self.env.company
+        "res.company",
+        string="Company",
+        default=lambda self: self.env.company,
+        domain="[('id', 'in', allowed_company_ids)]",
     )
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        if any(vals.get("show_inactive") for vals in vals_list):
+            return super(StorageSheet, self.with_context(active_test=False)).create(
+                vals_list
+            )
+        return super().create(vals_list)
+
+    def write(self, vals):
+        if "product_ids" in vals and vals.get(
+            "show_inactive", any(self.mapped("show_inactive"))
+        ):
+            return super(StorageSheet, self.with_context(active_test=False)).write(vals)
+        return super().write(vals)
+
+    @api.constrains("company_id")
+    def _check_company_id_allowed(self):
+        for sheet in self:
+            if sheet.company_id and sheet.company_id not in self.env.companies:
+                raise AccessError(
+                    self.env._(
+                        "You are not allowed to access the storage sheet of "
+                        "company %s.",
+                        sheet.company_id.display_name,
+                    )
+                )
 
     one_product = fields.Boolean("One product per page")
     line_product_ids = fields.One2many(
@@ -72,22 +116,32 @@ class StorageSheet(models.TransientModel):
         "stock.location", string="Only for locations", compute="_compute_location_ids"
     )
 
-    @api.depends("sublocation", "location_id", "show_locations")
+    @api.depends("sublocation", "location_id", "show_locations", "show_inactive")
     def _compute_location_ids(self):
-        if not self.location_id:
-            self.location_ids = self.env["stock.location"].search(
-                [("usage", "=", "internal")]
-            )
-        else:
-            if self.sublocation:
-                children_location = (
-                    self.env["stock.location"]
-                    .with_context(active_test=False)
-                    .search([("id", "child_of", self.location_id.ids)])
+        for sheet in self:
+            if sheet.show_inactive:
+                sheet = sheet.with_context(active_test=False)
+            if not sheet.location_id:
+                sheet.location_ids = self.env["stock.location"].search(
+                    [("usage", "=", "internal")]
                 )
-                self.location_ids = self.location_id + children_location
+            elif sheet.sublocation:
+                children_location = self.env["stock.location"].search(
+                    [("id", "child_of", sheet.location_id.ids)]
+                )
+                sheet.location_ids = sheet.location_id + children_location
             else:
-                self.location_ids = self.location_id
+                sheet.location_ids = sheet.location_id
+
+    def _get_report_locations(self):
+        self.ensure_one()
+        sheet = self.with_context(active_test=False) if self.show_inactive else self
+        return sheet.location_ids
+
+    def _get_selected_products(self):
+        self.ensure_one()
+        sheet = self.with_context(active_test=False) if self.show_inactive else self
+        return sheet.product_ids
 
     def _get_report_base_filename(self):
         self.ensure_one()
@@ -108,7 +162,7 @@ class StorageSheet(models.TransientModel):
         return res
 
     def get_products_with_move_sql(self, product_list=False):
-        locations = self.location_ids
+        locations = self._get_report_locations()
 
         if product_list:
             query = """
@@ -164,8 +218,8 @@ class StorageSheet(models.TransientModel):
                         ("company_id", "=", self.company_id.id),
                         ("company_id", "=", False),
                         "|",
-                        ("location_id", "in", self.location_ids.ids),
-                        ("location_dest_id", "in", self.location_ids.ids),
+                        ("location_id", "in", self._get_report_locations().ids),
+                        ("location_dest_id", "in", self._get_report_locations().ids),
                     ]
                 )
                 .mapped("product_id")
@@ -175,8 +229,9 @@ class StorageSheet(models.TransientModel):
         return product_list
 
     def do_compute_product(self):
-        if self.product_ids:
-            product_list = self.product_ids.ids
+        selected_products = self._get_selected_products()
+        if selected_products:
+            product_list = selected_products.ids
             all_products = False
         else:
             if self.products_with_move:
@@ -210,10 +265,15 @@ class StorageSheet(models.TransientModel):
         datetime_to = datetime_to.astimezone(pytz.utc)
 
         if self.detailed_locations:
-            all_locations = self.with_context(active_test=False).location_ids
+            all_locations = self._get_report_locations()
         else:
-            all_locations = self.location_id or self.location_ids[0]
-            locations = self.location_ids
+            locations = self._get_report_locations()
+            selected_location = (
+                self.with_context(active_test=False).location_id
+                if self.show_inactive
+                else self.location_id
+            )
+            all_locations = selected_location or locations[:1]
 
         for location in all_locations:
             if self.detailed_locations:
@@ -291,12 +351,13 @@ class StorageSheet(models.TransientModel):
             from (
                 SELECT sm.product_id, pt.categ_id,
                        sm.value as amount,
-                       sm.quantity as quantity,
+                       {QTY_IN_PRODUCT_UOM_SQL} as quantity,
                        COALESCE(sm.l10n_ro_transfer_account_id,
                                 sm.l10n_ro_account_id) as account_id
                 from stock_move as sm
                     left join product_product prod on prod.id = sm.product_id
-                    left join product_template pt on pt.id = prod.product_tmpl_id
+                    left join product_template pt
+                        on pt.id = prod.product_tmpl_id{UOM_JOIN_SQL}
                     {join}
                 where
                     sm.state = 'done' AND
@@ -307,11 +368,12 @@ class StorageSheet(models.TransientModel):
                 UNION ALL
                 SELECT sm.product_id, pt.categ_id,
                        -sm.value as amount,
-                       -sm.quantity as quantity,
+                       -({QTY_IN_PRODUCT_UOM_SQL}) as quantity,
                        sm.l10n_ro_account_id as account_id
                 from stock_move as sm
                     left join product_product prod on prod.id = sm.product_id
-                    left join product_template pt on pt.id = prod.product_tmpl_id
+                    left join product_template pt
+                        on pt.id = prod.product_tmpl_id{UOM_JOIN_SQL}
                     {join}
                 where
                     sm.state = 'done' AND
@@ -350,12 +412,13 @@ class StorageSheet(models.TransientModel):
             from (
                 SELECT sm.product_id, pt.categ_id,
                        sm.value as amount,
-                       sm.quantity as quantity,
+                       {QTY_IN_PRODUCT_UOM_SQL} as quantity,
                        COALESCE(sm.l10n_ro_transfer_account_id,
                                 sm.l10n_ro_account_id) as account_id
                 from stock_move as sm
                     left join product_product prod on prod.id = sm.product_id
-                    left join product_template pt on pt.id = prod.product_tmpl_id
+                    left join product_template pt
+                        on pt.id = prod.product_tmpl_id{UOM_JOIN_SQL}
                     {join}
                 where
                     sm.state = 'done' AND
@@ -366,11 +429,12 @@ class StorageSheet(models.TransientModel):
                 UNION ALL
                 SELECT sm.product_id, pt.categ_id,
                        -sm.value as amount,
-                       -sm.quantity as quantity,
+                       -({QTY_IN_PRODUCT_UOM_SQL}) as quantity,
                        sm.l10n_ro_account_id as account_id
                 from stock_move as sm
                     left join product_product prod on prod.id = sm.product_id
-                    left join product_template pt on pt.id = prod.product_tmpl_id
+                    left join product_template pt
+                        on pt.id = prod.product_tmpl_id{UOM_JOIN_SQL}
                     {join}
                 where
                     sm.state = 'done' AND
@@ -397,10 +461,11 @@ class StorageSheet(models.TransientModel):
             %(report)s as report_id,
             sm.product_id as product_id,
             COALESCE(sum(sm.value),0) as amount_in,
-            COALESCE(ROUND(sum(sm.quantity), 5), 0) as quantity_in,
+            COALESCE(ROUND(sum({QTY_IN_PRODUCT_UOM_SQL}), 5), 0) as quantity_in,
             CASE
-                WHEN ROUND(COALESCE(sum(sm.quantity), 0), 5) != 0
-                    THEN COALESCE(sum(sm.value),0) / NULLIF(sum(sm.quantity),0)
+                WHEN ROUND(COALESCE(sum({QTY_IN_PRODUCT_UOM_SQL}), 0), 5) != 0
+                    THEN COALESCE(sum(sm.value),0)
+                         / NULLIF(sum({QTY_IN_PRODUCT_UOM_SQL}),0)
                 ELSE 0
             END as unit_price_in,
             COALESCE(sm.l10n_ro_transfer_account_id,
@@ -419,6 +484,8 @@ class StorageSheet(models.TransientModel):
         FROM stock_move sm
             LEFT JOIN product_product prod ON prod.id = sm.product_id
             LEFT JOIN product_template pt ON pt.id = prod.product_tmpl_id
+            LEFT JOIN uom_uom smu ON smu.id = sm.product_uom
+            LEFT JOIN uom_uom pu ON pu.id = pt.uom_id
             LEFT JOIN stock_picking sp ON sm.picking_id = sp.id
             {join}
 
@@ -452,10 +519,11 @@ class StorageSheet(models.TransientModel):
             %(report)s as report_id,
             sm.product_id as product_id,
             COALESCE(sum(sm.value),0) as amount_out,
-            COALESCE(ROUND(sum(sm.quantity), 5), 0) as quantity_out,
+            COALESCE(ROUND(sum({QTY_IN_PRODUCT_UOM_SQL}), 5), 0) as quantity_out,
             CASE
-                WHEN ROUND(COALESCE(sum(sm.quantity), 0), 5) != 0
-                    THEN COALESCE(sum(sm.value),0) / NULLIF(sum(sm.quantity),0)
+                WHEN ROUND(COALESCE(sum({QTY_IN_PRODUCT_UOM_SQL}), 0), 5) != 0
+                    THEN COALESCE(sum(sm.value),0)
+                         / NULLIF(sum({QTY_IN_PRODUCT_UOM_SQL}),0)
                 ELSE 0
             END as unit_price_out,
             COALESCE(sm.l10n_ro_account_id,
@@ -474,6 +542,8 @@ class StorageSheet(models.TransientModel):
         FROM stock_move sm
             LEFT JOIN product_product prod ON prod.id = sm.product_id
             LEFT JOIN product_template pt ON pt.id = prod.product_tmpl_id
+            LEFT JOIN uom_uom smu ON smu.id = sm.product_uom
+            LEFT JOIN uom_uom pu ON pu.id = pt.uom_id
             LEFT JOIN stock_picking sp ON sm.picking_id = sp.id
             {join}
 
@@ -495,8 +565,9 @@ class StorageSheet(models.TransientModel):
 
     def get_report_products(self):
         self.ensure_one()
-        if self.product_ids:
-            product_list = self.product_ids.ids
+        selected_products = self._get_selected_products()
+        if selected_products:
+            product_list = selected_products.ids
             all_products = False
         else:
             domain = [

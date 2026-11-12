@@ -62,10 +62,14 @@
         />
     </record>
 
+    <!-- `demo_mode`: l10n_ro_edi_stock refuza validarea unui transfer fara
+         curier si lasa anume aceasta portita datelor demo ale altor
+         module. Fara ea, instalarea cu demo cade aici de indata ce e
+         instalat si modulul de e-Transport. -->
     <function
         model="stock.picking"
         name="button_validate"
-        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')], 'demo_mode': True}"
     >
         <value eval="[ref('demo_picking_delivery_with_delegate')]" />
     </function>

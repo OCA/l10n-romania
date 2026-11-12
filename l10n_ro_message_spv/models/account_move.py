@@ -95,9 +95,15 @@ class AccountMove(models.Model):
     def _compute_show_reset_to_draft_button(self):
         res = super()._compute_show_reset_to_draft_button()
         for move in self:
-            if not move.show_reset_to_draft_button:
-                if move.move_type in ["in_invoice", "in_refund"]:
-                    move.show_reset_to_draft_button = True
+            if (
+                not move.show_reset_to_draft_button
+                and move.move_type in ("in_invoice", "in_refund")
+                and move.state == "posted"
+                and move.company_id._check_is_l10n_ro_record()
+                and not move.inalterable_hash
+                and not self._is_move_restricted(move)
+            ):
+                move.show_reset_to_draft_button = True
         return res
 
     def _l10n_ro_is_spv_bill(self):

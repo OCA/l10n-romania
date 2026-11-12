@@ -20,6 +20,6 @@ class StockQuant(models.Model):
         vals = super()._get_inventory_move_values(
             qty, location_id, location_dest_id, package_id, package_dest_id
         )
-        if self.accounting_date:
+        if self.is_l10n_ro_record and self.accounting_date:
             vals["date"] = self.accounting_date
         return vals

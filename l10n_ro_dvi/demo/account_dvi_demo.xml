@@ -49,7 +49,7 @@
     <function
         model="stock.picking"
         name="button_validate"
-        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')], 'demo_mode': True}"
     >
         <value
             model="stock.picking"
@@ -145,7 +145,7 @@
     <function
         model="stock.landed.cost"
         name="button_validate"
-        context="{'allowed_company_ids': [ref('base.demo_company_ro')]}"
+        context="{'allowed_company_ids': [ref('base.demo_company_ro')], 'demo_mode': True}"
     >
         <value
             model="stock.landed.cost"

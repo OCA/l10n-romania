@@ -19,6 +19,24 @@ msgstr ""
 "X-Generator: Weblate 5.15.2\n"
 
 #. module: l10n_ro_account_report_invoice
+#: model:ir.model.fields,help:l10n_ro_account_report_invoice.field_account_bank_statement_line__l10n_ro_currency_rate
+#: model:ir.model.fields,help:l10n_ro_account_report_invoice.field_account_move__l10n_ro_currency_rate
+msgid ""
+"1 document currency = X company currency. Inverse of the standard Currency "
+"Rate, changing one updates the other."
+msgstr ""
+
+#. module: l10n_ro_account_report_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.l10n_ro_view_move_form
+msgid "<span>1</span>"
+msgstr ""
+
+#. module: l10n_ro_account_report_invoice
+#: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.l10n_ro_view_move_form
+msgid "<span>=</span>"
+msgstr ""
+
+#. module: l10n_ro_account_report_invoice
 #: model_terms:ir.ui.view,arch_db:l10n_ro_account_report_invoice.l10n_ro_report_invoice_document
 msgid "<strong>Account:</strong>"
 msgstr "<strong>Cont:</strong>"
@@ -98,6 +116,12 @@ msgid "NRC:"
 msgstr "NRC:"
 
 #. module: l10n_ro_account_report_invoice
+#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_account_bank_statement_line__l10n_ro_currency_rate
+#: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_account_move__l10n_ro_currency_rate
+msgid "Romania - Currency Rate"
+msgstr "România - Cursul valutar"
+
+#. module: l10n_ro_account_report_invoice
 #: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_res_company__l10n_ro_no_signature_text
 #: model:ir.model.fields,field_description:l10n_ro_account_report_invoice.field_res_config_settings__l10n_ro_no_signature_text
 msgid "Romania - No Signature Text"
@@ -139,6 +163,3 @@ msgstr "Valorile setate aici sunt specifice companiei."
 
 #~ msgid "Currency rate: 1"
 #~ msgstr "Cursul valutar: 1"
-
-#~ msgid "Romania - Currency Rate"
-#~ msgstr "România - Cursul valutar"
