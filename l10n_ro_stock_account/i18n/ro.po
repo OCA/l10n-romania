@@ -170,6 +170,7 @@ msgstr "Factură"
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_account_move_line__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_category__is_l10n_ro_record
+#: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_product__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_product_template__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move__is_l10n_ro_record
 #: model:ir.model.fields,field_description:l10n_ro_stock_account.field_stock_move_line__is_l10n_ro_record
@@ -257,6 +258,11 @@ msgstr "Categorie produs"
 #. module: l10n_ro_stock_account
 #: model:ir.model,name:l10n_ro_stock_account.model_stock_move_line
 msgid "Product Moves (Stock Move Line)"
+msgstr ""
+
+#. module: l10n_ro_stock_account
+#: model:ir.model,name:l10n_ro_stock_account.model_product_product
+msgid "Product Variant"
 msgstr ""
 
 #. module: l10n_ro_stock_account
