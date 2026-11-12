@@ -30,6 +30,7 @@ class ProductProduct(models.Model):
     def _get_retrieval_product_search_plan(self):
         # Insert vendor code search with highest priority
         # (lowest number = highest priority)
-        return [
-            (1, self._import_retrieve_product_from_vendor_code)
-        ] + super()._get_retrieval_product_search_plan()
+        plan = super()._get_retrieval_product_search_plan()
+        if not self.env.company._check_is_l10n_ro_record():
+            return plan
+        return [(1, self._import_retrieve_product_from_vendor_code)] + plan
