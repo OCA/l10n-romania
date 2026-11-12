@@ -79,6 +79,8 @@ class AccountMove(models.Model):
     def _compute_show_reset_to_draft_button(self):
         res = super()._compute_show_reset_to_draft_button()
         for move in self:
+            if not move.is_l10n_ro_record:
+                continue
             if not move.show_reset_to_draft_button:
                 if move.move_type in ["in_invoice", "in_refund"]:
                     move.show_reset_to_draft_button = True
