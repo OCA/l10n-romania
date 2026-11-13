@@ -41,6 +41,12 @@ class StockPicking(models.Model):
                 or pick.move_ids.mapped("purchase_line_id")
             )
 
+    def _l10n_ro_show_aviz_prices(self):
+        self.ensure_one()
+        if self.picking_type_id.code == "outgoing":
+            return self.company_id.l10n_ro_print_aviz_with_prices
+        return True
+
     @api.depends(
         "state",
         "move_line_ids",

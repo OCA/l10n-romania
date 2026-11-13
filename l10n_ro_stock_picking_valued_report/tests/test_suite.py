@@ -4,12 +4,14 @@
 from odoo.tests import tagged
 
 from .common import TestStockPickingValued
+from .test_aviz_prices import AvizPricesCases
 from .test_ro_stock_avg import PickingValuedAvgCases
 from .test_ro_stock_fifo import PickingValuedFifoCases
 
 
 @tagged("post_install", "-at_install")
 class TestStockPickingValuedReport(
+    AvizPricesCases,
     PickingValuedAvgCases,
     PickingValuedFifoCases,
     TestStockPickingValued,

@@ -22,21 +22,23 @@
                                 <strong>Qty Reserved</strong>
                             </th>
                         </t>
-                        <th class="text-end">
-                            <strong>Unit Price</strong>
-                        </th>
-                        <th class="text-end">
-                            <strong>Additional Charges</strong>
-                        </th>
-                        <th class="text-end">
-                            <strong>Subtotal</strong>
-                        </th>
-                        <th class="text-end">
-                            <strong>Taxes</strong>
-                        </th>
-                        <th class="text-end">
-                            <strong>Total</strong>
-                        </th>
+                        <t t-if="o._l10n_ro_show_aviz_prices()">
+                            <th class="text-end">
+                                <strong>Unit Price</strong>
+                            </th>
+                            <th class="text-end">
+                                <strong>Additional Charges</strong>
+                            </th>
+                            <th class="text-end">
+                                <strong>Subtotal</strong>
+                            </th>
+                            <th class="text-end">
+                                <strong>Taxes</strong>
+                            </th>
+                            <th class="text-end">
+                                <strong>Total</strong>
+                            </th>
+                        </t>
                     </t>
                 </t>
             </t>
@@ -73,34 +75,36 @@
                         </div>
                     </t>
                     <t t-else="">
-                        <table class="table table-sm mt32">
-                            <thead>
-                                <tr>
-                                    <th class="text-end">
-                                        <strong>Subtotal</strong>
-                                    </th>
-                                    <th class="text-end">
-                                        <strong>Taxes</strong>
-                                    </th>
-                                    <th class="text-end">
-                                        <strong>Total</strong>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="text-end">
-                                        <span t-field="o.l10n_ro_amount_untaxed" />
-                                    </td>
-                                    <td class="text-end">
-                                        <span t-field="o.l10n_ro_amount_tax" />
-                                    </td>
-                                    <td class="text-end">
-                                        <span t-field="o.l10n_ro_amount_total" />
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <t t-if="o._l10n_ro_show_aviz_prices()">
+                            <table class="table table-sm mt32">
+                                <thead>
+                                    <tr>
+                                        <th class="text-end">
+                                            <strong>Subtotal</strong>
+                                        </th>
+                                        <th class="text-end">
+                                            <strong>Taxes</strong>
+                                        </th>
+                                        <th class="text-end">
+                                            <strong>Total</strong>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-end">
+                                            <span t-field="o.l10n_ro_amount_untaxed" />
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-field="o.l10n_ro_amount_tax" />
+                                        </td>
+                                        <td class="text-end">
+                                            <span t-field="o.l10n_ro_amount_total" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </t>
                     </t>
                 </t>
             </t>
@@ -135,31 +139,33 @@
                                 <span t-out="aggregated_lines[line]['uom_id']" />
                             </td>
                         </t>
-                        <td class="text-end">
-                            <span
-                                t-out="'%.2f' % aggregated_lines[line]['l10n_ro_price_unit']"
-                            />
-                        </td>
-                        <td class="text-end">
-                            <span
-                                t-out="'%.2f' % aggregated_lines[line]['l10n_ro_additional_charges']"
-                            />
-                        </td>
-                        <td class="text-end">
-                            <span
-                                t-out="'%.2f' % aggregated_lines[line]['l10n_ro_price_subtotal']"
-                            />
-                        </td>
-                        <td class="text-end">
-                            <span
-                                t-out="'%.2f' % aggregated_lines[line]['l10n_ro_price_tax']"
-                            />
-                        </td>
-                        <td class="text-end">
-                            <span
-                                t-out="'%.2f' % aggregated_lines[line]['l10n_ro_price_total']"
-                            />
-                        </td>
+                        <t t-if="o._l10n_ro_show_aviz_prices()">
+                            <td class="text-end">
+                                <span
+                                    t-out="'%.2f' % aggregated_lines[line]['l10n_ro_price_unit']"
+                                />
+                            </td>
+                            <td class="text-end">
+                                <span
+                                    t-out="'%.2f' % aggregated_lines[line]['l10n_ro_additional_charges']"
+                                />
+                            </td>
+                            <td class="text-end">
+                                <span
+                                    t-out="'%.2f' % aggregated_lines[line]['l10n_ro_price_subtotal']"
+                                />
+                            </td>
+                            <td class="text-end">
+                                <span
+                                    t-out="'%.2f' % aggregated_lines[line]['l10n_ro_price_tax']"
+                                />
+                            </td>
+                            <td class="text-end">
+                                <span
+                                    t-out="'%.2f' % aggregated_lines[line]['l10n_ro_price_total']"
+                                />
+                            </td>
+                        </t>
                     </t>
                 </t>
             </t>
@@ -184,23 +190,27 @@
                         </td>
                     </t>
                     <t t-else="">
-                        <td class="text-end">
-                            <span t-out="'%.2f' % move_line.l10n_ro_price_unit" />
-                        </td>
-                        <td class="text-end">
-                            <span
-                                t-out="'%.2f' % move_line.l10n_ro_additional_charges"
-                            />
-                        </td>
-                        <td class="text-end">
-                            <span t-out="'%.2f' % move_line.l10n_ro_price_subtotal" />
-                        </td>
-                        <td class="text-end">
-                            <span t-out="'%.2f' % move_line.l10n_ro_price_tax" />
-                        </td>
-                        <td class="text-end">
-                            <span t-out="'%.2f' % move_line.l10n_ro_price_total" />
-                        </td>
+                        <t t-if="o._l10n_ro_show_aviz_prices()">
+                            <td class="text-end">
+                                <span t-out="'%.2f' % move_line.l10n_ro_price_unit" />
+                            </td>
+                            <td class="text-end">
+                                <span
+                                    t-out="'%.2f' % move_line.l10n_ro_additional_charges"
+                                />
+                            </td>
+                            <td class="text-end">
+                                <span
+                                    t-out="'%.2f' % move_line.l10n_ro_price_subtotal"
+                                />
+                            </td>
+                            <td class="text-end">
+                                <span t-out="'%.2f' % move_line.l10n_ro_price_tax" />
+                            </td>
+                            <td class="text-end">
+                                <span t-out="'%.2f' % move_line.l10n_ro_price_total" />
+                            </td>
+                        </t>
                     </t>
                 </t>
             </t>
