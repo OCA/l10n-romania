@@ -12,7 +12,7 @@ class AccountInvoice(models.Model):
     _inherit = ["account.move", "l10n.ro.mixin"]
 
     l10n_ro_dvi_ids = fields.Many2many(
-        "stock.landed.cost",
+        "l10n.ro.account.dvi",
         compute="_compute_l10n_ro_dvi_ids",
         string="Romania - DVI's",
         help="DVI's linked to this invoice",
