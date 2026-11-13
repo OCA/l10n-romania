@@ -56,12 +56,12 @@ Installation
 
 To install this module, you need to:
 
-- clone the branch 19.0 of the repository
-  https://github.com/OCA/l10n-romania
-- add the path to this repository in your configuration (addons-path)
-- update the module list
-- search for "Romania - Localization Config" in your addons
-- install the module
+-  clone the branch 19.0 of the repository
+   https://github.com/OCA/l10n-romania
+-  add the path to this repository in your configuration (addons-path)
+-  update the module list
+-  search for "Romania - Localization Config" in your addons
+-  install the module
 
 Usage
 =====
@@ -69,35 +69,35 @@ Usage
 Companies
 ---------
 
-- You can complete dedicated fields for Romanian companies, like "Share
-  Capital", "CAEN Code".
-- From Romanian page from Configuration, you can define new properties
-  for your company, depending on the modules that you have installed.
+-  You can complete dedicated fields for Romanian companies, like "Share
+   Capital", "CAEN Code".
+-  From Romanian page from Configuration, you can define new properties
+   for your company, depending on the modules that you have installed.
 
 Partners
 --------
 
-- You can complete dedicated fields for Romanian partners, like "VAT
-  Subjected", "CAEN Code", "E-invoicing".
-- You can input also partners without VAT country code, but you need to
-  select also the country.
+-  You can complete dedicated fields for Romanian partners, like "VAT
+   Subjected", "CAEN Code", "E-invoicing".
+-  You can input also partners without VAT country code, but you need to
+   select also the country.
 
 Products
 --------
 
-- Use different taxes for "Service" products, they are defined in the
-  Chart of Accounts, but here we set up the default taxes used.
+-  Use different taxes for "Service" products, they are defined in the
+   Chart of Accounts, but here we set up the default taxes used.
 
 Bank Accounts
 -------------
 
-- Tick the "Ro Print in Report" fields if you want the bank account to
-  be printed in reports (not all reports are updated but you can use the
-  example from the Invoice Report to change the other report where you
-  want to print the bank accounts).
+-  Tick the "Ro Print in Report" fields if you want the bank account to
+   be printed in reports (not all reports are updated but you can use
+   the example from the Invoice Report to change the other report where
+   you want to print the bank accounts).
 
-  \*\* This applies also for company bank accounts, there you can use
-  also the related field from Account Journal to mark them.
+   \*\* This applies also for company bank accounts, there you can use
+   also the related field from Account Journal to mark them.
 
 Changelog
 =========
@@ -105,27 +105,27 @@ Changelog
 19.0.0.8.1
 ----------
 
-- Fix a foreign tax ID being silently prefixed with its country code on
-  every save, which made it impossible to store the number in its local
-  form. A Hungarian 11-digit adószám (``26173247-2-08``) became
-  ``HU26173247-2-08`` on create, and removing the prefix brought it back
-  on the next write. Since VIES only recognises the 8-digit EU form
-  (``HU26173247``), the intra-Community check kept answering
-  ``unassigned``, ``vies_valid`` stayed unset and the intra-Community
-  fiscal position was never selected, so the invoice was taxed at the
-  domestic rate instead of being exempt.
-- The cause was ``_split_vat`` deducing the country code from a database
-  lookup (``search([("vat", "=", vat)])``): during create/write the
-  record is already stored when ``_check_vat`` runs, so it matched
-  itself and ``_run_vat_checks`` re-attached the prefix. The country
-  code is now taken from the record being parsed, and only for a bare
-  numeric CUI, so writing a Romanian CUI without the ``RO`` prefix keeps
-  working.
-- Dropping the lookup also removes one ``search`` per ``_split_vat``
-  call - the method is used by ``_compute_l10n_ro_vat_number`` and by
-  several core and Enterprise localisations - and the non-deterministic
-  result when the same ``vat`` string existed on partners from different
-  countries (``limit=1`` picked one arbitrarily).
+-  Fix a foreign tax ID being silently prefixed with its country code on
+   every save, which made it impossible to store the number in its local
+   form. A Hungarian 11-digit adószám (``26173247-2-08``) became
+   ``HU26173247-2-08`` on create, and removing the prefix brought it
+   back on the next write. Since VIES only recognises the 8-digit EU
+   form (``HU26173247``), the intra-Community check kept answering
+   ``unassigned``, ``vies_valid`` stayed unset and the intra-Community
+   fiscal position was never selected, so the invoice was taxed at the
+   domestic rate instead of being exempt.
+-  The cause was ``_split_vat`` deducing the country code from a
+   database lookup (``search([("vat", "=", vat)])``): during
+   create/write the record is already stored when ``_check_vat`` runs,
+   so it matched itself and ``_run_vat_checks`` re-attached the prefix.
+   The country code is now taken from the record being parsed, and only
+   for a bare numeric CUI, so writing a Romanian CUI without the ``RO``
+   prefix keeps working.
+-  Dropping the lookup also removes one ``search`` per ``_split_vat``
+   call - the method is used by ``_compute_l10n_ro_vat_number`` and by
+   several core and Enterprise localisations - and the non-deterministic
+   result when the same ``vat`` string existed on partners from
+   different countries (``limit=1`` picked one arbitrarily).
 
 Bug Tracker
 ===========
@@ -149,18 +149,18 @@ Authors
 Contributors
 ------------
 
-- `NextERP Romania <https://www.nexterp.ro>`__:
+-  `NextERP Romania <https://www.nexterp.ro>`__:
 
-  - Fekete Mihai <feketemihai@nexterp.ro>
+   -  Fekete Mihai <feketemihai@nexterp.ro>
 
-- `Terrabit <https://www.terrabit.ro>`__:
+-  `Terrabit <https://www.terrabit.ro>`__:
 
-  - Dorin Hongu <dhongu@gmail.com>
+   -  Dorin Hongu <dhongu@gmail.com>
 
-- Adrian Vasile <adrian.vasile@gmail.com>
-- `QDev Web Labs <https://qdev.ro>`__:
+-  Adrian Vasile <adrian.vasile@gmail.com>
+-  `QDev Web Labs <https://qdev.ro>`__:
 
-  - Anastasescu Răzvan-Ioan <razvan@qdev.ro>
+   -  Anastasescu Răzvan-Ioan <razvan@qdev.ro>
 
 Do not contact contributors directly about support or help with
 technical issues.
