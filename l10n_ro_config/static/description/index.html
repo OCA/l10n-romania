@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
-<title>Romania - Localization Config</title>
+<title>README.rst</title>
 <style type="text/css">
 
 /*
@@ -452,9 +452,9 @@ Chart of Accounts, but here we set up the default taxes used.</li>
 <h3><a class="toc-backref" href="#toc-entry-6">Bank Accounts</a></h3>
 <ul>
 <li><p class="first">Tick the “Ro Print in Report” fields if you want the bank account to
-be printed in reports (not all reports are updated but you can use the
-example from the Invoice Report to change the other report where you
-want to print the bank accounts).</p>
+be printed in reports (not all reports are updated but you can use
+the example from the Invoice Report to change the other report where
+you want to print the bank accounts).</p>
 <p>** This applies also for company bank accounts, there you can use
 also the related field from Account Journal to mark them.</p>
 </li>
@@ -469,24 +469,24 @@ also the related field from Account Journal to mark them.</p>
 <li>Fix a foreign tax ID being silently prefixed with its country code on
 every save, which made it impossible to store the number in its local
 form. A Hungarian 11-digit adószám (<tt class="docutils literal"><span class="pre">26173247-2-08</span></tt>) became
-<tt class="docutils literal"><span class="pre">HU26173247-2-08</span></tt> on create, and removing the prefix brought it back
-on the next write. Since VIES only recognises the 8-digit EU form
-(<tt class="docutils literal">HU26173247</tt>), the intra-Community check kept answering
+<tt class="docutils literal"><span class="pre">HU26173247-2-08</span></tt> on create, and removing the prefix brought it
+back on the next write. Since VIES only recognises the 8-digit EU
+form (<tt class="docutils literal">HU26173247</tt>), the intra-Community check kept answering
 <tt class="docutils literal">unassigned</tt>, <tt class="docutils literal">vies_valid</tt> stayed unset and the intra-Community
 fiscal position was never selected, so the invoice was taxed at the
 domestic rate instead of being exempt.</li>
-<li>The cause was <tt class="docutils literal">_split_vat</tt> deducing the country code from a database
-lookup (<tt class="docutils literal"><span class="pre">search([(&quot;vat&quot;,</span> <span class="pre">&quot;=&quot;,</span> <span class="pre">vat)])</span></tt>): during create/write the
-record is already stored when <tt class="docutils literal">_check_vat</tt> runs, so it matched
-itself and <tt class="docutils literal">_run_vat_checks</tt> re-attached the prefix. The country
-code is now taken from the record being parsed, and only for a bare
-numeric CUI, so writing a Romanian CUI without the <tt class="docutils literal">RO</tt> prefix keeps
-working.</li>
+<li>The cause was <tt class="docutils literal">_split_vat</tt> deducing the country code from a
+database lookup (<tt class="docutils literal"><span class="pre">search([(&quot;vat&quot;,</span> <span class="pre">&quot;=&quot;,</span> <span class="pre">vat)])</span></tt>): during
+create/write the record is already stored when <tt class="docutils literal">_check_vat</tt> runs,
+so it matched itself and <tt class="docutils literal">_run_vat_checks</tt> re-attached the prefix.
+The country code is now taken from the record being parsed, and only
+for a bare numeric CUI, so writing a Romanian CUI without the <tt class="docutils literal">RO</tt>
+prefix keeps working.</li>
 <li>Dropping the lookup also removes one <tt class="docutils literal">search</tt> per <tt class="docutils literal">_split_vat</tt>
 call - the method is used by <tt class="docutils literal">_compute_l10n_ro_vat_number</tt> and by
 several core and Enterprise localisations - and the non-deterministic
-result when the same <tt class="docutils literal">vat</tt> string existed on partners from different
-countries (<tt class="docutils literal">limit=1</tt> picked one arbitrarily).</li>
+result when the same <tt class="docutils literal">vat</tt> string existed on partners from
+different countries (<tt class="docutils literal">limit=1</tt> picked one arbitrarily).</li>
 </ul>
 </div>
 </div>
