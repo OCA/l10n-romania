@@ -14,7 +14,7 @@
         >l10n_ro_payment_receipt_report.report_payment_receipt</field>
         <field
             name="paperformat_id"
-            ref="l10n_ro_payment_receipt_report.paperformat_A5_landscape"
+            ref="l10n_ro_payment_receipt_report.paperformat_A5_chitanta_double"
         />
         <field name="binding_model_id" ref="account.model_account_payment" />
         <field name="binding_type">report</field>

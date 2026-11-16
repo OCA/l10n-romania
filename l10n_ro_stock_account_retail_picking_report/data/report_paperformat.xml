@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright 2026 NextERP Romania SRL
+     License AGPL-3.0 or later (https://www.gnu.org/licenses/agpl). -->
+<odoo noupdate="1">
+    <!-- Recepția de marfă în magazin are 16 coloane (cost, adaos, preț raft,
+         TVA neexigibilă...) și nu încape pe A4 portrait. Se tipărește pe
+         landscape, cu margini compacte ca antetul boxed. Se aplică DOAR pe
+         recepția de magazin (vezi ir_actions_report.py); NIR-ul de depozit și
+         avizul rămân portrait. -->
+    <record id="paperformat_retail_nir_landscape" model="report.paperformat">
+        <field name="name">NIR Magazin A4 Landscape</field>
+        <field name="default" eval="False" />
+        <field name="format">A4</field>
+        <field name="orientation">Landscape</field>
+        <field name="margin_top">20</field>
+        <field name="margin_bottom">14</field>
+        <field name="margin_left">6</field>
+        <field name="margin_right">6</field>
+        <field name="header_line" eval="False" />
+        <field name="header_spacing">8</field>
+        <field name="dpi">90</field>
+    </record>
+</odoo>

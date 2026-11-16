@@ -200,6 +200,16 @@ Performance notes
 Changelog
 =========
 
+19.0.1.18.1
+-----------
+
+- Fix the value of a receipt fed by several origin moves. In a two-step
+  transfer the FIFO split cuts the outgoing leg into one move per stock
+  layer, and all of them feed the receipt at the destination: the
+  receipt was valued from the first origin only and crashed with
+  ``Expected singleton`` on the origin reference. It now takes its share
+  of the value of every origin.
+
 19.0.1.11.0
 -----------
 

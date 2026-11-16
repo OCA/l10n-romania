@@ -52,6 +52,114 @@ class TestStockWarehouseCreation(TransactionCase):
         self.assertTrue(usage_type.default_location_src_id, wh_stock_loc)
         self.assertTrue(usage_type.default_location_dest_id, usage_loc)
 
+    def _return_type(self, warehouse, code):
+        return self.env["stock.picking.type"].search(
+            [("warehouse_id", "=", warehouse.id), ("sequence_code", "=", code)]
+        )
+
+    def test_return_types_created(self):
+        """Fiecare operatie prin care marfa iese are drumul ei inapoi."""
+        company = self.env.company
+        warehouse = self.warehouse_obj.create(
+            {"name": "Warehouse Returns", "code": "RET", "company_id": company.id}
+        )
+        stock = warehouse.lot_stock_id
+        vendors = warehouse._l10n_ro_location_by_usage("supplier")
+        customers = warehouse._l10n_ro_location_by_usage("customer")
+
+        expected = [
+            # cod, felul miscarii, sursa, destinatia, operatia pe care o intoarce
+            ("INR", "outgoing", stock, vendors, warehouse.in_type_id),
+            ("OUTR", "incoming", customers, stock, warehouse.out_type_id),
+            (
+                "CONSR",
+                "internal",
+                company.l10n_ro_consume_location_id,
+                stock,
+                warehouse.l10n_ro_consume_type_id,
+            ),
+            (
+                "USAGER",
+                "internal",
+                company.l10n_ro_usage_location_id,
+                stock,
+                warehouse.l10n_ro_usage_type_id,
+            ),
+        ]
+        for code, direction, source, destination, forward in expected:
+            backward = self._return_type(warehouse, code)
+            self.assertEqual(len(backward), 1, f"{code} ar trebui sa existe, o data")
+            self.assertEqual(backward.code, direction)
+            self.assertEqual(backward.default_location_src_id, source)
+            self.assertEqual(backward.default_location_dest_id, destination)
+            # Imperecheate in amandoua sensurile, ca butonul de retur sa stie
+            # pe ce drum sa trimita marfa inapoi.
+            self.assertEqual(forward.return_picking_type_id, backward)
+            self.assertEqual(backward.return_picking_type_id, forward)
+
+    def test_purchase_return_goes_to_a_vendor_location(self):
+        """Nota contabila se citeste de pe destinatie, deci ea decide tot.
+
+        Catre o locatie de furnizor miscarea e retur de achizitie; catre una
+        de client s-ar contabiliza ca o livrare, pe cheltuiala cu marfa
+        vanduta.
+        """
+        warehouse = self.warehouse_obj.create(
+            {"name": "Warehouse Accounting", "code": "RACC"}
+        )
+        self.assertEqual(
+            self._return_type(warehouse, "INR").default_location_dest_id.usage,
+            "supplier",
+        )
+
+    def test_existing_return_type_is_reused(self):
+        """Un tip care exista deja e completat, nu dublat."""
+        company = self.env.company
+        warehouse = self.warehouse_obj.create(
+            {"name": "Warehouse Saft", "code": "RSFT", "company_id": company.id}
+        )
+        self._return_type(warehouse, "INR").unlink()
+        # Cum ajunge cand il face altcineva: fara locatii.
+        existing = self.env["stock.picking.type"].create(
+            {
+                "name": "Return of purchase",
+                "code": "outgoing",
+                "sequence_code": "INR",
+                "company_id": company.id,
+                "warehouse_id": warehouse.id,
+            }
+        )
+        warehouse.in_type_id.return_picking_type_id = existing
+
+        warehouse._create_or_update_sequences_and_picking_types()
+
+        self.assertEqual(
+            self._return_type(warehouse, "INR"),
+            existing,
+            "tipul existent trebuie refolosit, nu dublat",
+        )
+        self.assertEqual(
+            existing.default_location_dest_id,
+            warehouse._l10n_ro_location_by_usage("supplier"),
+            "tipul existent trebuie sa primeasca locatiile care ii lipseau",
+        )
+
+    def test_building_returns_twice_changes_nothing(self):
+        """Rulata a doua oara, configurarea nu mai adauga nimic."""
+        warehouse = self.warehouse_obj.create(
+            {"name": "Warehouse Twice", "code": "RTW"}
+        )
+        before = self.env["stock.picking.type"].search_count(
+            [("warehouse_id", "=", warehouse.id)]
+        )
+        warehouse._create_or_update_sequences_and_picking_types()
+        self.assertEqual(
+            self.env["stock.picking.type"].search_count(
+                [("warehouse_id", "=", warehouse.id)]
+            ),
+            before,
+        )
+
     def test_warehouse_rename(self):
         warehouse = self.warehouse_obj.create(
             {"name": "Warehouse Romania", "code": "ROW"}

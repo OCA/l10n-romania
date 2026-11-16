@@ -44,6 +44,13 @@ class StockMoveLine(models.Model):
                 agg_line.setdefault(key, 0.0)
 
         for move_line in self:
+            # The delivery slip asks for the lines outside packages
+            # (``except_package``); the packed ones are not in the aggregated
+            # dict. Skipping them here keeps a packed line from being charged
+            # onto the unpackaged row that happens to share its key, the same
+            # guard the valued report applies.
+            if kwargs.get("except_package") and move_line.result_package_id:
+                continue
             move = move_line.move_id
             if not move.location_dest_id.l10n_ro_retail:
                 continue
