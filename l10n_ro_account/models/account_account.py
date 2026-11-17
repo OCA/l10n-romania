@@ -49,12 +49,15 @@ class Account(models.Model):
         apoi prima companie a contului."""
         self.ensure_one()
         company = self.env.company
-        if not self.company_ids or company in self.company_ids:
+        # In onchange the companies are new records: compare the real ones,
+        # with_company() refuses a new record id.
+        companies = self.company_ids._origin
+        if not companies or company in companies:
             # compania curenta
             return company
         # prima companie activa a contului, altfel prima companie a contului
-        allowed = self.company_ids & self.env.companies
-        return allowed[:1] or self.company_ids[:1]
+        allowed = companies & self.env.companies
+        return allowed[:1] or companies[:1]
 
     @api.depends_context("company", "allowed_company_ids", "formatted_display_name")
     @api.depends("code")
