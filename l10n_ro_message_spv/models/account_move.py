@@ -17,6 +17,10 @@ class AccountMove(models.Model):
         "invoice_id",
         string="Romania - E-invoice messages",
         help="E-invoice messages related to this invoice.",
+        # same groups as the model ACLs: without them, a salesman opening an
+        # invoice (e.g. a down payment created from a sale order) gets an
+        # access error, because the form loads this field
+        groups="account.group_account_invoice,account.group_account_readonly",
     )
 
     l10n_ro_edi_transaction = fields.Char(
@@ -81,7 +85,7 @@ class AccountMove(models.Model):
         # sa nu atingem documentele-audit ale facturilor proprii trimise la
         # e-Factura.
         spv_moves = self.filtered(
-            lambda m: m.l10n_ro_message_spv_ids
+            lambda m: m.sudo().l10n_ro_message_spv_ids
             and m.move_type in ("in_invoice", "in_refund")
             and m.state in ("draft", "cancel")
         )
@@ -120,7 +124,7 @@ class AccountMove(models.Model):
             self.l10n_ro_edi_download
             or self.l10n_ro_edi_transaction
             or self.l10n_ro_edi_index
-            or self.l10n_ro_message_spv_ids
+            or self.sudo().l10n_ro_message_spv_ids
         )
 
 
