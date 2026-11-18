@@ -70,6 +70,166 @@ class StockWarehouse(models.Model):
             max_sequence += 2
         return create_data, max_sequence
 
+    def _create_or_update_sequences_and_picking_types(self):
+        """Operatiile de retur ale unei firme romanesti.
+
+        Patru drumuri inapoi, pentru cele patru pe care marfa iese din
+        gestiune: receptia, livrarea, consumul si darea in folosinta. Fiecare
+        are tipul lui, ca in registrul de miscari returul sa nu se amestece
+        cu o livrare obisnuita sau cu o mutare intre locatii.
+
+        Locatiile conteaza mai mult decat par: de pe destinatie citeste Odoo
+        felul notei contabile. Catre un furnizor, miscarea e retur de
+        achizitie si se scade din contul pe care a intrat marfa; catre un
+        client, se contabilizeaza ca o livrare, pe cheltuiala cu marfa
+        vanduta. Un retur catre furnizor trimis spre "Customers" iese cu nota
+        unei vanzari -- si asa ies tipurile create fara locatii.
+
+        Nimic nu se dubleaza: un tip se cauta intai dupa codul lui de
+        secventa, deci acolo unde exista deja -- creat de mana sau de alt
+        modul -- el este cel folosit si completat, nu unul nou langa el.
+        """
+        res = super()._create_or_update_sequences_and_picking_types()
+        if self.is_l10n_ro_record:
+            # Tipurile tocmai create nu sunt inca pe depozit: Odoo le scrie
+            # pe campuri abia dupa ce metoda asta se intoarce. Pana atunci
+            # ele exista doar in ce s-a intors, deci de acolo se iau.
+            self._l10n_ro_build_return_types(res)
+        return res
+
+    def _l10n_ro_type_from(self, data, field):
+        """Tipul de operatiune, de pe depozit sau din ce tocmai s-a creat."""
+        self.ensure_one()
+        return (
+            self[field]
+            or self.env["stock.picking.type"].browse(data.get(field)).exists()
+        )
+
+    def _l10n_ro_location_by_usage(self, usage):
+        return self.env["stock.location"].search(
+            [("usage", "=", usage), ("company_id", "in", [False, self.company_id.id])],
+            limit=1,
+        )
+
+    def _l10n_ro_return_type_values(self, data):
+        """Ce tip de retur ii trebuie fiecarei operatii, si pe ce drum.
+
+        ``(operatia dus, cod, nume, felul miscarii, sursa, destinatia)``,
+        pentru fiecare operatie prin care marfa iese din gestiune.
+        """
+        self.ensure_one()
+        stock = self.lot_stock_id
+        vendors = self._l10n_ro_location_by_usage("supplier")
+        customers = self._l10n_ro_location_by_usage("customer")
+        consume = self.company_id.l10n_ro_consume_location_id
+        usage = self.company_id.l10n_ro_usage_location_id
+        values = []
+        if vendors:
+            values.append(
+                (
+                    self._l10n_ro_type_from(data, "in_type_id"),
+                    "INR",
+                    self.env._("Return of purchase"),
+                    "outgoing",
+                    stock,
+                    vendors,
+                )
+            )
+        if customers:
+            values.append(
+                (
+                    self._l10n_ro_type_from(data, "out_type_id"),
+                    "OUTR",
+                    self.env._("Return of sales"),
+                    "incoming",
+                    customers,
+                    stock,
+                )
+            )
+        if consume:
+            values.append(
+                (
+                    self._l10n_ro_type_from(data, "l10n_ro_consume_type_id"),
+                    "CONSR",
+                    self.env._("Return of consumption"),
+                    "internal",
+                    consume,
+                    stock,
+                )
+            )
+        if usage:
+            values.append(
+                (
+                    self._l10n_ro_type_from(data, "l10n_ro_usage_type_id"),
+                    "USAGER",
+                    self.env._("Return of usage giving"),
+                    "internal",
+                    usage,
+                    stock,
+                )
+            )
+        return values
+
+    def _l10n_ro_build_return_types(self, data):
+        """Gaseste sau creeaza tipurile de retur, si le imperecheaza."""
+        self.ensure_one()
+        PickingType = self.env["stock.picking.type"]
+        for (
+            forward,
+            code,
+            name,
+            direction,
+            src,
+            dest,
+        ) in self._l10n_ro_return_type_values(data):
+            if not forward:
+                continue
+            backward = PickingType.search(
+                [
+                    ("sequence_code", "=", code),
+                    ("warehouse_id", "=", self.id),
+                    "|",
+                    ("company_id", "=", self.company_id.id),
+                    ("company_id", "=", False),
+                ],
+                limit=1,
+            )
+            if not backward:
+                sequence = (
+                    self.env["ir.sequence"]
+                    .sudo()
+                    .create(
+                        {
+                            "name": f"{self.name} {name}",
+                            "prefix": f"{self.code}/{code}/",
+                            "padding": 5,
+                            "company_id": self.company_id.id,
+                        }
+                    )
+                )
+                backward = PickingType.create(
+                    {
+                        "name": name,
+                        "code": direction,
+                        "sequence_code": code,
+                        "sequence_id": sequence.id,
+                        "use_create_lots": False,
+                        "use_existing_lots": True,
+                        "company_id": self.company_id.id,
+                        "warehouse_id": self.id,
+                    }
+                )
+            backward.write(
+                {
+                    "default_location_src_id": src.id,
+                    "default_location_dest_id": dest.id,
+                }
+            )
+            if forward.return_picking_type_id != backward:
+                forward.return_picking_type_id = backward
+            if backward.return_picking_type_id != forward:
+                backward.return_picking_type_id = forward
+
     def _get_sequence_values(self, name=False, code=False):
         sequences = super()._get_sequence_values(name=name, code=code)
         if self.is_l10n_ro_record:
