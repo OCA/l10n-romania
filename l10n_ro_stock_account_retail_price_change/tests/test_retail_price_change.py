@@ -194,10 +194,12 @@ class TestRetailPriceChange(TestRetailCommon):
             doc.ids,
         )[0]
         html = html.decode() if isinstance(html, bytes) else html
-        self.assertIn("Retail Price Change Report", html)
-        self.assertIn("Commercial Markup (378)", html)
-        self.assertIn("Deferred VAT (4428)", html)
+        # Assert on language-independent anchors: the account codes and the
+        # document name survive translation, the English labels do not (the
+        # report prints in the company language, Romanian on this database).
         self.assertIn(doc.name, html)
+        self.assertIn("(378)", html)
+        self.assertIn("(4428)", html)
 
     def test_document_settles_a_ledger_that_drifted_from_the_shelf_price(self):
         """The document has to be able to put a drifted ledger right.
