@@ -1,4 +1,5 @@
 from . import models
+from . import wizard
 
 from odoo import SUPERUSER_ID, api
 
