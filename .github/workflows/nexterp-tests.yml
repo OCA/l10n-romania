@@ -70,6 +70,23 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+          # addons_to_test.py compara cu baza pull request-ului.
+          fetch-depth: 0
+      # Doar modulele atinse de PR si cele care depind de ele (INCLUDE, citit
+      # de oca-ci). O schimbare in afara modulelor (workflow, requirements)
+      # testeaza tot. Workflow-urile OCA (test.yml) nu sunt atinse.
+      - name: Select addons to test
+        run: |
+          git config --global --add safe.directory "$PWD"
+          git fetch --no-tags origin \
+              "+refs/heads/${{ github.base_ref }}:refs/remotes/origin/${{ github.base_ref }}"
+          INCLUDE=$(python3 .github/scripts/addons_to_test.py "origin/${{ github.base_ref }}" HEAD)
+          if [ -n "${INCLUDE}" ]; then
+              echo "Testing only: ${INCLUDE}"
+              echo "INCLUDE=${INCLUDE}" >> $GITHUB_ENV
+          else
+              echo "Change reaches outside the addons: testing everything."
+          fi
       - name: Install addons and dependencies
         run: oca_install_addons
       - name: Check licenses
