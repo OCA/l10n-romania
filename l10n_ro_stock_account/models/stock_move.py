@@ -467,6 +467,23 @@ class StockMove(models.Model):
             res = True
         return res
 
+    def _update_accounting_entries(self):
+        """Romanian moves are not re-booked when their value changes.
+
+        Since odoo/odoo@501a537 a cost change re-posts the difference of the
+        move's entry: ``_get_account_move_line_vals`` is expected to adjust the
+        existing lines and return only the delta, against the location's
+        valuation account. Romanian moves are all booked, on accounts that
+        depend on ``l10n_ro_move_type``, and the counterpart of a value change
+        depends on its cause (the notice account for a bill on notice, the
+        cost account for a landed cost, the expense account for a negative
+        stock compensation). The Romanian modules book those changes
+        themselves, so the full entry would otherwise be booked a second time.
+        """
+        return super(
+            StockMove, self.filtered(lambda m: not m.is_l10n_ro_record)
+        )._update_accounting_entries()
+
     def _action_done(self, cancel_backorder=False):
         ro_moves = self.filtered(lambda m: m.is_l10n_ro_record)
         ro_moves._set_locations_from_move_line()
