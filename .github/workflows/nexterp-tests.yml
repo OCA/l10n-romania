@@ -51,7 +51,15 @@ jobs:
     if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: [self-hosted, nexterp-public]
     container: ghcr.io/oca/oca-ci/py3.10-odoo19.0:latest
-    name: test with Odoo
+    name: test with Odoo (${{ matrix.shard }}/4)
+    # Testele Odoo ruleaza intr-un singur proces, pe un singur nucleu, iar
+    # nucleele serverului sunt lente: suita completa dura ~30 min. Modulele
+    # se impart pe 4 joburi paralele dupa timpul lor de test
+    # (.github/scripts/shard_addons.py); fiecare job are baza lui.
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
     services:
       postgres:
         image: postgres:13
@@ -87,13 +95,41 @@ jobs:
           else
               echo "Change reaches outside the addons: testing everything."
           fi
+      - name: Select this shard's addons
+        run: |
+          SHARD=$(python3 .github/scripts/shard_addons.py $(( ${{ matrix.shard }} - 1 )) 4)
+          if [ -z "${SHARD}" ]; then
+              echo "Nothing to test in this shard."
+              echo "SKIP_SHARD=1" >> $GITHUB_ENV
+          else
+              echo "Shard ${{ matrix.shard }}/4: ${SHARD}"
+              # Lantul complet din repo se instaleaza la pasul de teste, intr-un
+              # singur -i; INCLUDE il face pe oca_init_test_database sa instaleze
+              # doar dependintele din afara repo-ului.
+              CLOSURE=$(python3 .github/scripts/shard_addons.py $(( ${{ matrix.shard }} - 1 )) 4 --closure)
+              echo "INCLUDE=${CLOSURE}" >> $GITHUB_ENV
+              echo "SHARD_TAGS=$(echo "${SHARD}" | sed 's#\([^,]*\)#/\1#g')" >> $GITHUB_ENV
+          fi
       - name: Install addons and dependencies
+        if: env.SKIP_SHARD != '1'
         run: oca_install_addons
       - name: Check licenses
+        if: env.SKIP_SHARD != '1'
         run: manifestoo -d . check-licenses
       - name: Check development status
+        if: env.SKIP_SHARD != '1'
         run: manifestoo -d . check-dev-status --default-dev-status=Beta
       - name: Initialize test db
+        if: env.SKIP_SHARD != '1'
         run: oca_init_test_database
+      # Ca oca_run_tests, dar doar testele shard-ului (--test-tags).
       - name: Run tests
-        run: oca_run_tests
+        if: env.SKIP_SHARD != '1'
+        # In container pasii ruleaza implicit cu sh, care nu stie pipefail.
+        shell: bash
+        run: |
+          set -o pipefail
+          oca_wait_for_postgres
+          unbuffer $(which odoo) -d ${PGDATABASE} -i ${INCLUDE} \
+              --test-enable --test-tags "${SHARD_TAGS}" \
+              --http-interface=127.0.0.1 --stop-after-init | oca_checklog_odoo
