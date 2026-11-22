@@ -125,6 +125,8 @@ jobs:
       # Ca oca_run_tests, dar doar testele shard-ului (--test-tags).
       - name: Run tests
         if: env.SKIP_SHARD != '1'
+        # In container pasii ruleaza implicit cu sh, care nu stie pipefail.
+        shell: bash
         run: |
           set -o pipefail
           oca_wait_for_postgres
