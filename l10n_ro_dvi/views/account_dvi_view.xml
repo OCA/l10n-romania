@@ -104,6 +104,14 @@
                                 decoration-primary="1"
                                 readonly="state != 'draft'"
                             />
+                            <field
+                                name="customs_duty_account_id"
+                                readonly="state != 'draft'"
+                            />
+                            <field
+                                name="customs_vat_account_id"
+                                readonly="state != 'draft'"
+                            />
                         </group>
                         <group string="Customs Commission">
                             <field
@@ -113,6 +121,10 @@
                             <field
                                 name="customs_commission_value"
                                 decoration-primary="1"
+                                readonly="state != 'draft'"
+                            />
+                            <field
+                                name="customs_commission_account_id"
                                 readonly="state != 'draft'"
                             />
                         </group>

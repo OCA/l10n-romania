@@ -21,7 +21,7 @@ class ResCompany(models.Model):
         if not customs_duty_product:
             account = self.env["account.account"].search(
                 [
-                    ("code", "=", "446%"),
+                    ("code", "=like", "446%"),
                     ("company_ids", "in", [self.id]),
                 ],
                 limit=1,
@@ -34,7 +34,7 @@ class ResCompany(models.Model):
                     "type": "service",
                     "invoice_policy": "order",
                     "landed_cost_ok": True,
-                    "property_account_expense_id": account if account else False,
+                    "property_account_expense_id": account.id if account else False,
                     "company_id": self.id,
                 }
             )
@@ -49,7 +49,7 @@ class ResCompany(models.Model):
         if not customs_commission_product:
             account = self.env["account.account"].search(
                 [
-                    ("code", "=", "447%"),
+                    ("code", "=like", "447%"),
                     ("company_ids", "in", [self.id]),
                 ],
                 limit=1,
@@ -62,7 +62,7 @@ class ResCompany(models.Model):
                     "type": "service",
                     "invoice_policy": "order",
                     "landed_cost_ok": True,
-                    "property_account_expense_id": account if account else False,
+                    "property_account_expense_id": account.id if account else False,
                     "company_id": self.id,
                 }
             )
