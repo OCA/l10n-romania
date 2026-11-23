@@ -612,19 +612,46 @@ class StockMove(models.Model):
                 return company_currency.round(aml.balance + rate_diff)
         return super()._get_value_from_bill(aml)
 
+    def _l10n_ro_notice_sale_value(self):
+        """Revenue of a delivery on notice: what the invoice will book on 707.
+
+        The notice books 418 = 707 now and the invoice reverses 418 later, so
+        the amount has to be the one the invoice will carry: without VAT and
+        after the line discount. ``price_unit`` is neither when the sale tax is
+        price-included (it holds the VAT) or the line has a discount, and the
+        418 left behind by the invoice would be exactly that difference.
+
+        The unit price is therefore taken from the line subtotal, and the moved
+        quantity is brought to the unit the line is sold in (a case of six, a
+        carton), since the move may count pieces.
+        """
+        self.ensure_one()
+        line = self.sale_line_id
+        qty = self.quantity
+        if (
+            self.product_uom
+            and line.product_uom_id
+            and self.product_uom != line.product_uom_id
+        ):
+            qty = self.product_uom._compute_quantity(qty, line.product_uom_id)
+        if line.product_uom_qty:
+            unit = line.price_subtotal / line.product_uom_qty
+        else:
+            price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
+            unit = line.tax_ids.compute_all(
+                price, line.currency_id, 1.0, product=line.product_id
+            )["total_excluded"]
+        return line.currency_id._convert(
+            unit * qty, self.company_id.currency_id, self.company_id, self.date
+        )
+
     def _get_l10n_ro_value(self, price_type):
         self.ensure_one()
         if price_type == "value":
             return self.value
         if price_type == "sale_price":
             if hasattr(self, "sale_line_id") and self.sale_line_id is not None:
-                sale_value = self.sale_line_id.currency_id._convert(
-                    self.sale_line_id.price_unit * self.quantity,
-                    self.company_id.currency_id,
-                    self.company_id,
-                    self.date,
-                )
-                return sale_value
+                return self._l10n_ro_notice_sale_value()
             else:
                 raise UserError(
                     self.env._(
