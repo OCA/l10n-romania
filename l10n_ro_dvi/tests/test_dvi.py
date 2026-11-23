@@ -418,3 +418,70 @@ class TestDVI(TestROStockCommon):
             ValidationError, msg="Expense account is not set on product Custom Duty"
         ):
             dvi.button_post()
+
+    def test_dvi_accounts_start_from_products_and_can_be_changed(self):
+        company = self.env.company
+        duty_product = company._l10n_ro_get_or_create_custom_duty_product()
+        commission_product = company._l10n_ro_get_or_create_customs_commission_product()
+        # The products are created with the first 446x / 447x account.
+        self.assertTrue(duty_product.property_account_expense_id.code.startswith("446"))
+        self.assertTrue(
+            commission_product.property_account_expense_id.code.startswith("447")
+        )
+
+        purchase = self.env["purchase.order"]
+        for value in self.make_purchase():
+            purchase |= self.create_purchase(value)
+        Account = self.env["account.account"]
+        duty_account = Account.create(
+            {
+                "code": "446500",
+                "name": "Taxe vamale spirtoase",
+                "account_type": "liability_current",
+            }
+        )
+        vat_account = Account.create(
+            {"code": "446600", "name": "TVA vama", "account_type": "liability_current"}
+        )
+        tax_id = self.tax_id.filtered(lambda tax: tax.company_id == company)[:1]
+        dvi = Form(self.env["l10n.ro.account.dvi"])
+        dvi.name = "DVI conturi"
+        dvi.tax_id = tax_id
+        dvi.journal_id = self.journal_id
+        dvi.customs_duty_value = 100
+        dvi.customs_commission_value = 50
+        dvi.invoice_ids.add(purchase.invoice_ids)
+        self.assertEqual(
+            dvi.customs_duty_account_id, duty_product.property_account_expense_id
+        )
+        self.assertEqual(
+            dvi.customs_commission_account_id,
+            commission_product.property_account_expense_id,
+        )
+        dvi.customs_duty_account_id = duty_account
+        dvi.customs_vat_account_id = vat_account
+        dvi = dvi.save()
+        for dvi_line in dvi.line_ids:
+            dvi_line.line_qty = dvi_line.qty
+
+        dvi.button_post()
+        lc = dvi.landed_cost_ids
+        accounts = {line.product_id: line.account_id for line in lc.cost_lines}
+        self.assertEqual(accounts[duty_product], duty_account)
+        self.assertEqual(
+            accounts[commission_product], commission_product.property_account_expense_id
+        )
+        lc.button_validate()
+        vat_counterpart = lc.account_move_id.line_ids.filtered(
+            lambda line: line.name == "VAT paid at customs expense"
+        )
+        self.assertEqual(vat_counterpart.account_id, vat_account)
+        self.assertAlmostEqual(vat_counterpart.credit, dvi.total_tax_value)
+
+    def test_dvi_created_without_form(self):
+        """default_get returns ids: a DVI created in code or by import saves."""
+        dvi = self.env["l10n.ro.account.dvi"].create(
+            {"name": "DVI cod", "tax_id": self.tax_id[:1].id}
+        )
+        self.assertEqual(dvi.journal_id.type, "general")
+        self.assertTrue(dvi.customs_duty_account_id)
