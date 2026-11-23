@@ -492,3 +492,11 @@ class TestRetailPriceChange(TestRetailCommon):
             {"warehouse_id": self.warehouse_mag1.id}
         )
         self.assertTrue(doc.name.startswith("PVSP/"))
+
+    def test_price_history_from_the_variant(self):
+        """The variant form reuses the template's history button."""
+        variant = self.env["product.product"].search([], limit=1)
+        action = variant.action_l10n_ro_retail_price_history()
+        self.assertEqual(action["res_model"], "l10n.ro.retail.price.change.line")
+        # the variant form validates with the button on it
+        self.env.ref("product.product_normal_form_view")._check_xml()
