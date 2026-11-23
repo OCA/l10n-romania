@@ -38,3 +38,12 @@ class ProductProduct(models.Model):
                 continue
             targets[warehouse] = targets.get(warehouse, empty) | product
         return targets
+
+    def action_l10n_ro_retail_price_history(self):
+        """The variant form reuses the template's button box, so the history
+        button is on it too: it opens the history of the variant's template.
+        Without it, any module validating the variant form fails to load
+        (``action_l10n_ro_retail_price_history is not a valid action on
+        product.product``)."""
+        self.ensure_one()
+        return self.product_tmpl_id.action_l10n_ro_retail_price_history()
