@@ -96,6 +96,37 @@ class AccountInvoiceDVI(models.Model):
     )
     customs_commission_value = fields.Monetary(help="taken from dvi if exists")
 
+    # The accounts start from the products and can be changed on each DVI:
+    # the same customs office books duty, commission and VAT on different
+    # 446x/447x analytics depending on the goods (spirits, tobacco, ...).
+    customs_duty_account_id = fields.Many2one(
+        "account.account",
+        compute="_compute_customs_accounts",
+        store=True,
+        readonly=False,
+        check_company=True,
+        help="Account credited with the customs duty (usually 446x). "
+        "Starts from the expense account of the customs duty product.",
+    )
+    customs_commission_account_id = fields.Many2one(
+        "account.account",
+        compute="_compute_customs_accounts",
+        store=True,
+        readonly=False,
+        check_company=True,
+        help="Account credited with the customs commission (usually 447x). "
+        "Starts from the expense account of the customs commission product.",
+    )
+    customs_vat_account_id = fields.Many2one(
+        "account.account",
+        compute="_compute_customs_accounts",
+        store=True,
+        readonly=False,
+        check_company=True,
+        help="Account credited with the VAT paid at customs, against the "
+        "deductible VAT (usually 446x). Starts from the customs duty account.",
+    )
+
     invoice_ids = fields.Many2many(
         "account.move",
         string="Invoices",
@@ -124,17 +155,31 @@ class AccountInvoiceDVI(models.Model):
         "account.move", readonly=True, help="Move for vat price difference"
     )
 
+    @api.depends("customs_duty_product_id", "customs_commission_product_id")
+    def _compute_customs_accounts(self):
+        for dvi in self:
+            duty = dvi.customs_duty_product_id.product_tmpl_id
+            commission = dvi.customs_commission_product_id.product_tmpl_id
+            duty_account = duty.get_product_accounts()["expense"] if duty else False
+            dvi.customs_duty_account_id = duty_account
+            dvi.customs_vat_account_id = duty_account
+            dvi.customs_commission_account_id = (
+                commission.get_product_accounts()["expense"] if commission else False
+            )
+
     @api.model
     def default_get(self, fields_list):
         defaults = super().default_get(fields_list)
         defaults["date"] = fields.Date.today()
         if "company_id" not in defaults:
-            defaults["company_id"] = self.env.company
+            defaults["company_id"] = self.env.company.id
         domain = [
             ("type", "=", "general"),
             ("company_id", "=", self.env.company.id),
         ]
-        defaults["journal_id"] = self.env["account.journal"].search(domain, limit=1)
+        defaults["journal_id"] = (
+            self.env["account.journal"].search(domain, limit=1).id or False
+        )
         customs_duty_product = (
             self.env.company._l10n_ro_get_or_create_custom_duty_product()
         )
@@ -407,14 +452,18 @@ class AccountInvoiceDVI(models.Model):
         values = self.prepare_dvi_landed_cost_vals()
         if self.customs_duty_value:
             product = self.customs_duty_product_id
-            accounts_data = product.product_tmpl_id.get_product_accounts()
+            accounts_data = dict(product.product_tmpl_id.get_product_accounts())
+            if self.customs_duty_account_id:
+                accounts_data["expense"] = self.customs_duty_account_id
             values["cost_lines"] += self.prepare_dvi_landed_cost_lines(
                 product, self.customs_duty_value, accounts_data
             )
 
         if self.customs_commission_value:
             product = self.customs_commission_product_id
-            accounts_data = product.product_tmpl_id.get_product_accounts()
+            accounts_data = dict(product.product_tmpl_id.get_product_accounts())
+            if self.customs_commission_account_id:
+                accounts_data["expense"] = self.customs_commission_account_id
             values["cost_lines"] += self.prepare_dvi_landed_cost_lines(
                 product, self.customs_commission_value, accounts_data
             )
