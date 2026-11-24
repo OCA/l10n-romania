@@ -1,104 +1,96 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <template id="report_payment_receipt_document">
-        <t t-call="web.external_layout">
-            <t t-set="o" t-value="o.with_context(lang=lang)" />
-            <div class="page">
-                <br />
-                <div class="row mt64 fa-pull-right">
-                    <div class="col-12">
-                        <t t-if="o.reconciled_invoice_ids">
-                            <strong>Payment Receipt:
-                                <span t-field="o.name" />
-                            </strong>
-                        </t>
-                        <t
-                            t-if="not o.reconciled_invoice_ids and o.payment_type=='inbound'"
-                        >
-                            <strong>Payment Receipt:
-                                <span t-field="o.name" />
-                            </strong>
+    <!-- Un exemplar de chitanță (RO). Document exclusiv RO, deci textul e scris
+         direct în română; se randează de două ori pe aceeași pagină A5. -->
+    <template id="report_payment_receipt_copy">
+        <div class="chit_copy" style="padding:1mm 2mm;">
+            <div class="row">
+                <div class="col-7">
+                    <strong><span t-field="o.company_id.name" /></strong>
+                    <div style="font-size:.72rem;line-height:1.15;">
+                        CIF <span t-field="o.company_id.vat" />
+                        <t t-if="o.company_id.partner_id.nrc">
+                            · NRC <span t-field="o.company_id.partner_id.nrc" />
                         </t>
                         <br />
-                        <t t-if="o.date">
-                            <strong>Date:
-                                <span t-field="o.date" />
-                            </strong>
-                        </t>
-                    </div>
-                </div>
-                <div class="clearfix" />
-                <div class="row">
-                    <div class="col-8">
-
-                        <span t-if="o.payment_type=='inbound'">We received from:
-                            <strong>
-                        <span t-field="o.partner_id.name" />
-                    </strong>
-                            with address:
-                        </span>
-
-                        <span t-if="o.payment_type=='outbound'">We send to:
-                            <strong>
-                        <span t-field="o.partner_id.name" />
-                    </strong>
-                            with address:
-                        </span>
-
-
                         <span
-                        t-field="o.partner_id"
-                        t-options='{"widget": "contact", "fields": ["address", ], "no_marker": True, "no_tag_br": True}'
-                    />
-                        <t t-if="o.partner_id.vat">
-                            <t t-esc="o.partner_id.country_id.vat_label or 'TIN'" />
-                            <span t-field="o.partner_id.vat" />,
-                        </t>
-                        <t t-if="o.partner_id.nrc">
-                            <span>NRC:</span>
-                            <span t-field="o.partner_id.nrc" />,
-                        </t>
-                        <br />
-                        <span>amount of
-                            <span
-                        t-field="o.amount"
-                        t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"
-                    />
-                        </span>
-                        (<span t-esc="o.currency_id.amount_to_text(o.amount)" />)
-                        <br />
-                        <span>for payment of:
-                            <span
-                        t-esc="','.join(o.reconciled_invoice_ids.mapped('name'))"
-                    />
-                        </span>
-                        .
+                            t-field="o.company_id.partner_id"
+                            t-options='{"widget": "contact", "fields": ["address"], "no_marker": True, "no_tag_br": True}'
+                        />
                     </div>
                 </div>
-                <div class="clearfix">
-                    <div id="total" class="row">
-                        <div
-                            t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-9 col-md-4'} ml-auto"
-                        >
-                            <span>Signature and stamp</span>
-                        </div>
+                <div class="col-5 text-end">
+                    <strong style="font-size:1.1rem;">CHITANȚĂ</strong>
+                    <div>Nr. <span t-field="o.name" /></div>
+                    <div>Data <span t-field="o.date" /></div>
+                    <div style="font-size:.68rem;color:#777;">
+                        <span t-out="copie" />
                     </div>
                 </div>
             </div>
-        </t>
+            <p style="margin:2mm 0 1mm;">
+                Am primit de la
+                <strong><span t-field="o.partner_id.name" /></strong>
+                <t t-if="o.partner_id.contact_address.strip()">, cu adresa
+                    <span
+                        t-field="o.partner_id"
+                        t-options='{"widget": "contact", "fields": ["address"], "no_marker": True, "no_tag_br": True}'
+                    />
+                </t>
+                <t t-if="o.partner_id.vat">,
+                    <t t-esc="o.partner_id.country_id.vat_label or 'CIF'" />
+                    <span t-field="o.partner_id.vat" />
+                </t>
+                <t t-if="o.partner_id.nrc">, NRC <span t-field="o.partner_id.nrc" /></t>,
+                suma de
+                <strong>
+                    <span
+                        t-field="o.amount"
+                        t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"
+                    />
+                </strong>
+                (<span t-esc="o.currency_id.amount_to_text(o.amount)" />)
+                <t t-if="o.reconciled_invoice_ids">
+                    reprezentând contravaloarea
+                    <span t-esc="', '.join(o.reconciled_invoice_ids.mapped('name'))" />
+                </t>.
+            </p>
+            <div class="row" style="margin-top:2mm;">
+                <div class="col-6">Casier,</div>
+                <div class="col-6 text-end">Semnătura și ștampila</div>
+            </div>
+        </div>
+    </template>
+
+    <template id="report_payment_receipt_document">
+        <t t-set="o" t-value="o.with_context(lang=lang)" />
+        <div style="min-height:0;font-size:.82rem;line-height:1.25;">
+            <t t-call="l10n_ro_payment_receipt_report.report_payment_receipt_copy">
+                <t t-set="copie">Exemplar client</t>
+            </t>
+            <div
+                style="border-top:1px dashed #666;text-align:center;margin:2mm 0;font-size:.66rem;color:#888;"
+            >— se rupe —</div>
+            <t t-call="l10n_ro_payment_receipt_report.report_payment_receipt_copy">
+                <t t-set="copie">Exemplar casierie</t>
+            </t>
+        </div>
     </template>
 
     <template id="report_payment_receipt">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-if="o.is_l10n_ro_record">
-                    <t t-set="lang" t-value="o.partner_id.lang" />
+                <t t-set="is_ro" t-value="o.company_id.country_id.code == 'RO'" />
+                <t t-if="is_ro">
+                    <!-- Document legal RO: limba companiei (ro_RO) pentru
+                         formatarea sumelor/datelor și suma în litere -->
+                    <t t-set="lang" t-value="o.company_id.partner_id.lang or 'ro_RO'" />
                     <t
                         t-call="l10n_ro_payment_receipt_report.report_payment_receipt_document"
                         t-lang="lang"
                     />
                 </t>
-                <t t-if="not o.is_l10n_ro_record">
+                <t t-else="">
                     <t t-set="lang" t-value="o.partner_id.lang" />
                     <t t-call="account.report_payment_receipt" t-lang="lang" />
                 </t>
