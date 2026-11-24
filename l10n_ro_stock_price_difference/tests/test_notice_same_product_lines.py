@@ -210,10 +210,18 @@ class TestNoticeSameProductLines(TestROStockCommon):
         )
 
     def test_reception_entry_is_not_a_bill_of_the_purchase(self):
-        """The purchase line on the stock entry does not count as invoiced."""
+        """The purchase line on the stock entry does not count as invoiced,
+        nor the stock entry as a bill of the order."""
         po_lines = self._purchase_on_notice([(10, 800, None), (5, 900, None)])
         self.assertEqual(po_lines.mapped("qty_invoiced"), [0.0, 0.0])
         self.assertEqual(po_lines.mapped("qty_to_invoice"), [10.0, 5.0])
+        purchase = po_lines.order_id
+        self.assertFalse(purchase.invoice_ids)
+        self.assertEqual(purchase.invoice_count, 0)
+
+        invoice = self._bill(po_lines, [800, 900])
+        self.assertEqual(purchase.invoice_ids, invoice)
+        self.assertEqual(purchase.invoice_count, 1)
 
     def test_difference_on_one_line_only(self):
         """10 x 800 billed at 880, 5 x 900 billed at 900: only the first line
