@@ -1,3 +1,16 @@
+## 19.0.1.16.0
+
+- Fix a stock move whose location is a `view` being left without a Romanian move
+  type, which blocked its validation with "Romanian Stock Move Type not set". A
+  warehouse can group several internal stock locations under a `view` location
+  and deliver from it; when the goods are taken from more than one child
+  location, the move keeps the `view` as its location
+  (`_set_locations_from_move_line` only replaces it by a single source), while
+  the stock actually leaves internal locations - which is what the core
+  valuation looks at, through the move lines. The move type now reads a `view`
+  location as internal when all the move lines on that side use internal
+  locations, on both the source and the destination side.
+
 ## 19.0.1.11.0
 
 - Fix an internal transfer expensing the goods instead of handing them over to

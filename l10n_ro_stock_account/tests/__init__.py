@@ -14,3 +14,4 @@ from . import test_notice_currency
 from . import test_ro_stock_dropship
 from . import test_fifo_company_context
 from . import test_suite
+from . import test_view_location
