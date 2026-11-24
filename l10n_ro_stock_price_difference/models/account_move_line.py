@@ -4,6 +4,8 @@
 
 import logging
 
+from markupsafe import Markup
+
 from odoo import models
 from odoo.tools.float_utils import float_is_zero
 
@@ -90,6 +92,8 @@ class AccountMoveLine(models.Model):
             [
                 ("purchase_line_id", "=", line.purchase_line_id.id),
                 ("move_id.state", "!=", "cancel"),
+                # stock entries carry the purchase line too: bills only
+                ("move_id.move_type", "in", ("in_invoice", "in_refund")),
             ]
         )
         inv_value = inv_qty = 0
@@ -115,13 +119,16 @@ class AccountMoveLine(models.Model):
         return res
 
     def l10n_ro_modify_stock_value(self, diff_dict=None):
+        """Create and validate the price difference landed cost of this line.
+        Return the landed cost created (empty recordset when none)."""
         self.ensure_one()
+        no_landed_cost = self.env["stock.landed.cost"]
         if not diff_dict:
-            return
+            return no_landed_cost
         self = self.with_company(self.company_id)
         val_dif = diff_dict.get("value_diff", 0.0)
         if float_is_zero(val_dif, precision_rounding=0.01):
-            return
+            return no_landed_cost
 
         # If this stock move's price difference was already corrected by a
         # prior confirm (e.g. the bill was reset to draft and confirmed
@@ -136,7 +143,7 @@ class AccountMoveLine(models.Model):
                 ("valuation_adjustment_lines.move_id", "=", stock_move_id),
             ]
         ):
-            return
+            return no_landed_cost
 
         # Distribute in case having stock move destinations or account in the
         # invoice line is different than the product stock account
@@ -148,12 +155,32 @@ class AccountMoveLine(models.Model):
             not stock_moves.mapped("l10n_ro_move_track_dest_ids")
             and self.account_id == product_account
         ):
-            return
+            return no_landed_cost
         price_diff_lc = self._l10n_ro_create_price_difference_landed_cost(val_dif)
+        self._l10n_ro_log_price_difference_landed_cost(price_diff_lc, stock_moves)
         price_diff_lc.compute_landed_cost()
         price_diff_lc.with_context(
             l10n_ro_price_difference_move_ids=diff_dict.get("stock_move_id")
         ).button_validate()
+        return price_diff_lc
+
+    def _l10n_ro_log_price_difference_landed_cost(self, landed_cost, stock_moves):
+        """Log on the landed cost the bill and receipts it was created from."""
+        pickings = stock_moves.picking_id
+        bill_link = self.move_id._get_html_link()
+        if pickings:
+            body = self.env._(
+                "Price difference landed cost created from bill %(bill)s "
+                "for receipt(s) %(pickings)s.",
+                bill=bill_link,
+                pickings=Markup(", ").join(p._get_html_link() for p in pickings),
+            )
+        else:
+            body = self.env._(
+                "Price difference landed cost created from bill %(bill)s.",
+                bill=bill_link,
+            )
+        landed_cost.sudo().message_post(body=body)
 
     def _l10n_ro_create_price_difference_landed_cost(self, value):
         vals = self.l10n_ro_prepare_price_difference_landed_cost(value)

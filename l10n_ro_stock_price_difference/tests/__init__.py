@@ -2,5 +2,6 @@ from . import test_price_difference_fifo
 
 # from . import test_price_difference_avg
 from . import test_notice_currency
+from . import test_notice_same_product_lines
 from . import test_price_difference_two_step_reception
 from . import test_price_difference_uom

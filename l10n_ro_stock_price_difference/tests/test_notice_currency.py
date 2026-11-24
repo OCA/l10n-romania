@@ -158,3 +158,108 @@ class TestNoticeCurrencyPriceDifference(TestROStockCommon):
             5400.0,
             msg="5000 at the reception rate plus 100 surplus at the invoice rate",
         )
+
+    def test_notice_with_two_products_diff_only_on_its_own_line(self):
+        """A reception on notice books one journal entry for the whole picking.
+        Each bill line must be compared only with its own product's 408 line,
+        otherwise every line takes the whole picking value as received."""
+        product_fifo_2 = self.env["product.product"].create(
+            {
+                "name": "Product FIFO 2",
+                "is_storable": True,
+                "categ_id": self.category_marfa_fifo.id,
+                "purchase_method": "receive",
+            }
+        )
+        purchase = self.env["purchase.order"].create(
+            {
+                "partner_id": self.supplier_1.id,
+                "currency_id": self.company_currency.id,
+                "picking_type_id": self.picking_type_in.id,
+                "order_line": [
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": self.product_fifo.id,
+                            "product_qty": 10.0,
+                            "price_unit": 800.0,
+                        },
+                    ),
+                    (
+                        0,
+                        0,
+                        {
+                            "product_id": product_fifo_2.id,
+                            "product_qty": 5.0,
+                            "price_unit": 100.0,
+                        },
+                    ),
+                ],
+            }
+        )
+        purchase.button_confirm()
+        picking = purchase.picking_ids
+        picking.l10n_ro_notice = True
+        for move in picking.move_ids:
+            move.quantity = move.product_uom_qty
+        picking.move_ids.picked = True
+        picking.button_validate()
+        self.assertEqual(
+            len(picking.move_ids.account_move_id),
+            1,
+            "the reception books a single entry for the whole picking",
+        )
+
+        action = purchase.action_create_invoice()
+        invoice = self.env["account.move"].browse(action["res_id"])
+        invoice.invoice_date = self.date_recv
+        invoice.invoice_line_ids.filtered(
+            lambda line: line.product_id == self.product_fifo
+        ).price_unit = 880.0
+
+        diffs = invoice._get_l10n_ro_price_differences().get(invoice.id, [])
+        self.assertEqual(
+            [(d["product_id"], d["value_diff"], d["qty_diff"]) for d in diffs],
+            [(self.product_fifo.id, 800.0, 0.0)],
+            "only the line billed at another price shows a difference",
+        )
+
+        invoice.with_context(l10n_ro_approved_price_difference=True).action_post()
+        self.assertAlmostEqual(
+            self._balance(self.acc_4081), 0.0, msg="the 408 pivot must close"
+        )
+        self.assertAlmostEqual(
+            self._balance(self.account_valuation),
+            9300.0,
+            msg="8000 + 800 price difference for FIFO 1, 500 for FIFO 2",
+        )
+
+        landed_cost = self.env["stock.landed.cost"].search(
+            [("l10n_ro_cost_type", "=", "price_diff")]
+        )
+        self.assertEqual(len(landed_cost), 1)
+        entry = landed_cost.account_move_id
+        self.assertEqual(
+            entry.ref,
+            landed_cost.name,
+            "the landed cost points to the entry booking its amount",
+        )
+        self.assertFalse(
+            entry.line_ids.filtered(lambda line: not line.balance),
+            "no 0.00 / 0.00 lines",
+        )
+        self.assertEqual(
+            sorted((line.account_id.id, line.balance) for line in entry.line_ids),
+            sorted(
+                [
+                    (self.account_valuation.id, 800.0),
+                    (self.acc_4081.id, -800.0),
+                ]
+            ),
+        )
+        self.assertEqual(
+            self.env["account.move"].search_count([("ref", "=", landed_cost.name)]),
+            1,
+            "a single entry for the landed cost",
+        )
