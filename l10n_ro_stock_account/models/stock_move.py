@@ -701,10 +701,13 @@ class StockMove(models.Model):
                 "l10n_ro_usage_giving", False
             ):
                 continue
+            # A picking books a single entry for all its moves: the purchase
+            # line tells apart the lines of moves on the same product.
             debit_vals = {
                 "account_id": debit_acc.id,
                 "name": self.reference,
                 "product_id": self.product_id.id,
+                "purchase_line_id": self.purchase_line_id.id,
                 "quantity": self.product_qty,
                 "debit": value,
                 "credit": 0,
@@ -714,6 +717,7 @@ class StockMove(models.Model):
                 "account_id": credit_acc.id,
                 "name": self.reference,
                 "product_id": self.product_id.id,
+                "purchase_line_id": self.purchase_line_id.id,
                 "quantity": self.product_qty,
                 "debit": 0,
                 "credit": value,
