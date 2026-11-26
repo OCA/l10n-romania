@@ -1,98 +1,82 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
+    <!-- Goods entering a shop print the base NIR (cost, charges, subtotal, VAT,
+         total) and, appended on the right, the retail split the shop signs
+         for: how much is added on top, the deferred VAT and the shelf value. -->
     <template
         id="report_delivery_document"
         inherit_id="l10n_ro_stock_picking_valued_report.report_delivery_document"
         priority="110"
     >
-        <!-- Name the document for what it is when goods enter a shop. -->
-        <xpath expr="//h2/span[1]" position="before">
+        <!-- Header cells, appended after the base "Total" column. -->
+        <xpath expr="//table[@name='l10n_ro_nir_table']/thead/tr" position="inside">
             <t t-if="o.l10n_ro_retail_incoming">
-                <span>Goods Receipt and Discrepancy Note</span>
-                <br />
-            </t>
-        </xpath>
-
-        <!-- Columns of the reception note, in the order they are checked:
-             what the goods cost, what is added on top, what they are sold at. -->
-        <xpath
-            expr="//table[@name='stock_move_line_table']//t[@t-if='o.l10n_ro_is_internal']"
-            position="before"
-        >
-            <t t-if="o.l10n_ro_retail_incoming">
-                <th class="text-end">
-                    <strong>Purchase Unit Price</strong>
+                <th class="text-end" name="th_nir_markup">
+                    <strong>Markup (% / value)</strong>
                 </th>
-                <th class="text-end">
-                    <strong>Purchase Value</strong>
-                </th>
-                <th class="text-end">
-                    <strong>Markup %</strong>
-                </th>
-                <th class="text-end">
-                    <strong>Markup Value</strong>
-                </th>
-                <th class="text-end">
+                <th class="text-end" name="th_nir_retail_no_vat">
                     <strong>Retail Price excl. VAT</strong>
                 </th>
-                <th class="text-end">
+                <th class="text-end" name="th_nir_retail_vat">
+                    <strong>Retail Price incl. VAT</strong>
+                </th>
+                <th class="text-end" name="th_nir_deferred_vat">
                     <strong>Deferred VAT</strong>
                 </th>
-                <th class="text-end">
-                    <strong>Retail Price</strong>
-                </th>
-                <th class="text-end">
-                    <strong>Retail Value</strong>
+                <th class="text-end" name="th_nir_retail_value">
+                    <strong>Retail Sale Value</strong>
                 </th>
             </t>
         </xpath>
-    </template>
 
-    <template
-        id="stock_report_delivery_aggregated_move_lines"
-        inherit_id="l10n_ro_stock_picking_valued_report.stock_report_delivery_aggregated_move_lines"
-        priority="110"
-    >
-        <xpath expr="//t[@t-if='o.l10n_ro_is_internal']" position="before">
+        <!-- One cell set per NIR row (one per move). -->
+        <xpath
+            expr="//table[@name='l10n_ro_nir_table']/tbody/tr[@name='nir_row']"
+            position="inside"
+        >
             <t t-if="o.l10n_ro_retail_incoming">
-                <td class="text-end">
-                    <span
-                        t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_retail_cost_unit']"
+                <t t-set="rv" t-value="line['move']._l10n_ro_retail_nir_values()" />
+                <td class="text-end" name="td_nir_markup">
+                    <span t-out="'%.2f' % rv['markup_percent']" />%
+                    /
+                    <span t-out="nir_num(rv['markup'])" />
+                </td>
+                <td class="text-end" name="td_nir_retail_no_vat">
+                    <span t-out="'%.4f' % rv['retail_price_no_vat_unit']" />
+                </td>
+                <td class="text-end" name="td_nir_retail_vat">
+                    <span t-out="'%.4f' % rv['retail_price_vat_unit']" />
+                </td>
+                <td class="text-end" name="td_nir_deferred_vat">
+                    <span t-out="nir_num(rv['vat'])" />
+                </td>
+                <td class="text-end" name="td_nir_retail_value">
+                    <span t-out="nir_num(rv['retail_value'])" />
+                </td>
+            </t>
+        </xpath>
+
+        <!-- Totals, appended after the base total row's "Total" cell. -->
+        <xpath
+            expr="//table[@name='l10n_ro_nir_table']/tfoot/tr[@name='nir_total_row']"
+            position="inside"
+        >
+            <t t-if="o.l10n_ro_retail_incoming">
+                <td class="text-end" name="tf_nir_markup">
+                    <strong
+                        t-out="nir_num(sum(line['move']._l10n_ro_retail_nir_values()['markup'] for line in nir_lines))"
                     />
                 </td>
-                <td class="text-end">
-                    <span
-                        t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_retail_cost_subtotal']"
+                <td name="tf_nir_retail_no_vat" />
+                <td name="tf_nir_retail_vat" />
+                <td class="text-end" name="tf_nir_deferred_vat">
+                    <strong
+                        t-out="nir_num(sum(line['move']._l10n_ro_retail_nir_values()['vat'] for line in nir_lines))"
                     />
                 </td>
-                <td class="text-end">
-                    <span
-                        t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_retail_markup_percent']"
-                    />
-                </td>
-                <td class="text-end">
-                    <span
-                        t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_retail_markup']"
-                    />
-                </td>
-                <td class="text-end">
-                    <span
-                        t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_retail_price_no_vat_unit']"
-                    />
-                </td>
-                <td class="text-end">
-                    <span
-                        t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_retail_vat']"
-                    />
-                </td>
-                <td class="text-end">
-                    <span
-                        t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_retail_price_unit']"
-                    />
-                </td>
-                <td class="text-end">
-                    <span
-                        t-esc="'%.2f' % aggregated_lines[line]['l10n_ro_retail_price_total']"
+                <td class="text-end" name="tf_nir_retail_value">
+                    <strong
+                        t-out="nir_num(sum(line['move']._l10n_ro_retail_nir_values()['retail_value'] for line in nir_lines))"
                     />
                 </td>
             </t>

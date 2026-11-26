@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Docutils: https://docutils.sourceforge.io/" />
-<title>Romania - Mesaje SPV</title>
+<title>README.rst</title>
 <style type="text/css">
 
 /*
@@ -380,8 +380,9 @@ ul.auto-toc {
 electronice (e-Factura):</p>
 <ul class="simple">
 <li>Funcționalități:<ul>
-<li>Descărcare automată mesaje SPV: sincronizare periodică (via cron) a
-listei de mesaje din SPV pentru facturi primite, trimise sau erori.</li>
+<li>Descărcare automată mesaje SPV: sincronizare periodică (via cron)
+a listei de mesaje din SPV pentru facturi primite, trimise sau
+erori.</li>
 <li>Procesare fișiere ZIP: descărcarea automată a arhivelor ZIP de la
 ANAF și extragerea fișierelor XML semnate.</li>
 <li>Creare automată facturi de furnizor: generează schițe de factură
@@ -405,15 +406,15 @@ produsul este identificat automat după codul furnizorului
 folosind <tt class="docutils literal">product.supplierinfo</tt>, cu prioritate maximă față de
 celelalte criterii de căutare.</li>
 <li>Salvare cod furnizor pe linia de factură: codul furnizorului
-(<tt class="docutils literal">l10n_ro_vendor_code</tt>) este salvat pe linia de factură la import,
-chiar dacă produsul nu a fost găsit, pentru a permite asocierea
-ulterioară la validarea facturii.</li>
+(<tt class="docutils literal">l10n_ro_vendor_code</tt>) este salvat pe linia de factură la
+import, chiar dacă produsul nu a fost găsit, pentru a permite
+asocierea ulterioară la validarea facturii.</li>
 <li>Sincronizarea datelor produselor: permite salvarea automată a
 codurilor de furnizor pentru produse la validarea facturilor
 primite.</li>
 <li>Configurare număr de zile pentru descărcarea e-facturilor
-(<tt class="docutils literal">l10n_ro_download_einvoices_days</tt>): numărul maxim de zile pentru
-care se descarcă mesajele din SPV (implicit 60 de zile).</li>
+(<tt class="docutils literal">l10n_ro_download_einvoices_days</tt>): numărul maxim de zile
+pentru care se descarcă mesajele din SPV (implicit 60 de zile).</li>
 <li>Configurare număr de zile pentru reîmprospătarea mesajelor
 (<tt class="docutils literal">l10n_ro_refresh_message_days</tt>): numărul maxim de zile pentru
 care se reîmprospătează mesajele e-Factura (implicit 60 de zile).</li>
@@ -434,8 +435,8 @@ urmărirea stării (Trimis / Validat / Refuzat).</li>
 <li><strong>Sincronizare automată</strong> (via cron) a stărilor facturilor trimise și
 descărcarea răspunsurilor de la SPV.</li>
 <li><strong>Descărcare facturi primite</strong> (received bills): creează automat o
-factură draft de furnizor din XML-ul primit, atașează XML-ul și PDF-ul
-generat de ANAF.</li>
+factură draft de furnizor din XML-ul primit, atașează XML-ul și
+PDF-ul generat de ANAF.</li>
 <li><strong>Jurnal configurabil</strong> pentru facturile importate
 (<tt class="docutils literal">l10n_ro_edi_anaf_imported_inv_journal_id</tt>).</li>
 <li><strong>Deduplicare</strong> facturi primite pe baza sumei totale, CIF-ului
@@ -446,15 +447,17 @@ furnizorului și datei.</li>
 <h3>Ce adaugă <tt class="docutils literal">l10n_ro_message_spv</tt> în plus?</h3>
 <table border="1" class="docutils">
 <colgroup>
-<col width="29%" />
-<col width="26%" />
-<col width="45%" />
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
 </colgroup>
 <thead valign="bottom">
 <tr><th class="head">Funcționalitate</th>
 <th class="head"><tt class="docutils literal">l10n_ro_edi</tt>
 (standard)</th>
-<th class="head"><tt class="docutils literal">l10n_ro_message_spv</tt> (acest modul)</th>
+<th class="head"><tt class="docutils literal">l
+10n_ro_message_spv</tt>
+(acest modul)</th>
 </tr>
 </thead>
 <tbody valign="top">
@@ -471,16 +474,17 @@ primite</td>
 <tr><td>Interfață dedicată
 mesaje SPV</td>
 <td>❌</td>
-<td>✅ cu stări: Draft, Downloaded,
-Invoice, Error, Done</td>
+<td>✅ cu stări: Draft,
+Downloaded, Invoice,
+Error, Done</td>
 </tr>
-<tr><td>Monitorizare încercări
-descărcare</td>
+<tr><td>Monitorizare
+încercări descărcare</td>
 <td>❌</td>
 <td>✅</td>
 </tr>
-<tr><td>Procesare fișiere ZIP
-ANAF</td>
+<tr><td>Procesare fișiere
+ZIP ANAF</td>
 <td>❌</td>
 <td>✅</td>
 </tr>
@@ -494,13 +498,16 @@ ANAF</td>
 <td>❌</td>
 <td>✅</td>
 </tr>
-<tr><td>Căutare produs după cod
-furnizor</td>
+<tr><td>Căutare produs după
+cod furnizor</td>
 <td>❌</td>
-<td>✅ via <tt class="docutils literal">product.supplierinfo</tt></td>
+<td>✅ via
+<tt class="docutils literal">pr
+oduct.supplierinfo</tt></td>
 </tr>
 <tr><td>Salvare
-<tt class="docutils literal">l10n_ro_vendor_code</tt>
+<tt class="docutils literal">l
+10n_ro_vendor_code</tt>
 pe linie</td>
 <td>❌</td>
 <td>✅</td>
@@ -511,15 +518,20 @@ furnizor la validare</td>
 <td>✅</td>
 </tr>
 <tr><td>Configurare zile
-descărcare mesaje SPV</td>
+descărcare mesaje
+SPV</td>
 <td>❌</td>
 <td>✅
-(<tt class="docutils literal">l10n_ro_download_einvoices_days</tt>)</td>
+(<tt class="docutils literal">l10n_ro_downlo
+ad_einvoices_days</tt>)</td>
 </tr>
 <tr><td>Configurare zile
-reîmprospătare mesaje</td>
+reîmprospătare
+mesaje</td>
 <td>❌</td>
-<td>✅ (<tt class="docutils literal">l10n_ro_refresh_message_days</tt>)</td>
+<td>✅
+(<tt class="docutils literal">l10n_ro_ref
+resh_message_days</tt>)</td>
 </tr>
 </tbody>
 </table>
@@ -558,10 +570,10 @@ de sigiliul electronic al Ministerului Finanțelor</strong>.</p>
 vizualizare a facturii în portal nu este suficientă. Trebuie să poți
 prezenta fișierul descărcat care conține semnătura electronică ce
 atestă autenticitatea.</li>
-<li><strong>Arhivarea obligatorie:</strong> Firmele sunt obligate prin lege să arhiveze
-documentele contabile pe termene lungi (de regulă 10 ani). Deoarece
-SPV le șterge după 60 de zile, sarcina arhivării îți revine exclusiv
-ție.</li>
+<li><strong>Arhivarea obligatorie:</strong> Firmele sunt obligate prin lege să
+arhiveze documentele contabile pe termene lungi (de regulă 10 ani).
+Deoarece SPV le șterge după 60 de zile, sarcina arhivării îți revine
+exclusiv ție.</li>
 </ul>
 </div>
 <div class="section" id="integrarea-in-contabilitate">
@@ -602,12 +614,12 @@ XML-ul a fost validat de sistemul ANAF.</li>
 <p><strong>19.0.2.11.0 (2026-08-19)</strong></p>
 <ul class="simple">
 <li>The partner lookup by tax ID now accepts both spellings of the
-Romanian CIF. ANAF sends the code sometimes with and sometimes without
-the <tt class="docutils literal">RO</tt> prefix, while the partner in Odoo may hold the other
-variant; the lookup used to fail in that case and a duplicate
-<tt class="docutils literal">Unknown</tt> partner was created for a company already in the database.
-Both variants are now searched, and the tax ID written on a newly
-created partner is normalized without the prefix.</li>
+Romanian CIF. ANAF sends the code sometimes with and sometimes
+without the <tt class="docutils literal">RO</tt> prefix, while the partner in Odoo may hold the
+other variant; the lookup used to fail in that case and a duplicate
+<tt class="docutils literal">Unknown</tt> partner was created for a company already in the
+database. Both variants are now searched, and the tax ID written on a
+newly created partner is normalized without the prefix.</li>
 <li>Multi-company isolation on SPV messages: <tt class="docutils literal">Invoice</tt>, <tt class="docutils literal">Partner</tt> and
 <tt class="docutils literal">Attachment</tt> are company-checked, the downloaded ZIP is stored in
 the message’s company, the invoice is created explicitly in that
@@ -623,27 +635,27 @@ multi-company rights.</li>
 the <tt class="docutils literal">invoice_sent</tt> E-Factura state. The EDI document created at
 match time is now <tt class="docutils literal">invoice_validated</tt>, a terminal state: the
 document is already in the SPV (the message proves it) and this
-instance never uploaded it, so there is nothing to fetch a status for.
-With <tt class="docutils literal">invoice_sent</tt>, the fetch-status cron queried ANAF with an
-empty <tt class="docutils literal">l10n_ro_edi_index</tt>, failed on every run, logged the failure
-in the chatter and re-triggered itself every 2 minutes for as long as
-such an invoice existed — an endless loop. This shows up on
+instance never uploaded it, so there is nothing to fetch a status
+for. With <tt class="docutils literal">invoice_sent</tt>, the fetch-status cron queried ANAF with
+an empty <tt class="docutils literal">l10n_ro_edi_index</tt>, failed on every run, logged the
+failure in the chatter and re-triggered itself every 2 minutes for as
+long as such an invoice existed — an endless loop. This shows up on
 self-billed invoices a customer issues in the supplier’s name, which
 can only be matched by hand. Re-sending to the SPV stays blocked, as
 before.</li>
 <li>Invoices this instance did upload are unaffected: they already carry
 an EDI document with the upload index, so their normal
-<tt class="docutils literal">invoice_sent</tt> -&gt; <tt class="docutils literal">invoice_validated</tt> flow and signature retrieval
-are untouched.</li>
+<tt class="docutils literal">invoice_sent</tt> -&gt; <tt class="docutils literal">invoice_validated</tt> flow and signature
+retrieval are untouched.</li>
 </ul>
 <p><strong>19.0.2.7.0 (2026-07-28)</strong></p>
 <ul class="simple">
 <li>The product can now be corrected on a bill line imported from SPV
 without losing the data received from the supplier: the description
-and the unit price read from the XML are kept when a different product
-is selected. Previously the description was overwritten with the
-product name as soon as the product changed on bills fetched by the
-standard <tt class="docutils literal">l10n_ro_edi</tt> SPV import (those bills carry
+and the unit price read from the XML are kept when a different
+product is selected. Previously the description was overwritten with
+the product name as soon as the product changed on bills fetched by
+the standard <tt class="docutils literal">l10n_ro_edi</tt> SPV import (those bills carry
 <tt class="docutils literal">l10n_ro_edi_index</tt>, not <tt class="docutils literal">l10n_ro_edi_download</tt>, so the former
 guard did not apply to them).</li>
 <li>The guard is now evaluated per line instead of per bill: lines added
@@ -656,11 +668,11 @@ invoiced while correcting the product.</li>
 <p><strong>19.0.2.1.2 (2026-07-09)</strong></p>
 <ul class="simple">
 <li>Fixed duplicate vendor bills when a bill already exists in Odoo (e.g.
-created from a purchase order) and is still in draft when the matching
-invoice is later downloaded from SPV: the deduplication search used to
-only match <tt class="docutils literal">posted</tt> invoices, so a draft bill with the same
-reference and vendor was never found, and a second draft bill was
-created for the same document. The search now matches any
+created from a purchase order) and is still in draft when the
+matching invoice is later downloaded from SPV: the deduplication
+search used to only match <tt class="docutils literal">posted</tt> invoices, so a draft bill with
+the same reference and vendor was never found, and a second draft
+bill was created for the same document. The search now matches any
 non-cancelled invoice.</li>
 </ul>
 <p><strong>19.0.2.1.1 (2026-07-05)</strong></p>
@@ -668,11 +680,11 @@ non-cancelled invoice.</li>
 <li>Clicking “Download embedded PDF” when the invoice XML has no embedded
 PDF now raises a user-friendly error instead of navigating to a raw
 404 page.</li>
-<li>The form view no longer shows the derived attachment fields (ZIP, XML,
-ANAF PDF, embedded PDF) with their file names, since those are only
-materialized on demand and often have no name to display. The four
-download actions are now buttons with suggestive icons in the form
-header instead.</li>
+<li>The form view no longer shows the derived attachment fields (ZIP,
+XML, ANAF PDF, embedded PDF) with their file names, since those are
+only materialized on demand and often have no name to display. The
+four download actions are now buttons with suggestive icons in the
+form header instead.</li>
 </ul>
 <p><strong>19.0.2.0.0 (2026-07-02)</strong></p>
 <p>Storage optimization: the signed ANAF ZIP is now the only file stored
@@ -684,13 +696,13 @@ invoice date, currency) is parsed in memory.</li>
 <li><tt class="docutils literal">attachment_xml_id</tt>, <tt class="docutils literal">attachment_anaf_pdf_id</tt> and
 <tt class="docutils literal">attachment_embedded_pdf_id</tt> became non-stored computed fields that
 expose the files materialized on the linked invoice.</li>
-<li>The XML is created once, directly on the vendor bill, when the invoice
-is created from the message; the PDF embedded in the XML is attached
-once on the bill as its preview (main attachment).</li>
-<li>The ANAF PDF and the embedded PDF are no longer persisted per message:
-the download buttons stream them on the fly, derived from the ZIP, via
-the new <tt class="docutils literal"><span class="pre">/l10n_ro/message_spv/&lt;id&gt;/{xml,anaf_pdf,embedded_pdf}</span></tt>
-routes.</li>
+<li>The XML is created once, directly on the vendor bill, when the
+invoice is created from the message; the PDF embedded in the XML is
+attached once on the bill as its preview (main attachment).</li>
+<li>The ANAF PDF and the embedded PDF are no longer persisted per
+message: the download buttons stream them on the fly, derived from
+the ZIP, via the new
+<tt class="docutils literal"><span class="pre">/l10n_ro/message_spv/&lt;id&gt;/{xml,anaf_pdf,embedded_pdf}</span></tt> routes.</li>
 <li>Migration: derived attachments of messages linked to an invoice are
 relinked to the invoice; those of messages without an invoice are
 deleted (they can be re-extracted from the ZIP), reclaiming the

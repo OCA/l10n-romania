@@ -120,7 +120,10 @@ class LandedCost(models.Model):
                         "name": self.env._("VAT paid at customs expense"),
                         "debit": 0.0,
                         "credit": cost.l10n_ro_tax_value,
-                        "account_id": accounts_data["expense"].id,
+                        "account_id": (
+                            cost.l10n_ro_account_dvi_id.customs_vat_account_id
+                            or accounts_data["expense"]
+                        ).id,
                         "move_id": cost.account_move_id.id,
                     },
                     {

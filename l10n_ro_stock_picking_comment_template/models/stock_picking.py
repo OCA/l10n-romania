@@ -52,3 +52,31 @@ class StockPicking(models.Model):
                 if not domain or record.filtered_domain(domain):
                     record.comment_template_ids = [(4, template.id)]
         return res
+
+    def _l10n_ro_comment_templates(self, position):
+        """Comment templates to print for a position, matched at render time.
+
+        The stored ``comment_template_ids`` is recomputed on read and can come
+        back empty (the recompute evaluates the templates' domain -- which
+        leans on the non-stored ``is_l10n_ro_record`` -- in a context where it
+        is not yet available), so the printed voucher lost its committee and
+        signature blocks. The report asks for the templates directly instead:
+        global ones (or ones without a partner), for this model and position,
+        whose domain the picking satisfies.
+        """
+        self.ensure_one()
+        templates = self.env["base.comment.template"].search(
+            [
+                ("models", "=", self._name),
+                ("position", "=", position),
+                "|",
+                ("global_template", "=", True),
+                ("partner_ids", "=", False),
+            ]
+        )
+        result = self.env["base.comment.template"]
+        for template in templates:
+            domain = safe_eval(template.domain) if template.domain else []
+            if not domain or self.filtered_domain(domain):
+                result |= template
+        return result

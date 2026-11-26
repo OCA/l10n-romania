@@ -75,8 +75,11 @@ class StockRetailReport(models.Model):
     )
     retail_initial = fields.Monetary(
         string="Opening Retail Value (371)",
-        compute="_compute_values",
+        readonly=True,
         currency_field="currency_id",
+        help="Opening cost plus opening markup and deferred VAT - what account "
+        "371 held for this stock at the start of the period. A real view column "
+        "(the plain sum of the three), so the list totals it in the footer.",
     )
 
     # --- movements inside the period ----------------------------------------
@@ -154,10 +157,11 @@ class StockRetailReport(models.Model):
     )
     retail_value = fields.Monetary(
         string="Retail Value (371)",
-        compute="_compute_values",
+        readonly=True,
         currency_field="currency_id",
         help="Cost plus the markup and deferred VAT carried - what account 371 "
-        "holds for this stock.",
+        "holds for this stock. A real view column (the plain sum of the three), "
+        "so the list totals it in the footer.",
     )
 
     # --- unit figures and the gap against today's shelf price ---------------
@@ -337,6 +341,12 @@ class StockRetailReport(models.Model):
                 COALESCE(l.cost_initial, 0) AS cost_initial,
                 COALESCE(l.markup_initial, 0) AS markup_initial,
                 COALESCE(l.vat_initial, 0) AS vat_initial,
+                -- Opening balance of 371: the plain sum of its three parts,
+                -- kept as a real view column so the list footer can total it
+                -- (an aggregate cannot reach a non-stored computed field).
+                COALESCE(l.cost_initial, 0)
+                    + COALESCE(l.markup_initial, 0)
+                    + COALESCE(l.vat_initial, 0) AS retail_initial,
                 COALESCE(l.quantity_in, 0) AS quantity_in,
                 COALESCE(l.cost_in, 0) AS cost_in,
                 COALESCE(l.markup_in, 0) AS markup_in,
@@ -353,6 +363,11 @@ class StockRetailReport(models.Model):
                 COALESCE(l.cost_total, 0) AS cost_total,
                 COALESCE(l.markup_total, 0) AS markup_total,
                 COALESCE(l.vat_total, 0) AS vat_total,
+                -- Closing balance of 371, same sum as retail_initial, as a real
+                -- column so "Retail Value (371)" totals in the list footer.
+                COALESCE(l.cost_total, 0)
+                    + COALESCE(l.markup_total, 0)
+                    + COALESCE(l.vat_total, 0) AS retail_value,
                 COALESCE(h.quantity_on_hand, 0) AS quantity_on_hand,
                 -- The quants are out of the picture over a period, so there
                 -- is nothing to compare the ledger against and the column has
@@ -459,11 +474,10 @@ class StockRetailReport(models.Model):
             company = rec.company_id or self.env.company
             currency = company.currency_id
             qty = rec.quantity or 0.0
+            # retail_value / retail_initial are real view columns now (summed in
+            # the footer); here we only need the figure to derive the per-unit
+            # value and the revaluation gap.
             retail_value = rec.cost_total + rec.markup_total + rec.vat_total
-            rec.retail_initial = currency.round(
-                rec.cost_initial + rec.markup_initial + rec.vat_initial
-            )
-            rec.retail_value = currency.round(retail_value)
             rec.cost_unit = currency.round(rec.cost_total / qty) if qty else 0.0
             rec.retail_price_unit = currency.round(retail_value / qty) if qty else 0.0
             current_unit = current_prices.get(

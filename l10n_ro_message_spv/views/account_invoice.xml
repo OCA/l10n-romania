@@ -23,7 +23,7 @@
                 <page
                     id="l10n_ro_message_spv_ids"
                     string="ANAF SPV Messages"
-                    groups="base.group_no_one"
+                    groups="account.group_account_invoice,account.group_account_readonly"
                     invisible="not l10n_ro_message_spv_ids"
                 >
                     <field name="l10n_ro_message_spv_ids">

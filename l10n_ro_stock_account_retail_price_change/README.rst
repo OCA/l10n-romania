@@ -121,25 +121,25 @@ already asks for. What that module needs, this one relies on:
 
 Two things are worth doing once, before the first price change:
 
-- **Settle the opening balance.** Stock that was on the shelf before
-  ``l10n_ro_stock_account_retail`` was installed is in the quants and
-  not in the markup ledger. Run *Retail Opening Balance* until it finds
-  nothing. A price change document refuses to post while the ledger does
-  not account for the same quantity it revalues, because the rate it
-  applies is derived from the ledger.
+-  **Settle the opening balance.** Stock that was on the shelf before
+   ``l10n_ro_stock_account_retail`` was installed is in the quants and
+   not in the markup ledger. Run *Retail Opening Balance* until it finds
+   nothing. A price change document refuses to post while the ledger
+   does not account for the same quantity it revalues, because the rate
+   it applies is derived from the ledger.
 
-- **Numbering.** Each company gets its own ``PVSP/YYYY/00000`` sequence,
-  created on install and whenever a company is added. Change the prefix
-  or padding per company under *Settings → Technical → Sequences* if the
-  shop's own numbering differs.
+-  **Numbering.** Each company gets its own ``PVSP/YYYY/00000``
+   sequence, created on install and whenever a company is added. Change
+   the prefix or padding per company under *Settings → Technical →
+   Sequences* if the shop's own numbering differs.
 
-- **The nightly reconciliation.** *Retail: Reconcile Shelf Prices* is
-  scheduled daily under *Settings → Technical → Scheduled Actions*. It
-  raises drafts, never posts anything, and is what catches a price that
-  moved without anyone writing a rule - a dated promotion opening, a
-  shelf price computed over a cost the last reception moved, a change of
-  VAT rate. Leave it on: the write hooks on the price list only make the
-  common cases immediate, they cannot see those.
+-  **The nightly reconciliation.** *Retail: Reconcile Shelf Prices* is
+   scheduled daily under *Settings → Technical → Scheduled Actions*. It
+   raises drafts, never posts anything, and is what catches a price that
+   moved without anyone writing a rule - a dated promotion opening, a
+   shelf price computed over a cost the last reception moved, a change
+   of VAT rate. Leave it on: the write hooks on the price list only make
+   the common cases immediate, they cannot see those.
 
 Usage
 =====
@@ -202,24 +202,24 @@ document holding the labels that actually changed — not the range.
 
 Caught as it happens, from a write on the price list:
 
-- a fixed price on a product or a template;
-- a rule on a **category**, or a **global** rule;
-- any term of a **formula** — the base it starts from, the discount or
-  markup, the rounding, the extra fee, the margins;
-- a change on **another price list the shop derives from**, however long
-  the chain: the buyer moves a price on the buying list and the shop's
-  labels move with it;
-- deleting a rule, because the label changes then as well;
-- a change to the product's **sale price**, for the shops that price
-  their shelves off it — which is the default setup.
+-  a fixed price on a product or a template;
+-  a rule on a **category**, or a **global** rule;
+-  any term of a **formula** — the base it starts from, the discount or
+   markup, the rounding, the extra fee, the margins;
+-  a change on **another price list the shop derives from**, however
+   long the chain: the buyer moves a price on the buying list and the
+   shop's labels move with it;
+-  deleting a rule, because the label changes then as well;
+-  a change to the product's **sale price**, for the shops that price
+   their shelves off it — which is the default setup.
 
 Caught overnight, by *Retail: Reconcile Shelf Prices*:
 
-- the day a **dated promotion** opens or closes on its own;
-- a shelf price computed over the **cost**, which moves on the next
-  reception at a different cost;
-- a change of **VAT rate**, which re-splits every price in the shop;
-- anything else that moved the label without anyone writing a rule.
+-  the day a **dated promotion** opens or closes on its own;
+-  a shelf price computed over the **cost**, which moves on the next
+   reception at a different cost;
+-  a change of **VAT rate**, which re-splits every price in the shop;
+-  anything else that moved the label without anyone writing a rule.
 
 The cron is the mechanism of record, and it is the one to trust: it
 checks the invariant itself — the markup ledger says what each unit on
@@ -257,6 +257,18 @@ back: the rule that produced the price still reaches the product
 afterwards. A fixed rule is an override, and it is written when somebody
 actually overrode something — a price typed by hand on the document.
 
+Changelog
+=========
+
+19.0.1.4.1
+----------
+
+-  The retail price history button also works on the product variant
+   form, which reuses the template's button box. The method only existed
+   on the template, so validating the variant form failed -- installing
+   a module that extends it (e.g. Romania - Accounting) stopped with
+   "not a valid action on product.product".
+
 Bug Tracker
 ===========
 
@@ -279,13 +291,13 @@ Authors
 Contributors
 ------------
 
-- `NextERP Romania <https://www.nexterp.ro>`__:
+-  `NextERP Romania <https://www.nexterp.ro>`__:
 
-  - Fekete Mihai <contact@nexterp.ro>
+   -  Fekete Mihai <contact@nexterp.ro>
 
-- `Dakai Soft SRL <https://www.dakai.ro>`__:
+-  `Dakai Soft SRL <https://www.dakai.ro>`__:
 
-  - Adrian Vacaru <adrian.vacaru@dakai.ro>
+   -  Adrian Vacaru <adrian.vacaru@dakai.ro>
 
 Do not contact contributors directly about support or help with
 technical issues.

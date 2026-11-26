@@ -46,11 +46,11 @@ Installation
 
 To install this module, you need to:
 
-- clone the repository https://github.com/OCA/l10n-romania
-- add the path to this repository in your configuration (addons-path)
-- update the module list
-- search for "Romania - Invoice Report" in your addons
-- install the module
+-  clone the repository https://github.com/OCA/l10n-romania
+-  add the path to this repository in your configuration (addons-path)
+-  update the module list
+-  search for "Romania - Invoice Report" in your addons
+-  install the module
 
 Bug Tracker
 ===========
@@ -73,9 +73,9 @@ Authors
 Contributors
 ------------
 
-- `NextERP Romania <https://www.nexterp.ro>`__:
+-  `NextERP Romania <https://www.nexterp.ro>`__:
 
-  - Fekete Mihai <feketemihai@nexterp.ro>
+   -  Fekete Mihai <feketemihai@nexterp.ro>
 
 Do not contact contributors directly about support or help with
 technical issues.

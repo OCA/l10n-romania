@@ -58,24 +58,37 @@ class StockMoveLine(models.Model):
             agg_move_lines[aggregated_move_line]["l10n_ro_price_subtotal"] = 0
             agg_move_lines[aggregated_move_line]["l10n_ro_price_tax"] = 0
             agg_move_lines[aggregated_move_line]["l10n_ro_price_total"] = 0
+        quantities = {}
         for move_line in self:
+            # The delivery slip asks for the lines outside packages
+            # (``except_package``); the packed ones are not in the dict.
+            if kwargs.get("except_package") and move_line.result_package_id:
+                continue
             aggregated_properties = move_line._get_aggregated_properties(
                 move_line=move_line
             )
             line_key = aggregated_properties["line_key"]
             agg_line = agg_move_lines.get(line_key)
-            if not agg_line:
-                # Core may aggregate some lines (e.g. packages) under a key not
-                # returned here; skip rather than raising KeyError.
+            if agg_line is None:
                 continue
             agg_line["l10n_ro_currency_id"] = move_line.l10n_ro_currency_id.id
-            agg_line["l10n_ro_price_unit"] += move_line.l10n_ro_price_unit
             agg_line["l10n_ro_additional_charges"] += (
                 move_line.l10n_ro_additional_charges
             )
             agg_line["l10n_ro_price_subtotal"] += move_line.l10n_ro_price_subtotal
             agg_line["l10n_ro_price_tax"] += move_line.l10n_ro_price_tax
             agg_line["l10n_ro_price_total"] += move_line.l10n_ro_price_total
+            quantities[line_key] = (
+                quantities.get(line_key, 0.0) + move_line._get_move_line_quantity()
+            )
+        # The unit price of a product split over several lines (lots,
+        # shelves) is the price of the whole, not the sum of the lines' prices.
+        for line_key, quantity in quantities.items():
+            agg_line = agg_move_lines[line_key]
+            if quantity:
+                agg_line["l10n_ro_price_unit"] = (
+                    agg_line["l10n_ro_price_subtotal"] / quantity
+                )
         return agg_move_lines
 
     def _get_move_line_quantity(self):

@@ -194,10 +194,12 @@ class TestRetailPriceChange(TestRetailCommon):
             doc.ids,
         )[0]
         html = html.decode() if isinstance(html, bytes) else html
-        self.assertIn("Retail Price Change Report", html)
-        self.assertIn("Commercial Markup (378)", html)
-        self.assertIn("Deferred VAT (4428)", html)
+        # Assert on language-independent anchors: the account codes and the
+        # document name survive translation, the English labels do not (the
+        # report prints in the company language, Romanian on this database).
         self.assertIn(doc.name, html)
+        self.assertIn("(378)", html)
+        self.assertIn("(4428)", html)
 
     def test_document_settles_a_ledger_that_drifted_from_the_shelf_price(self):
         """The document has to be able to put a drifted ledger right.
@@ -492,3 +494,11 @@ class TestRetailPriceChange(TestRetailCommon):
             {"warehouse_id": self.warehouse_mag1.id}
         )
         self.assertTrue(doc.name.startswith("PVSP/"))
+
+    def test_price_history_from_the_variant(self):
+        """The variant form reuses the template's history button."""
+        variant = self.env["product.product"].search([], limit=1)
+        action = variant.action_l10n_ro_retail_price_history()
+        self.assertEqual(action["res_model"], "l10n.ro.retail.price.change.line")
+        # the variant form validates with the button on it
+        self.env.ref("product.product_normal_form_view")._check_xml()

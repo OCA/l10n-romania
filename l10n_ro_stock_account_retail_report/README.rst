@@ -86,13 +86,13 @@ Authors
 Contributors
 ------------
 
-- `NextERP Romania <https://www.nexterp.ro>`__:
+-  `NextERP Romania <https://www.nexterp.ro>`__:
 
-  - Fekete Mihai <contact@nexterp.ro>
+   -  Fekete Mihai <contact@nexterp.ro>
 
-- `Dakai Soft SRL <https://www.dakai.ro>`__:
+-  `Dakai Soft SRL <https://www.dakai.ro>`__:
 
-  - Adrian Vacaru <adrian.vacaru@dakai.ro>
+   -  Adrian Vacaru <adrian.vacaru@dakai.ro>
 
 Do not contact contributors directly about support or help with
 technical issues.

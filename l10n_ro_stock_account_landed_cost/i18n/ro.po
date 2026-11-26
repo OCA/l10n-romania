@@ -86,6 +86,11 @@ msgstr "Nume afișat"
 #. module: l10n_ro_stock_account_landed_cost
 #: model:ir.model.fields.selection,name:l10n_ro_stock_account_landed_cost.selection__stock_landed_cost__l10n_ro_cost_type__excise
 msgid "Excise"
+msgstr "Accize"
+
+#. module: l10n_ro_stock_account_landed_cost
+#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_landed_cost.view_stock_landed_cost_form
+msgid "Valuation Adjustments"
 msgstr ""
 
 #. module: l10n_ro_stock_account_landed_cost
@@ -208,20 +213,16 @@ msgstr "Cost Adițional Stoc"
 msgid "Stock Move"
 msgstr "Mișcare stoc"
 
+
 #. module: l10n_ro_stock_account_landed_cost
 #: model:ir.model.fields.selection,name:l10n_ro_stock_account_landed_cost.selection__stock_landed_cost__l10n_ro_cost_type__transport
 msgid "Transport"
-msgstr ""
+msgstr "Transport"
 
 #. module: l10n_ro_stock_account_landed_cost
 #: model:ir.model,name:l10n_ro_stock_account_landed_cost.model_stock_valuation_adjustment_lines
 msgid "Valuation Adjustment Lines"
 msgstr "Linii de ajustare a evaluării"
-
-#. module: l10n_ro_stock_account_landed_cost
-#: model_terms:ir.ui.view,arch_db:l10n_ro_stock_account_landed_cost.view_stock_landed_cost_form
-msgid "Valuation Adjustments"
-msgstr ""
 
 #. module: l10n_ro_stock_account_landed_cost
 #: model:ir.model.fields,field_description:l10n_ro_stock_account_landed_cost.field_l10n_ro_stock_valuation_adjustment_lines__volume
@@ -303,3 +304,4 @@ msgstr ""
 
 #~ msgid "Valued Type"
 #~ msgstr "Tip evaluare"
+

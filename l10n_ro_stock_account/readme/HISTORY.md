@@ -1,3 +1,20 @@
+## 19.0.1.20.1
+
+- **The revenue of a delivery on notice is booked without VAT.** The notice
+  (418 = 707) took the sale line's unit price, which holds the VAT when the
+  sale tax is price-included and ignores the line discount; the invoice then
+  reversed 418 without VAT and left the difference on 418, with 707 inflated
+  by the same amount. The notice now books the line's untaxed, discounted
+  price, with the moved quantity converted to the unit the line is sold in.
+
+## 19.0.1.18.1
+
+- Fix the value of a receipt fed by several origin moves. In a two-step
+  transfer the FIFO split cuts the outgoing leg into one move per stock layer,
+  and all of them feed the receipt at the destination: the receipt was valued
+  from the first origin only and crashed with `Expected singleton` on the
+  origin reference. It now takes its share of the value of every origin.
+
 ## 19.0.1.11.0
 
 - Fix an internal transfer expensing the goods instead of handing them over to

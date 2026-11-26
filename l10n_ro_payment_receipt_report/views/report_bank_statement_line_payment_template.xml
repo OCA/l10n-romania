@@ -98,22 +98,30 @@
                     >
                         <tbody>
                             <tr>
-                                <td rowspan="3" colspan="4">
+                                <td rowspan="3" colspan="3">
                                     <strong>Signatures</strong>
                                 </td>
-                                <td rowspan="1" colspan="4">
+                                <td rowspan="1" colspan="3">
                                     <strong>Unit Manager</strong>
                                 </td>
-                                <td rowspan="1" colspan="4">
+                                <td rowspan="1" colspan="3">
+                                    <strong
+                                    >Visa for preventive financial control</strong>
+                                </td>
+                                <td rowspan="1" colspan="3">
                                     <strong>Financial-Accounting Department</strong>
                                 </td>
                             </tr>
                             <tr>
-                                <td rowspan="2" colspan="4">
+                                <td rowspan="2" colspan="3">
                                     <br />
                                     <br />
                                 </td>
-                                <td rowspan="2" colspan="4">
+                                <td rowspan="2" colspan="3">
+                                    <br />
+                                    <br />
+                                </td>
+                                <td rowspan="2" colspan="3">
                                     <br />
                                     <br />
                                 </td>
@@ -278,8 +286,9 @@
     <template id="report_bank_statement_line_payment_template">
         <t t-call="web.html_container">
             <t t-foreach="docs" t-as="o">
-                <t t-if="o.is_l10n_ro_record">
-                    <t t-set="lang" t-value="o.partner_id.lang" />
+                <t t-if="o.company_id.country_id.code == 'RO'">
+                    <!-- Document legal RO: limba companiei (ro_RO), nu a partenerului -->
+                    <t t-set="lang" t-value="o.company_id.partner_id.lang or 'ro_RO'" />
                     <t
                         t-call="l10n_ro_payment_receipt_report.report_bank_statement_line_payment_document"
                         t-lang="lang"
