@@ -15,28 +15,42 @@
              însoțire": rename the title (keeping the picking number) so it does
              not read "Notă de livrare" / "Mișcare internă". The NIR (incoming)
              keeps its standard title. -->
-        <xpath expr="//div[hasclass('page')]/h2/span[1]" position="attributes">
-            <attribute
-                name="t-out"
-            >('Aviz de însoțire a mărfii' if (o.is_l10n_ro_record and o.company_id.country_id.code == 'RO' and o.picking_type_id.code in ('outgoing', 'internal')) else o.picking_type_id._get_code_report_name())</attribute>
+        <!-- The standard <h2> is kept (wrapped) for non-RO companies; a RO
+             company gets its own <h2>. Modules that inject content relative to
+             the first //h2 (e.g. a "Delivery Orders" heading inserted before
+             it) then land inside the non-RO branch and never show on the RO
+             document. -->
+        <xpath expr="//div[hasclass('page')]/h2" position="replace">
+            <t
+                t-if="not (o.is_l10n_ro_record and o.company_id.country_id.code == 'RO')"
+            >$0</t>
+            <h2 t-else="" style="margin-top: 15px;" name="l10n_ro_title">
+                <span
+                    t-out="'Aviz de însoțire a mărfii' if o.picking_type_id.code in ('outgoing', 'internal') else o.picking_type_id._get_code_report_name()"
+                />
+                <span t-field="o.name" />
+            </h2>
         </xpath>
-        <!-- Etichete adresă în română pe avizul RO -->
+        <!-- Etichete adresă în română pe avizul RO. Pentru restul companiilor
+             se păstrează <strong>-ul original din stock, ca să rămână termen
+             traductibil (tradus în limba raportului). Condiția RO stă pe un
+             <t> care înfășoară <strong>-ul original (nu pe <strong> însuși),
+             ca alte module care pun propriul t-if pe acel <strong> să nu o
+             suprascrie. -->
         <xpath
             expr="//div[@name='outgoing_delivery_address']//strong"
             position="replace"
         >
-            <strong>
-                <t
-                    t-out="'Adresă de livrare' if (o.is_l10n_ro_record and o.company_id.country_id.code == 'RO') else 'Delivery Address'"
-                />
-            </strong>
+            <t
+                t-if="not (o.is_l10n_ro_record and o.company_id.country_id.code == 'RO')"
+            >$0</t>
+            <strong t-else="">Adresă de livrare</strong>
         </xpath>
         <xpath expr="//div[@name='customer_address']//strong" position="replace">
-            <strong>
-                <t
-                    t-out="'Client' if (o.is_l10n_ro_record and o.company_id.country_id.code == 'RO') else 'Customer'"
-                />
-            </strong>
+            <t
+                t-if="not (o.is_l10n_ro_record and o.company_id.country_id.code == 'RO')"
+            >$0</t>
+            <strong t-else="">Client</strong>
         </xpath>
 
         <xpath expr="//table[@name='stock_move_table']" position="attributes">
