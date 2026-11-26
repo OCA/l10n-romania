@@ -34,9 +34,9 @@ Romania - Payment Receipt Report
 
 This module allows you to print cash reports for:
 
-- receipt
-- payment disposal
-- payment collection
+-  receipt
+-  payment disposal
+-  payment collection
 
 **Table of contents**
 
@@ -48,19 +48,19 @@ Installation
 
 To install this module, you need to:
 
-- clone the branch 14.0 of the repository
-  https://github.com/OCA/l10n-romania
-- add the path to this repository in your configuration (addons-path)
-- update the module list
-- search for "Romania - Payment Receipt Report" in your addons
-- install the module
+-  clone the branch 14.0 of the repository
+   https://github.com/OCA/l10n-romania
+-  add the path to this repository in your configuration (addons-path)
+-  update the module list
+-  search for "Romania - Payment Receipt Report" in your addons
+-  install the module
 
 Usage
 =====
 
-- Go to Customer Payment and print the "Receipt" Report
-- Go to Statement Operations (bank statement lines) and print the
-  "Payment Disposal / Collection" Report
+-  Go to Customer Payment and print the "Receipt" Report
+-  Go to Statement Operations (bank statement lines) and print the
+   "Payment Disposal / Collection" Report
 
 Bug Tracker
 ===========
@@ -84,13 +84,13 @@ Authors
 Contributors
 ------------
 
-- `NextERP Romania <https://www.nexterp.ro>`__:
+-  `NextERP Romania <https://www.nexterp.ro>`__:
 
-  - Fekete Mihai <feketemihai@nexterp.ro>
+   -  Fekete Mihai <feketemihai@nexterp.ro>
 
-- `Terrabit <https://www.terrabit.ro>`__:
+-  `Terrabit <https://www.terrabit.ro>`__:
 
-  - Dorin Hongu <dhongu@gmail.com>
+   -  Dorin Hongu <dhongu@gmail.com>
 
 Do not contact contributors directly about support or help with
 technical issues.

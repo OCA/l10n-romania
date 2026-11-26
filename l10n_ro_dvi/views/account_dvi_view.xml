@@ -26,12 +26,14 @@
                         class="oe_highlight"
                         name="button_post"
                         type="object"
+                        groups="stock.group_stock_manager,account.group_account_user"
                     />
                     <button
                         string="Revert"
                         name="button_reverse"
                         type="object"
                         invisible="state != 'posted'"
+                        groups="stock.group_stock_manager,account.group_account_user"
                     />
                     <field
                         name="state"
@@ -41,7 +43,14 @@
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
-                        <field name="landed_cost_ids" invisible="1" />
+                        <!-- Only the groups with stock.landed.cost access:
+                            for everyone else, reading this field makes the
+                            form fail with an AccessError. -->
+                        <field
+                            name="landed_cost_ids"
+                            invisible="1"
+                            groups="stock.group_stock_manager,account.group_account_user"
+                        />
                         <button
                             name="action_view_landed_costs"
                             string="Landed Costs"
@@ -49,6 +58,7 @@
                             icon="fa-bars"
                             type="object"
                             invisible="landed_cost_ids == []"
+                            groups="stock.group_stock_manager,account.group_account_user"
                         />
                     </div>
                     <div class="oe_title mb8" readonly="state != 'draft'">

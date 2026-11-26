@@ -129,7 +129,10 @@ class AccountMoveLine(models.Model):
         # would double it up, since the diff is recomputed from the original
         # move's value, which distribution to destinations does not update.
         stock_move_id = diff_dict.get("stock_move_id")
-        if stock_move_id and self.env["stock.landed.cost"].search_count(
+        # sudo: posting a bill must not require landed-cost rights (stock
+        # manager / accountant only); this is a read-only existence check
+        # on a move of the bill's own company.
+        if stock_move_id and self.env["stock.landed.cost"].sudo().search_count(
             [
                 ("l10n_ro_cost_type", "=", "price_diff"),
                 ("state", "=", "done"),

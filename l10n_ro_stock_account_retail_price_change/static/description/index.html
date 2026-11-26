@@ -456,20 +456,20 @@ journal; the document also lets you pick another one per document.</li>
 <li><strong>Settle the opening balance.</strong> Stock that was on the shelf before
 <tt class="docutils literal">l10n_ro_stock_account_retail</tt> was installed is in the quants and
 not in the markup ledger. Run <em>Retail Opening Balance</em> until it finds
-nothing. A price change document refuses to post while the ledger does
-not account for the same quantity it revalues, because the rate it
-applies is derived from the ledger.</li>
-<li><strong>Numbering.</strong> Each company gets its own <tt class="docutils literal">PVSP/YYYY/00000</tt> sequence,
-created on install and whenever a company is added. Change the prefix
-or padding per company under <em>Settings → Technical → Sequences</em> if the
-shop’s own numbering differs.</li>
+nothing. A price change document refuses to post while the ledger
+does not account for the same quantity it revalues, because the rate
+it applies is derived from the ledger.</li>
+<li><strong>Numbering.</strong> Each company gets its own <tt class="docutils literal">PVSP/YYYY/00000</tt>
+sequence, created on install and whenever a company is added. Change
+the prefix or padding per company under <em>Settings → Technical →
+Sequences</em> if the shop’s own numbering differs.</li>
 <li><strong>The nightly reconciliation.</strong> <em>Retail: Reconcile Shelf Prices</em> is
 scheduled daily under <em>Settings → Technical → Scheduled Actions</em>. It
 raises drafts, never posts anything, and is what catches a price that
 moved without anyone writing a rule - a dated promotion opening, a
-shelf price computed over a cost the last reception moved, a change of
-VAT rate. Leave it on: the write hooks on the price list only make the
-common cases immediate, they cannot see those.</li>
+shelf price computed over a cost the last reception moved, a change
+of VAT rate. Leave it on: the write hooks on the price list only make
+the common cases immediate, they cannot see those.</li>
 </ul>
 </div>
 <div class="section" id="usage">
@@ -527,9 +527,9 @@ document holding the labels that actually changed — not the range.</p>
 <li>a rule on a <strong>category</strong>, or a <strong>global</strong> rule;</li>
 <li>any term of a <strong>formula</strong> — the base it starts from, the discount or
 markup, the rounding, the extra fee, the margins;</li>
-<li>a change on <strong>another price list the shop derives from</strong>, however long
-the chain: the buyer moves a price on the buying list and the shop’s
-labels move with it;</li>
+<li>a change on <strong>another price list the shop derives from</strong>, however
+long the chain: the buyer moves a price on the buying list and the
+shop’s labels move with it;</li>
 <li>deleting a rule, because the label changes then as well;</li>
 <li>a change to the product’s <strong>sale price</strong>, for the shops that price
 their shelves off it — which is the default setup.</li>
@@ -582,9 +582,9 @@ actually overrode something — a price typed by hand on the document.</p>
 <ul class="simple">
 <li>The retail price history button also works on the product variant
 form, which reuses the template’s button box. The method only existed
-on the template, so validating the variant form failed – installing a
-module that extends it (e.g. Romania - Accounting) stopped with “not a
-valid action on product.product”.</li>
+on the template, so validating the variant form failed – installing
+a module that extends it (e.g. Romania - Accounting) stopped with
+“not a valid action on product.product”.</li>
 </ul>
 </div>
 </div>

@@ -12,6 +12,7 @@ class ProductProduct(models.Model):
         product (empty FIFO stock, valuation at date). It must be the unit
         value of the move, not the price of a kit it was sold in, see
         ``stock.move._get_kit_value_per_unit``."""
-        return (
-            super()._get_last_in(date=date).with_context(l10n_ro_no_kit_price_unit=True)
-        )
+        last_in = super()._get_last_in(date=date)
+        if not last_in.company_id.l10n_ro_accounting:
+            return last_in
+        return last_in.with_context(l10n_ro_no_kit_price_unit=True)

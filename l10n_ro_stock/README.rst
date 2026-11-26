@@ -46,12 +46,12 @@ Installation
 
 To install this module, you need to:
 
-- clone the branch 16.0 of the repository
-  https://github.com/OCA/l10n-romania
-- add the path to this repository in your configuration (addons-path)
-- update the module list
-- search for "Romania - Stock" in your addons
-- install the module
+-  clone the branch 16.0 of the repository
+   https://github.com/OCA/l10n-romania
+-  add the path to this repository in your configuration (addons-path)
+-  update the module list
+-  search for "Romania - Stock" in your addons
+-  install the module
 
 Bug Tracker
 ===========
@@ -76,11 +76,11 @@ Authors
 Contributors
 ------------
 
-- `NextERP Romania <https://www.nexterp.ro>`__:
+-  `NextERP Romania <https://www.nexterp.ro>`__:
 
-  - Fekete Mihai <feketemihai@nexterp.ro>
+   -  Fekete Mihai <feketemihai@nexterp.ro>
 
-- Dorin Hongu <dhongu@gmail.com>
+-  Dorin Hongu <dhongu@gmail.com>
 
 Do not contact contributors directly about support or help with
 technical issues.
