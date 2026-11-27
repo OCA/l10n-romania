@@ -301,13 +301,21 @@ class AdjustmentLines(models.Model):
             res = []
         for line in ro_adj_lines:
             line = line.with_context(l10n_ro_stock_move=line.move_id)
-            # Core computes ``additional_landed_cost * remaining_qty /
-            # self.quantity``; ``self.quantity`` is in the product UoM, so
-            # the full move quantity must be passed in that unit too.
-            res += super(AdjustmentLines, line)._create_accounting_entries(
-                line.quantity
-            )
-            line._l10n_ro_get_extra_accounting_entries()
+            # Nothing to book on the move itself when its amount is zero (a
+            # price difference keeps it all in ``l10n_ro_not_distributed_amount``):
+            # core would still emit a 0.00 / 0.00 pair of lines.
+            if not line.cost_id.currency_id.is_zero(line.additional_landed_cost):
+                # Core computes ``additional_landed_cost * remaining_qty /
+                # self.quantity``; ``self.quantity`` is in the product UoM, so
+                # the full move quantity must be passed in that unit too.
+                res += super(AdjustmentLines, line)._create_accounting_entries(
+                    line.quantity
+                )
+            # Core links the landed cost only to its own entry, which is not
+            # created when the whole amount is booked by the extra entry.
+            extra_move = line._l10n_ro_get_extra_accounting_entries()
+            if extra_move and not line.cost_id.account_move_id:
+                line.cost_id.account_move_id = extra_move
             for distributed_line in line.l10n_ro_distributed_valuation_lines:
                 res += distributed_line._create_accounting_entries()
         return res
@@ -331,10 +339,15 @@ class AdjustmentLines(models.Model):
                 account_list, [], forced_value=self.l10n_ro_not_distributed_amount
             )
             if aml_vals_list:
+                cost = self.cost_id
+                move = self.move_id
                 account_move = self.env["account.move"].create(
                     {
-                        "l10n_ro_extra_stock_move_id": self.move_id.id,
-                        "journal_id": self.cost_id.account_journal_id.id,
+                        "l10n_ro_extra_stock_move_id": move.id,
+                        "journal_id": cost.account_journal_id.id,
+                        "date": cost.date,
+                        "ref": cost.name,
+                        "partner_id": move._get_partner_id_for_valuation_lines(),
                         "line_ids": [
                             Command.create(aml_vals) for aml_vals in aml_vals_list
                         ],

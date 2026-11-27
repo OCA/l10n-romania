@@ -50,19 +50,32 @@ class AccountMoveLine(models.Model):
         self.ensure_one()
         value = value_currency = qty = 0.0
         currency = self.company_id.currency_id
-        for stock_move in self._get_stock_moves():
-            if not (stock_move.l10n_ro_move_type or "").startswith("reception_notice"):
-                continue
-            pivot_lines = stock_move.account_move_id.line_ids.filtered(
-                lambda line: line.account_id == self.account_id
+        notice_moves = self._get_stock_moves().filtered(
+            lambda m: (m.l10n_ro_move_type or "").startswith("reception_notice")
+        )
+        # A reception creates a single journal entry for the whole picking,
+        # shared by all its stock moves: keep only the 408 lines of this bill
+        # line's purchase line, and collect them once even if several moves
+        # point to the same entry. Entries booked before the purchase line was
+        # set on them fall back on the product.
+        pivot_lines = notice_moves.account_move_id.line_ids.filtered(
+            lambda line: line.account_id == self.account_id
+            and (
+                line.purchase_line_id == self.purchase_line_id
+                if line.purchase_line_id
+                else line.product_id == self.product_id
             )
-            if not pivot_lines:
-                continue
-            # 408 is credited on reception, so flip the sign to get the received value
-            value -= sum(pivot_lines.mapped("balance"))
-            value_currency -= sum(pivot_lines.mapped("amount_currency"))
-            if pivot_lines[:1].currency_id:
-                currency = pivot_lines[:1].currency_id
+        )
+        if not pivot_lines:
+            return value, value_currency, currency, qty
+        # 408 is credited on reception, so flip the sign to get the received value
+        value -= sum(pivot_lines.mapped("balance"))
+        value_currency -= sum(pivot_lines.mapped("amount_currency"))
+        if pivot_lines[:1].currency_id:
+            currency = pivot_lines[:1].currency_id
+        for stock_move in notice_moves.filtered(
+            lambda m: m.account_move_id in pivot_lines.move_id
+        ):
             qty += stock_move._get_valued_qty()
         return value, value_currency, currency, qty
 
