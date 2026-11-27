@@ -86,3 +86,17 @@ class StockMove(models.Model):
             bills=self.account_move_id.display_name,
         )
         return valuation_data
+
+    def _l10n_ro_get_entry_value(self):
+        """Landed costs post an entry of their own, so the move's stock entry
+        keeps the value it had without them."""
+        value = super()._l10n_ro_get_entry_value()
+        landed = sum(
+            self.env["stock.valuation.adjustment.lines"]
+            .search([("move_id", "=", self.id), ("cost_id.state", "=", "done")])
+            .mapped("additional_landed_cost")
+        )
+        lcs = self._get_l10n_ro_distrib_landed_cost().get(self)
+        if lcs:
+            landed += sum(lcs.mapped("additional_landed_cost"))
+        return value - landed

@@ -670,19 +670,103 @@ class StockMove(models.Model):
         raise UserError(self.env._("Unknown price type %(type)s", type=price_type))
 
     def _get_account_move_line_vals(self):
-        res = super()._get_account_move_line_vals()
-        if self.is_l10n_ro_record:
-            res = []
-            if not self.l10n_ro_move_type:
-                raise UserError(
-                    self.env._(
-                        "Romanian Stock Move Type not set on stock move %(move)s",
-                        move=self.display_name,
-                    )
+        if not self.is_l10n_ro_record:
+            return super()._get_account_move_line_vals()
+        # Core is not called for Romanian moves: besides building values that
+        # would be thrown away, it rewrites the lines of the posted entry in
+        # place when the valuation is replayed.
+        res = []
+        if not self.l10n_ro_move_type:
+            raise UserError(
+                self.env._(
+                    "Romanian Stock Move Type not set on stock move %(move)s",
+                    move=self.display_name,
                 )
-            account_list = self._get_l10n_ro_move_type_account_list()
-            res = self._get_l10n_ro_move_line_vals_list(account_list, res)
-        return res
+            )
+        account_list = self._get_l10n_ro_move_type_account_list()
+        if self.env.context.get("l10n_ro_valuation_correction"):
+            res = self._get_l10n_ro_move_line_vals_list(
+                account_list, res, forced_value=self._l10n_ro_get_entry_value()
+            )
+            return self._l10n_ro_get_correction_line_vals(res)
+        return self._get_l10n_ro_move_line_vals_list(account_list, res)
+
+    def _l10n_ro_get_entry_value(self):
+        """Value the move's own stock entry has to carry.
+
+        It is the value of the move, less what other entries already post for
+        it (a landed cost, for instance, posts its own entry).
+        """
+        return self._get_l10n_ro_value("value")
+
+    def _update_accounting_entries(self):
+        """Mark the call so the Romanian line values come back as a correction.
+
+        Core replays the valuation after a cost change and asks every move
+        already posted for its line values, expecting only what is missing
+        from the entry it has; the Romanian override builds the whole entry
+        again, which core would post a second time.
+        """
+        return super(
+            StockMove, self.with_context(l10n_ro_valuation_correction=True)
+        )._update_accounting_entries()
+
+    def _l10n_ro_get_correction_line_vals(self, new_vals_list):
+        """Difference between the entry the move should have and the one it has.
+
+        The posted entry is matched on the move first; entries posted before
+        the lines carried their stock move are matched on the product, as long
+        as no other move of the same product shares the entry.
+        """
+        self.ensure_one()
+        account_move = self.sudo().account_move_id
+        if not account_move:
+            return new_vals_list
+        lines = account_move.line_ids.filtered(lambda line: line.stock_move_id == self)
+        if not lines:
+            moves = self.search(
+                [
+                    ("account_move_id", "=", account_move.id),
+                    ("product_id", "=", self.product_id.id),
+                ]
+            )
+            if moves != self:
+                # The entry cannot be split between the moves: leave it as it
+                # is rather than post it again.
+                return []
+            lines = account_move.line_ids.filtered(
+                lambda line: (
+                    line.product_id == self.product_id and not line.stock_move_id
+                )
+            )
+        currency = self.company_id.currency_id
+        balances = {}
+        for vals in new_vals_list:
+            balance = vals.get("debit", 0.0) - vals.get("credit", 0.0)
+            balances[vals["account_id"]] = (
+                balances.get(vals["account_id"], 0.0) + balance
+            )
+        for line in lines:
+            balances[line.account_id.id] = (
+                balances.get(line.account_id.id, 0.0) - line.balance
+            )
+        correction_vals = []
+        for account_id, balance in balances.items():
+            balance = currency.round(balance)
+            if currency.is_zero(balance):
+                continue
+            correction_vals.append(
+                {
+                    "account_id": account_id,
+                    "name": self.reference,
+                    "product_id": self.product_id.id,
+                    "quantity": self.product_qty,
+                    "stock_move_id": self.id,
+                    "debit": balance if balance > 0 else 0.0,
+                    "credit": -balance if balance < 0 else 0.0,
+                }
+            )
+        return correction_vals
 
     def _get_l10n_ro_move_line_vals_list(
         self, account_list=None, res=None, forced_value=None
@@ -739,6 +823,7 @@ class StockMove(models.Model):
                 "account_id": debit_acc.id,
                 "name": self.reference,
                 "product_id": self.product_id.id,
+                "stock_move_id": self.id,
                 "quantity": self.product_qty,
                 "debit": value,
                 "credit": 0,
@@ -748,6 +833,7 @@ class StockMove(models.Model):
                 "account_id": credit_acc.id,
                 "name": self.reference,
                 "product_id": self.product_id.id,
+                "stock_move_id": self.id,
                 "quantity": self.product_qty,
                 "debit": 0,
                 "credit": value,

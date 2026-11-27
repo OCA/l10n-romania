@@ -5,6 +5,7 @@ from odoo.tests import tagged
 
 from .common import TestROStockCommon
 from .test_ro_stock_avg import StockAvgCases
+from .test_ro_stock_cost_change import CostChangeCases
 from .test_ro_stock_fifo import StockFifoCases
 from .test_ro_stock_fifo_correction import FifoCorrectionCases
 from .test_ro_stock_fifo_multi_origin import FifoMultiOriginCases
@@ -17,6 +18,7 @@ from .test_stock_location import StockLocationCases
 @tagged("post_install", "-at_install")
 class TestROStockAccount(
     StockAvgCases,
+    CostChangeCases,
     StockFifoCases,
     FifoCorrectionCases,
     FifoMultiOriginCases,
